@@ -1,32 +1,47 @@
 import { Entypo } from '@expo/vector-icons'
 import React from 'react'
-import { StyleSheet, Text, View, TouchableHighlight } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 
 interface ItemProps {
   title: string
 }
 
-export const Item = ({ title }: ItemProps) => (
-  <TouchableHighlight>
+export const Item = ({ title }: ItemProps) => {
+  const [icon, text] = title.split('-')
+
+  return (
     <View style={styles.item}>
-      <Text style={styles.title}>{title}</Text>
+      <View style={styles.iconText}>
+        <Text style={styles.icon}>{icon}</Text>
+        <Text style={styles.text}>{text}</Text>
+      </View>
       <Entypo name="chevron-small-right" size={24} color="black" />
     </View>
-  </TouchableHighlight>
-)
+  )
+}
 
 const styles = StyleSheet.create({
+  iconText: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 15,
+  },
+  icon: {
+    width: 35,
+    fontSize: 21,
+    lineHeight: 24,
+  },
   item: {
     paddingLeft: 0,
-    paddingRight: 0,
-    paddingTop: 10,
-    paddingBottom: 10,
+    paddingRight: 10,
+    paddingVertical: 8,
     flexDirection: 'row',
     justifyContent: 'space-between',
     borderBottomWidth: 1,
-    borderBottomColor: '#ccc'
+    borderBottomColor: '#ccc',
   },
-  title: {
-    fontSize: 18
-  }
+  text: {
+    fontSize: 16,
+    lineHeight: 19,
+  },
 })
