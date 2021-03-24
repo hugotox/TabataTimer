@@ -1,11 +1,16 @@
-import { FontAwesome5, FontAwesome, Ionicons } from '@expo/vector-icons'
+import { FontAwesome, Ionicons } from '@expo/vector-icons'
+import { RouteProp } from '@react-navigation/core'
 import { StackNavigationProp } from '@react-navigation/stack'
 import React from 'react'
 import { View, Text, StyleSheet } from 'react-native'
 import { TouchableHighlight } from 'react-native-gesture-handler'
+import { RootStackParamList } from 'utils/navigation'
+
+export type MainNavigationProp = StackNavigationProp<RootStackParamList, 'Main'>
+export type MainRouteProp = RouteProp<RootStackParamList, 'Main'>
 
 interface MainProps {
-  navigation: StackNavigationProp<any>
+  navigation: MainNavigationProp
 }
 
 export const Main = ({ navigation }: MainProps) => {

@@ -1,39 +1,28 @@
+import { RouteProp } from '@react-navigation/core'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { StatusBar } from 'expo-status-bar'
-import React, { useCallback, useState } from 'react'
+import React, { useCallback } from 'react'
 import { SectionList, StyleSheet, Text, View } from 'react-native'
 import { TouchableHighlight } from 'react-native-gesture-handler'
+import { Section, SECTIONS } from 'screens/settings/data'
+import { RootStackParamList } from 'utils/navigation'
 
 import { Item } from './Item'
 
-const SECTIONS = [
-  {
-    title: 'Measures',
-    data: [
-      '⏱-Initial Countdown',
-      '🌤-Warmup Interval',
-      '🏋️-Exercise Interval',
-      '😴-Rest Interval',
-      '#️⃣-Number of Sets',
-      '⛑-Recovery Interval',
-      '♺-Number of Cycles',
-      '⏱-Countdown Interval',
-    ],
-  },
-  {
-    title: 'Presets',
-    data: ['👉-Load', '💾-Save', '↕️-Arrange'],
-  },
-]
+export type SettingsNavigationProp = StackNavigationProp<
+  RootStackParamList,
+  'Settings'
+>
+export type SettingsRouteProp = RouteProp<RootStackParamList, 'Settings'>
 
 interface SettingsProps {
-  navigation: StackNavigationProp<any>
+  navigation: SettingsNavigationProp
 }
 
 export const Settings = ({ navigation }: SettingsProps) => {
-  const [screenTitle, setScreenTitle] = useState('Settings')
+  // const [screenTitle, setScreenTitle] = useState('Settings')
 
-  const handleOnPress = useCallback((section, index) => {
+  const handleOnPress = useCallback((section: Section, index: number) => {
     navigation.navigate('Input', { section, index })
   }, [])
 
