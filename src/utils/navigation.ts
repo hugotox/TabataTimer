@@ -1,13 +1,13 @@
 import { InputRouteProp } from 'screens/input'
 
-import { Section } from '../screens/settings'
+import { ItemType } from '../screens/settings'
 
 export type RootStackParamList = {
   Main: undefined
   Settings: undefined
   Input: {
-    section: Section
-    index: number
+    section: string
+    item: ItemType
   }
 }
 
@@ -17,7 +17,7 @@ export const getHeaderTitle = (route: InputRouteProp) => {
 
   switch (routeName) {
     case 'Input':
-      return params.section.data[params.index].split('-')[1]
+      return params.item.label
     default:
       return 'Main'
   }

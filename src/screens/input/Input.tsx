@@ -4,7 +4,7 @@ import { StackNavigationProp } from '@react-navigation/stack'
 import React, { useEffect, useState } from 'react'
 import { Load } from 'screens/load'
 import { InitialCountdown } from 'screens/measures/initial-countdown'
-import { MEASURES, PRESETS } from 'screens/settings'
+import { SECTIONS, INITIAL_COUNTDOWN, LOAD } from 'screens/settings'
 import { RootStackParamList } from 'utils/navigation'
 
 export type InputNavigationProp = StackNavigationProp<
@@ -21,8 +21,7 @@ interface InputProps {
 export const Input = ({ navigation, route }: InputProps) => {
   const [selected, setSelected] = useState(4)
   const [values, setValues] = useState<number[]>([])
-  const { title } = route.params.section
-  const { index } = route.params
+  const { section, item } = route.params
 
   useEffect(() => {
     const data: number[] = []
@@ -38,15 +37,15 @@ export const Input = ({ navigation, route }: InputProps) => {
 
   let Component: any = null
 
-  if (title === MEASURES) {
-    switch (index) {
-      case 0:
+  if (section === SECTIONS.measures) {
+    switch (item.label) {
+      case INITIAL_COUNTDOWN:
         Component = InitialCountdown
         break
     }
-  } else if (title === PRESETS) {
-    switch (index) {
-      case 0:
+  } else if (section === SECTIONS.presets) {
+    switch (item.label) {
+      case LOAD:
         Component = Load
         break
     }

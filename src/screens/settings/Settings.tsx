@@ -2,9 +2,9 @@ import { RouteProp } from '@react-navigation/core'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { StatusBar } from 'expo-status-bar'
 import React, { useCallback } from 'react'
-import { SectionList, StyleSheet, Text, View } from 'react-native'
-import { TouchableHighlight } from 'react-native-gesture-handler'
-import { Section, SECTIONS } from 'screens/settings/data'
+import { StyleSheet, Text, View } from 'react-native'
+import { ScrollView, TouchableHighlight } from 'react-native-gesture-handler'
+import { SECTIONS, MEASURES, PRESETS, ItemType } from 'screens/settings/data'
 import { RootStackParamList } from 'utils/navigation'
 
 import { Item } from './Item'
@@ -22,13 +22,14 @@ interface SettingsProps {
 export const Settings = ({ navigation }: SettingsProps) => {
   // const [screenTitle, setScreenTitle] = useState('Settings')
 
-  const handleOnPress = useCallback((section: Section, index: number) => {
-    navigation.navigate('Input', { section, index })
+  const handleOnPress = useCallback((section: string, item: ItemType) => {
+    navigation.navigate('Input', { section, item })
   }, [])
 
   return (
     <View>
-      <SectionList
+      <StatusBar style="auto" />
+      {/* <SectionList
         keyExtractor={(item, index) => item + index}
         sections={SECTIONS}
         renderItem={({ item, index, section }) => (
@@ -39,8 +40,25 @@ export const Settings = ({ navigation }: SettingsProps) => {
         renderSectionHeader={({ section: { title } }) => (
           <Text style={styles.header}>{title}</Text>
         )}
-      />
-      <StatusBar style="auto" />
+      /> */}
+      <ScrollView>
+        <Text style={styles.header}>Measures</Text>
+        {MEASURES.items.map((item, i) => (
+          <TouchableHighlight
+            onPress={() => handleOnPress(SECTIONS.measures, item)}
+          >
+            <Item key={i} title={item.label} icon={item.icon} />
+          </TouchableHighlight>
+        ))}
+        <Text style={styles.header}>Presets</Text>
+        {PRESETS.items.map((item, i) => (
+          <TouchableHighlight
+            onPress={() => handleOnPress(SECTIONS.presets, item)}
+          >
+            <Item key={i} title={item.label} icon={item.icon} />
+          </TouchableHighlight>
+        ))}
+      </ScrollView>
     </View>
   )
 }

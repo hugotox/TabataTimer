@@ -3,17 +3,16 @@ import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 
 interface ItemProps {
+  icon: string
   title: string
 }
 
-export const Item = ({ title }: ItemProps) => {
-  const [icon, text] = title.split('-')
-
+export const Item = ({ icon, title }: ItemProps) => {
   return (
     <View style={styles.item}>
       <View style={styles.iconText}>
         <Text style={styles.icon}>{icon}</Text>
-        <Text style={styles.text}>{text}</Text>
+        <Text style={styles.text}>{title}</Text>
       </View>
       <Entypo name="chevron-small-right" size={24} color="black" />
     </View>
