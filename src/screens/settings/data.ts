@@ -1,74 +1,83 @@
-export const SECTIONS = {
-  measures: 'Measures',
-  presets: 'Presets',
+import React from 'react'
+import { RootStackParamList } from 'routes'
+import { InitialCountdown } from 'screens/measures/initial-countdown'
+import { WarmupInterval } from 'screens/measures/warmup-interval'
+import { Load } from 'screens/presets/load'
+
+export interface ItemType {
+  icon: string
+  route: keyof RootStackParamList
+  component: React.ComponentType<any>
 }
 
-export const INITIAL_COUNTDOWN = 'Initial Countdown'
-export const WARMUP_INTERVAL = 'Warmup Interval'
-export const EXERCISE_INTERVAL = 'Exercise Interval'
-export const REST_INTERVAL = 'Rest Interval'
-export const NUMBER_OF_SETS = 'Number of Sets'
-export const RECOVERY_INTERVAL = 'Recovery Interval'
-export const NUMBER_OF_CYCLES = 'Number of Cycles'
-export const COUNTDOWN_INTERVAL = 'Countdown Interval'
-export const LOAD = 'Load'
-export const SAVE = 'Save'
-export const ARRANGE = 'Arrange'
+interface Sections {
+  sectionLabel: string
+  items: ItemType[]
+}
 
-export const MEASURES = {
-  sectionLabel: SECTIONS.measures,
+export const MEASURES: Sections = {
+  sectionLabel: 'Measures',
   items: [
     {
       icon: '⏱',
-      label: INITIAL_COUNTDOWN,
+      route: 'Initial Countdown',
+      component: InitialCountdown,
     },
     {
       icon: '🌤',
-      label: WARMUP_INTERVAL,
+      route: 'Warmup Interval',
+      component: WarmupInterval,
     },
-    {
-      icon: '🏋️',
-      label: EXERCISE_INTERVAL,
-    },
-    {
-      icon: '😴',
-      label: REST_INTERVAL,
-    },
-    {
-      icon: '#️⃣',
-      label: NUMBER_OF_SETS,
-    },
-    {
-      icon: '⛑',
-      label: RECOVERY_INTERVAL,
-    },
-    {
-      icon: '♺',
-      label: NUMBER_OF_CYCLES,
-    },
-    {
-      icon: '⏱',
-      label: COUNTDOWN_INTERVAL,
-    },
+    // {
+    //   icon: '🏋️',
+    //   label: EXERCISE_INTERVAL,
+    //   route: '',
+    // },
+    // {
+    //   icon: '😴',
+    //   label: REST_INTERVAL,
+    //   route: '',
+    // },
+    // {
+    //   icon: '#️⃣',
+    //   label: NUMBER_OF_SETS,
+    //   route: '',
+    // },
+    // {
+    //   icon: '⛑',
+    //   label: RECOVERY_INTERVAL,
+    //   route: '',
+    // },
+    // {
+    //   icon: '♺',
+    //   label: NUMBER_OF_CYCLES,
+    //   route: '',
+    // },
+    // {
+    //   icon: '⏱',
+    //   label: COUNTDOWN_INTERVAL,
+    //   route: '',
+    // },
   ],
 }
 
-export const PRESETS = {
-  sectionLabel: SECTIONS.presets,
+export const PRESETS: Sections = {
+  sectionLabel: 'Presets',
   items: [
     {
       icon: '👉',
-      label: LOAD,
+      route: 'Load',
+      component: Load,
     },
-    {
-      icon: '💾',
-      label: SAVE,
-    },
-    {
-      icon: '↕️',
-      label: ARRANGE,
-    },
+    // {
+    //   icon: '💾',
+    //   label: SAVE,
+    //   route: '',
+    // },
+    // {
+    //   icon: '↕️',
+    //   label: ARRANGE,
+    //   route: '',
+    // },
   ],
 }
-
-export type ItemType = typeof MEASURES.items[0]

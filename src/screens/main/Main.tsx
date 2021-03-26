@@ -4,7 +4,7 @@ import { StackNavigationProp } from '@react-navigation/stack'
 import React from 'react'
 import { View, Text, StyleSheet } from 'react-native'
 import { TouchableHighlight } from 'react-native-gesture-handler'
-import { RootStackParamList } from 'utils/navigation'
+import { RootStackParamList } from 'routes/rootStackParamList'
 
 export type MainNavigationProp = StackNavigationProp<RootStackParamList, 'Main'>
 export type MainRouteProp = RouteProp<RootStackParamList, 'Main'>
