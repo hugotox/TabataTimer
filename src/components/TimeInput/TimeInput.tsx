@@ -1,30 +1,45 @@
 import { Picker } from '@react-native-picker/picker'
 import { ItemValue } from '@react-native-picker/picker/typings/Picker'
+import { RouteProp } from '@react-navigation/native'
 import React from 'react'
 import { View, StyleSheet, Text } from 'react-native'
+import { RootStackParamList } from 'routes'
+import { updateValue } from 'store/actions'
+import { useAppDispatch, useAppSelector } from 'store/hooks'
+import { TimeObjectKeys } from 'store/slice'
 
-const MINS_OPTIONS = [...Array(91)].map((_, i) => i)
-const SECS_OPTIONS = [...Array(61)].map((_, i) => i)
+type TimeInputRouteProp = RouteProp<RootStackParamList, 'Initial Countdown'>
+
+interface Props {
+  route: TimeInputRouteProp
+}
 
 export interface TimeObject {
   minutes: number
   seconds: number
 }
 
-interface Props {
-  value: TimeObject
-  onChange: (value: TimeObject) => void
-}
+const MINS_OPTIONS = [...Array(91)].map((_, i) => i)
+const SECS_OPTIONS = [...Array(61)].map((_, i) => i)
 
-export const TimeInput = ({ onChange, value }: Props) => {
+export const TimeInput = ({ route }: Props) => {
+  const { stateKey } = route.params
+  const dispatch = useAppDispatch()
+  const value = useAppSelector<TimeObject>(
+    (state) => state[stateKey as TimeObjectKeys],
+  )
   const { minutes, seconds } = value
 
   const handleMinuteChange = (value: ItemValue) => {
-    onChange({ minutes: Number(value), seconds })
+    dispatch(
+      updateValue({ stateKey, value: { minutes: Number(value), seconds } }),
+    )
   }
 
   const handleSecondsChange = (value: ItemValue) => {
-    onChange({ seconds: Number(value), minutes })
+    dispatch(
+      updateValue({ stateKey, value: { minutes, seconds: Number(value) } }),
+    )
   }
 
   return (

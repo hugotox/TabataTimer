@@ -28,6 +28,7 @@ export const Routes = () => {
       {items.map((item) => (
         <Stack.Screen
           key={item.route}
+          initialParams={{ stateKey: item.stateKey }}
           name={item.route}
           component={item.component}
           options={{

@@ -38,7 +38,7 @@ export const Main = ({ navigation }: MainProps) => {
 const style = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#813f74',
+    backgroundColor: '#3f4981',
     flexDirection: 'column',
     justifyContent: 'space-between',
   },

@@ -1,10 +1,13 @@
 import { RouteProp } from '@react-navigation/core'
 import { StackNavigationProp } from '@react-navigation/stack'
+import { TimeObject } from 'components/TimeInput'
 import React from 'react'
 import { StyleSheet, Text } from 'react-native'
 import { ScrollView, TouchableHighlight } from 'react-native-gesture-handler'
 import { RootStackParamList } from 'routes/rootStackParamList'
 import { MEASURES, PRESETS } from 'screens/settings/data'
+import { useAppSelector } from 'store/hooks'
+import { AppState } from 'store/slice'
 
 import { Item } from './Item'
 
@@ -19,6 +22,37 @@ interface SettingsProps {
 }
 
 export const Settings = ({ navigation }: SettingsProps) => {
+  const stateData = useAppSelector((state) => state)
+
+  const getValue = (stateKey: keyof AppState) => {
+    const data = stateData[stateKey]
+    switch (stateKey) {
+      case 'numCycles': {
+        return data > 0
+          ? `${String(data)} ${data === 1 ? 'cycle' : 'cycles'}`
+          : ''
+      }
+      case 'numSets': {
+        return data > 0 ? `${String(data)} ${data === 1 ? 'set' : 'sets'}` : ''
+      }
+      default: {
+        const time = data as TimeObject
+        let value = ''
+        if (time.minutes) {
+          value += `${time.minutes} ${
+            time.minutes === 1 ? 'minute ' : 'minutes '
+          }`
+        }
+        if (time.seconds) {
+          value += `${time.seconds} ${
+            time.seconds === 1 ? 'second' : 'seconds'
+          }`
+        }
+        return value
+      }
+    }
+  }
+
   return (
     <ScrollView>
       <Text style={styles.header}>Measures</Text>
@@ -27,7 +61,11 @@ export const Settings = ({ navigation }: SettingsProps) => {
           key={i}
           onPress={() => navigation.navigate(item.route)}
         >
-          <Item title={item.route} icon={item.icon} />
+          <Item
+            title={item.route}
+            icon={item.icon}
+            value={getValue(item.stateKey)}
+          />
         </TouchableHighlight>
       ))}
       <Text style={styles.header}>Presets</Text>
@@ -36,7 +74,7 @@ export const Settings = ({ navigation }: SettingsProps) => {
           key={i}
           onPress={() => navigation.navigate(item.route)}
         >
-          <Item title={item.route} icon={item.icon} />
+          <Item title={item.route} icon={item.icon} value="" />
         </TouchableHighlight>
       ))}
     </ScrollView>
