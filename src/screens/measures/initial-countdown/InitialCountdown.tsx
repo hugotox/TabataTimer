@@ -1,38 +1,28 @@
-import { Picker } from '@react-native-picker/picker'
+import { TimeInput, TimeObject } from 'components/TimeInput'
 import React from 'react'
-import { Text, View, StyleSheet } from 'react-native'
+import { View, StyleSheet } from 'react-native'
+import { setInitialCountdown } from 'store/actions'
+import { useAppDispatch, useAppSelector } from 'store/hooks'
+import { selectInitialCountdown } from 'store/selectors'
 
-export const InitialCountdown = (props: any) => {
-  const values: number[] = []
+export const InitialCountdown = () => {
+  const initialCountdown = useAppSelector(selectInitialCountdown)
+  const dispatch = useAppDispatch()
+  const { minutes, seconds } = initialCountdown
+
+  const handleOnChange = (value: TimeObject) => {
+    dispatch(setInitialCountdown(value))
+  }
+
   return (
     <View style={style.container}>
-      <View style={style.value}>
-        <Text style={style.valueText}>6 Sets</Text>
-      </View>
-      <Picker style={style.picker} selectedValue={6} onValueChange={() => {}}>
-        {values.map((value) => (
-          <Picker.Item key={value} label={`${value} sets`} value={value} />
-        ))}
-      </Picker>
+      <TimeInput onChange={handleOnChange} value={{ minutes, seconds }} />
     </View>
   )
 }
 
 const style = StyleSheet.create({
   container: {
-    flexDirection: 'column',
     flex: 1,
-    justifyContent: 'space-between',
-  },
-  value: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    flex: 1,
-  },
-  valueText: {
-    fontSize: 40,
-  },
-  picker: {
-    backgroundColor: '#73a2e9',
   },
 })
