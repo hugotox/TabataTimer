@@ -1,12 +1,10 @@
 import { FontAwesome, AntDesign } from '@expo/vector-icons'
 import { RouteProp } from '@react-navigation/core'
 import { StackNavigationProp } from '@react-navigation/stack'
+import { Timer } from 'components/Timer'
 import React, { useState } from 'react'
 import { View, Text, StyleSheet } from 'react-native'
-import {
-  TouchableHighlight,
-  TouchableOpacity,
-} from 'react-native-gesture-handler'
+import { TouchableOpacity } from 'react-native-gesture-handler'
 import { RootStackParamList } from 'routes/rootStackParamList'
 
 export type MainNavigationProp = StackNavigationProp<RootStackParamList, 'Main'>
@@ -25,8 +23,12 @@ export const Main = ({ navigation }: MainProps) => {
     navigation.navigate('Settings')
   }
 
-  const play = () => {
-    //
+  const togglePlay = () => {
+    if (status === 'stopped') {
+      setStatus('playing')
+    } else {
+      setStatus('stopped')
+    }
   }
 
   return (
@@ -35,11 +37,16 @@ export const Main = ({ navigation }: MainProps) => {
         {status === 'stopped' && (
           <Text style={style.playText}>Press Play to start</Text>
         )}
+        {status === 'playing' && <Timer />}
       </View>
       <View style={style.buttons}>
         <View>
-          <TouchableOpacity onPress={play} activeOpacity={0.5}>
-            <AntDesign name="playcircleo" size={45} color="#dcebfd" />
+          <TouchableOpacity onPress={togglePlay} activeOpacity={0.5}>
+            <AntDesign
+              name={status === 'stopped' ? 'playcircleo' : 'pausecircleo'}
+              size={45}
+              color="#dcebfd"
+            />
           </TouchableOpacity>
         </View>
         <View>
@@ -67,6 +74,9 @@ const style = StyleSheet.create({
   playText: {
     color: '#aaa',
     fontSize: 32,
+  },
+  timerText: {
+    fontSize: 30,
   },
   buttons: {
     backgroundColor: '#28313d',
