@@ -1,6 +1,7 @@
-import { TimeObject } from 'components/TimeInput'
+import { toTimeObject } from 'utils/toTimeObject'
 
-export const getTimeDurationLabel = (time: TimeObject) => {
+export const getTimeDurationLabel = (seconds: number) => {
+  const time = toTimeObject(seconds)
   let value = ''
 
   if (time.minutes) {

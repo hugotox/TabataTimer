@@ -1,3 +1,4 @@
 export * from './getTimeDurationLabel'
-export * from './timeObjToSeconds'
 export * from './getTotalDuration'
+export * from './useInterval'
+export * from './clearStorage'

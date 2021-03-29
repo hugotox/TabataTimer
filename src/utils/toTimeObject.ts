@@ -1,7 +1,5 @@
-import { TimeObject } from 'components/TimeInput'
-
 export const toTimeObject = (seconds: number) => {
-  const time: TimeObject = {
+  const time = {
     minutes: Math.floor(seconds / 60),
     seconds: seconds % 60,
   }

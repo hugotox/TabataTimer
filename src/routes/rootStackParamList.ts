@@ -1,16 +1,16 @@
-import { AppState } from 'store/slice'
+import { AppStateKeys } from 'store/slice'
 
 export type RootStackParamList = {
   Main: undefined
   Settings: undefined
-  'Initial Countdown': { stateKey: keyof AppState }
-  'Warmup Interval': { stateKey: keyof AppState }
-  'Exercise Interval': { stateKey: keyof AppState }
-  'Rest Interval': { stateKey: keyof AppState }
-  'Number of Sets': { stateKey: keyof AppState }
-  'Recovery Interval': { stateKey: keyof AppState }
-  'Number of Cycles': { stateKey: keyof AppState }
-  'Cooldown Interval': { stateKey: keyof AppState }
+  'Initial Countdown': { stateKey: AppStateKeys }
+  'Warmup Interval': { stateKey: AppStateKeys }
+  'Exercise Interval': { stateKey: AppStateKeys }
+  'Rest Interval': { stateKey: AppStateKeys }
+  'Number of Sets': { stateKey: AppStateKeys }
+  'Recovery Interval': { stateKey: AppStateKeys }
+  'Number of Cycles': { stateKey: AppStateKeys }
+  'Cooldown Interval': { stateKey: AppStateKeys }
   Load: undefined
   Save: undefined
   Arrange: undefined

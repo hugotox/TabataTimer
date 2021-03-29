@@ -1,5 +1,10 @@
 import { AppState } from 'store/slice'
 
+/**
+ * Returns the workout total duration in seconds
+ * @param {AppState} data workout data
+ * @returns {number} duration in seconds
+ */
 export const getTotalDuration = (data: AppState) => {
   const {
     initialCountdown,
@@ -15,24 +20,12 @@ export const getTotalDuration = (data: AppState) => {
   let totalTime = 0 // in seconds
 
   // add initial, warmup and cooldown times
-  totalTime +=
-    initialCountdown.minutes * 60 +
-    initialCountdown.seconds +
-    warmup.minutes * 60 +
-    warmup.seconds +
-    coolDownInterval.minutes * 60 +
-    coolDownInterval.seconds
+  totalTime += initialCountdown + warmup + coolDownInterval
 
   // add one set time multiplied by number of sets
-  const allSetsTime =
-    (exercise.minutes * 60 +
-      exercise.seconds +
-      rest.minutes * 60 +
-      rest.seconds) *
-    numSets
+  const allSetsTime = (exercise + rest) * numSets
 
-  totalTime +=
-    (allSetsTime + recovery.minutes * 60 + recovery.seconds) * numCycles
+  totalTime += (allSetsTime + recovery) * numCycles
 
   return totalTime
 }

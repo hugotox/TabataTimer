@@ -1,6 +1,5 @@
 import { RouteProp } from '@react-navigation/core'
 import { StackNavigationProp } from '@react-navigation/stack'
-import { TimeObject } from 'components/TimeInput'
 import React, { useMemo } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { ScrollView, TouchableHighlight } from 'react-native-gesture-handler'
@@ -9,7 +8,6 @@ import { MEASURES, PRESETS } from 'screens/settings/data'
 import { useAppSelector } from 'store/hooks'
 import { AppState } from 'store/slice'
 import { getTimeDurationLabel, getTotalDuration } from 'utils'
-import { toTimeObject } from 'utils/toTimeObject'
 
 import { Item } from './Item'
 
@@ -38,16 +36,14 @@ export const Settings = ({ navigation }: SettingsProps) => {
         return data > 0 ? `${String(data)} ${data === 1 ? 'set' : 'sets'}` : ''
       }
       default: {
-        const time = data as TimeObject
-        return getTimeDurationLabel(time)
+        return getTimeDurationLabel(data)
       }
     }
   }
 
   const durationLabel = useMemo(() => {
     const totalDuration = getTotalDuration(stateData)
-    const totalDurationTimeObject = toTimeObject(totalDuration)
-    return getTimeDurationLabel(totalDurationTimeObject)
+    return getTimeDurationLabel(totalDuration)
   }, [stateData])
 
   return (

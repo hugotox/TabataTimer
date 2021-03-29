@@ -14,7 +14,7 @@ interface MainProps {
   navigation: MainNavigationProp
 }
 
-type Status = 'playing' | 'stopped'
+type Status = 'playing' | 'paused' | 'stopped'
 
 export const Main = ({ navigation }: MainProps) => {
   const [status, setStatus] = useState<Status>('stopped')

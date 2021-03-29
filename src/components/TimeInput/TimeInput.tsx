@@ -6,18 +6,13 @@ import { View, StyleSheet, Text } from 'react-native'
 import { RootStackParamList } from 'routes'
 import { updateValue } from 'store/actions'
 import { useAppDispatch, useAppSelector } from 'store/hooks'
-import { TimeObjectKeys } from 'store/slice'
 import { getTimeDurationLabel } from 'utils'
+import { toTimeObject } from 'utils/toTimeObject'
 
 type TimeInputRouteProp = RouteProp<RootStackParamList, 'Initial Countdown'>
 
 interface Props {
   route: TimeInputRouteProp
-}
-
-export interface TimeObject {
-  minutes: number
-  seconds: number
 }
 
 const MINS_OPTIONS = [...Array(91)].map((_, i) => i)
@@ -26,21 +21,15 @@ const SECS_OPTIONS = [...Array(61)].map((_, i) => i)
 export const TimeInput = ({ route }: Props) => {
   const { stateKey } = route.params
   const dispatch = useAppDispatch()
-  const value = useAppSelector<TimeObject>(
-    (state) => state[stateKey as TimeObjectKeys],
-  )
-  const { minutes, seconds } = value
+  const value = useAppSelector<number>((state) => state[stateKey])
+  const { minutes, seconds } = toTimeObject(value)
 
   const handleMinuteChange = (value: ItemValue) => {
-    dispatch(
-      updateValue({ stateKey, value: { minutes: Number(value), seconds } }),
-    )
+    dispatch(updateValue({ stateKey, value: Number(value) * 60 + seconds }))
   }
 
   const handleSecondsChange = (value: ItemValue) => {
-    dispatch(
-      updateValue({ stateKey, value: { minutes, seconds: Number(value) } }),
-    )
+    dispatch(updateValue({ stateKey, value: minutes * 60 + Number(value) }))
   }
 
   return (

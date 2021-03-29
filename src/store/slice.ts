@@ -1,41 +1,33 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { TimeObject } from 'components/TimeInput'
 
+// all times are in seconds
 export interface AppState {
-  initialCountdown: TimeObject
-  warmup: TimeObject
-  exercise: TimeObject
-  rest: TimeObject
+  initialCountdown: number
+  warmup: number
+  exercise: number
+  rest: number
   numSets: number
-  recovery: TimeObject
+  recovery: number
   numCycles: number
-  coolDownInterval: TimeObject
+  coolDownInterval: number
 }
 
-export type TimeObjectKeys =
-  | 'initialCountdown'
-  | 'warmup'
-  | 'exercise'
-  | 'rest'
-  | 'recovery'
-  | 'coolDownInterval'
-
-export type NumberKeys = 'numSets' | 'numCycles'
+export type AppStateKeys = keyof AppState
 
 const initialState: AppState = {
-  initialCountdown: { minutes: 0, seconds: 3 },
-  warmup: { minutes: 2, seconds: 0 },
-  exercise: { minutes: 0, seconds: 30 },
-  rest: { minutes: 0, seconds: 10 },
+  initialCountdown: 3,
+  warmup: 120,
+  exercise: 30,
+  rest: 10,
   numSets: 10,
-  recovery: { minutes: 0, seconds: 50 },
+  recovery: 50,
   numCycles: 1,
-  coolDownInterval: { minutes: 0, seconds: 50 },
+  coolDownInterval: 60,
 }
 
 interface UpdatePayload {
-  stateKey: keyof AppState
-  value: any
+  stateKey: AppStateKeys
+  value: number
 }
 
 export const timerSlice = createSlice({
