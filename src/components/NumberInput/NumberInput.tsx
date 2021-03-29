@@ -64,11 +64,13 @@ const style = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     flex: 1,
+    borderBottomColor: '#e4e2e2',
+    borderBottomWidth: 1,
   },
   valueText: {
-    fontSize: 40,
+    fontSize: 22,
   },
   picker: {
-    backgroundColor: '#73a2e9',
+    // backgroundColor: '#73a2e9',
   },
 })

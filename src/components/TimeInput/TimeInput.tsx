@@ -7,6 +7,7 @@ import { RootStackParamList } from 'routes'
 import { updateValue } from 'store/actions'
 import { useAppDispatch, useAppSelector } from 'store/hooks'
 import { TimeObjectKeys } from 'store/slice'
+import { getTimeDurationLabel } from 'utils'
 
 type TimeInputRouteProp = RouteProp<RootStackParamList, 'Initial Countdown'>
 
@@ -45,10 +46,7 @@ export const TimeInput = ({ route }: Props) => {
   return (
     <View style={style.container}>
       <View style={style.value}>
-        <Text style={style.valueText}>
-          {minutes > 0 ? `${minutes} Minutes ` : ''}
-          {seconds} Seconds
-        </Text>
+        <Text style={style.valueText}>{getTimeDurationLabel(value)}</Text>
       </View>
       <View style={style.pickers}>
         <Picker

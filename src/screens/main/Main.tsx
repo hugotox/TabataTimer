@@ -1,9 +1,12 @@
-import { FontAwesome, Ionicons } from '@expo/vector-icons'
+import { FontAwesome, AntDesign } from '@expo/vector-icons'
 import { RouteProp } from '@react-navigation/core'
 import { StackNavigationProp } from '@react-navigation/stack'
-import React from 'react'
+import React, { useState } from 'react'
 import { View, Text, StyleSheet } from 'react-native'
-import { TouchableHighlight } from 'react-native-gesture-handler'
+import {
+  TouchableHighlight,
+  TouchableOpacity,
+} from 'react-native-gesture-handler'
 import { RootStackParamList } from 'routes/rootStackParamList'
 
 export type MainNavigationProp = StackNavigationProp<RootStackParamList, 'Main'>
@@ -13,22 +16,36 @@ interface MainProps {
   navigation: MainNavigationProp
 }
 
+type Status = 'playing' | 'stopped'
+
 export const Main = ({ navigation }: MainProps) => {
+  const [status, setStatus] = useState<Status>('stopped')
+
   const gotoSettings = () => {
     navigation.navigate('Settings')
   }
 
+  const play = () => {
+    //
+  }
+
   return (
     <View style={style.container}>
-      <Text>yo</Text>
+      <View style={style.mainArea}>
+        {status === 'stopped' && (
+          <Text style={style.playText}>Press Play to start</Text>
+        )}
+      </View>
       <View style={style.buttons}>
         <View>
-          <Ionicons name="md-play" size={45} color="black" />
+          <TouchableOpacity onPress={play} activeOpacity={0.5}>
+            <AntDesign name="playcircleo" size={45} color="#dcebfd" />
+          </TouchableOpacity>
         </View>
         <View>
-          <TouchableHighlight onPress={gotoSettings}>
-            <FontAwesome name="gear" size={45} color="black" />
-          </TouchableHighlight>
+          <TouchableOpacity onPress={gotoSettings} activeOpacity={0.5}>
+            <FontAwesome name="gear" size={45} color="#c8ddee" />
+          </TouchableOpacity>
         </View>
       </View>
     </View>
@@ -38,15 +55,24 @@ export const Main = ({ navigation }: MainProps) => {
 const style = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#3f4981',
+    backgroundColor: '#192433',
     flexDirection: 'column',
     justifyContent: 'space-between',
   },
+  mainArea: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    flex: 1,
+  },
+  playText: {
+    color: '#aaa',
+    fontSize: 32,
+  },
   buttons: {
-    height: 75,
-    backgroundColor: 'gray',
+    backgroundColor: '#28313d',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    padding: 15,
+    paddingVertical: 15,
+    paddingHorizontal: 20,
   },
 })

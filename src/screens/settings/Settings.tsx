@@ -1,13 +1,15 @@
 import { RouteProp } from '@react-navigation/core'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { TimeObject } from 'components/TimeInput'
-import React from 'react'
-import { StyleSheet, Text } from 'react-native'
+import React, { useMemo } from 'react'
+import { StyleSheet, Text, View } from 'react-native'
 import { ScrollView, TouchableHighlight } from 'react-native-gesture-handler'
 import { RootStackParamList } from 'routes/rootStackParamList'
 import { MEASURES, PRESETS } from 'screens/settings/data'
 import { useAppSelector } from 'store/hooks'
 import { AppState } from 'store/slice'
+import { getTimeDurationLabel, getTotalDuration } from 'utils'
+import { toTimeObject } from 'utils/toTimeObject'
 
 import { Item } from './Item'
 
@@ -37,21 +39,16 @@ export const Settings = ({ navigation }: SettingsProps) => {
       }
       default: {
         const time = data as TimeObject
-        let value = ''
-        if (time.minutes) {
-          value += `${time.minutes} ${
-            time.minutes === 1 ? 'minute ' : 'minutes '
-          }`
-        }
-        if (time.seconds) {
-          value += `${time.seconds} ${
-            time.seconds === 1 ? 'second' : 'seconds'
-          }`
-        }
-        return value
+        return getTimeDurationLabel(time)
       }
     }
   }
+
+  const durationLabel = useMemo(() => {
+    const totalDuration = getTotalDuration(stateData)
+    const totalDurationTimeObject = toTimeObject(totalDuration)
+    return getTimeDurationLabel(totalDurationTimeObject)
+  }, [stateData])
 
   return (
     <ScrollView>
@@ -68,6 +65,9 @@ export const Settings = ({ navigation }: SettingsProps) => {
           />
         </TouchableHighlight>
       ))}
+      <View style={styles.duration}>
+        <Text style={styles.durationText}>Total duration: {durationLabel}</Text>
+      </View>
       <Text style={styles.header}>Presets</Text>
       {PRESETS.items.map((item, i) => (
         <TouchableHighlight
@@ -87,5 +87,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     paddingVertical: 10,
     paddingHorizontal: 15,
+  },
+  duration: {
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+  },
+  durationText: {
+    fontSize: 18,
   },
 })

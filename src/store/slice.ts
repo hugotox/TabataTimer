@@ -24,11 +24,11 @@ export type NumberKeys = 'numSets' | 'numCycles'
 
 const initialState: AppState = {
   initialCountdown: { minutes: 0, seconds: 3 },
-  warmup: { minutes: 5, seconds: 0 },
+  warmup: { minutes: 2, seconds: 0 },
   exercise: { minutes: 0, seconds: 30 },
   rest: { minutes: 0, seconds: 10 },
-  numSets: 4,
-  recovery: { minutes: 0, seconds: 45 },
+  numSets: 10,
+  recovery: { minutes: 0, seconds: 50 },
   numCycles: 1,
   coolDownInterval: { minutes: 0, seconds: 50 },
 }
