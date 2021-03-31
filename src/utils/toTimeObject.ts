@@ -1,7 +1,13 @@
-export const toTimeObject = (seconds: number) => {
+export const toTimeObject = (totalSeconds: number) => {
+  const hours = Math.floor(totalSeconds / 3600)
+  totalSeconds %= 3600
+  const minutes = Math.floor(totalSeconds / 60)
+  const seconds = totalSeconds % 60
+
   const time = {
-    minutes: Math.floor(seconds / 60),
-    seconds: seconds % 60,
+    hours,
+    minutes,
+    seconds,
   }
   return time
 }
