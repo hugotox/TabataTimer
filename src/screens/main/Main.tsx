@@ -1,11 +1,15 @@
-import { FontAwesome, AntDesign } from '@expo/vector-icons'
+import { Ionicons } from '@expo/vector-icons'
 import { RouteProp } from '@react-navigation/core'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { Timer } from 'components/Timer'
-import React, { useState } from 'react'
+import { useFonts } from 'expo-font'
+import React, { useMemo } from 'react'
 import { View, Text, StyleSheet } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { RootStackParamList } from 'routes/rootStackParamList'
+import { start, pause, stop } from 'store/actions'
+import { useAppDispatch, useAppSelector } from 'store/hooks'
+import { getCurrentStateLabel } from 'utils'
 
 export type MainNavigationProp = StackNavigationProp<RootStackParamList, 'Main'>
 export type MainRouteProp = RouteProp<RootStackParamList, 'Main'>
@@ -14,47 +18,77 @@ interface MainProps {
   navigation: MainNavigationProp
 }
 
-type Status = 'playing' | 'paused' | 'stopped'
-
 export const Main = ({ navigation }: MainProps) => {
-  const [status, setStatus] = useState<Status>('stopped')
+  const [fontsLoaded] = useFonts({
+    Impact: require('assets/fonts/Impact.ttf'),
+  })
+  const dispatch = useAppDispatch()
+  const currentState = useAppSelector((state) => state.currentState)
+
+  const isPlaying = useMemo(() => {
+    return currentState !== 'completed' && currentState !== 'stopped'
+  }, [currentState])
 
   const gotoSettings = () => {
     navigation.navigate('Settings')
   }
 
   const togglePlay = () => {
-    if (status === 'stopped') {
-      setStatus('playing')
+    if (isPlaying && currentState !== 'paused') {
+      dispatch(pause())
     } else {
-      setStatus('stopped')
+      dispatch(start())
     }
+  }
+
+  const handleStop = () => {
+    dispatch(stop())
   }
 
   return (
     <View style={style.container}>
-      <View style={style.mainArea}>
-        {status === 'stopped' && (
-          <Text style={style.playText}>Press Play to start</Text>
-        )}
-        {status === 'playing' && <Timer />}
-      </View>
-      <View style={style.buttons}>
-        <View>
-          <TouchableOpacity onPress={togglePlay} activeOpacity={0.5}>
-            <AntDesign
-              name={status === 'stopped' ? 'playcircleo' : 'pausecircleo'}
-              size={45}
-              color="#dcebfd"
-            />
-          </TouchableOpacity>
-        </View>
-        <View>
-          <TouchableOpacity onPress={gotoSettings} activeOpacity={0.5}>
-            <FontAwesome name="gear" size={45} color="#c8ddee" />
-          </TouchableOpacity>
-        </View>
-      </View>
+      {fontsLoaded && (
+        <>
+          <View style={style.mainArea}>
+            {currentState === 'stopped' && (
+              <Text style={style.playText}>Press Play to start</Text>
+            )}
+            {isPlaying && (
+              <>
+                <Text>{getCurrentStateLabel(currentState)}</Text>
+                <Timer />
+              </>
+            )}
+          </View>
+          <View style={style.buttons}>
+            <View>
+              <TouchableOpacity onPress={togglePlay} activeOpacity={0.5}>
+                <Ionicons
+                  name={
+                    currentState === 'stopped'
+                      ? 'play-circle-outline'
+                      : 'pause-circle-outline'
+                  }
+                  size={45}
+                  color="#dcebfd"
+                />
+              </TouchableOpacity>
+            </View>
+            <View style={style.buttonsRight}>
+              <TouchableOpacity onPress={handleStop} activeOpacity={0.5}>
+                <Ionicons
+                  name="stop-circle-outline"
+                  size={45}
+                  color="#c8ddee"
+                />
+              </TouchableOpacity>
+              <TouchableOpacity onPress={gotoSettings} activeOpacity={0.5}>
+                <Ionicons name="settings-outline" size={43} color="#c8ddee" />
+              </TouchableOpacity>
+            </View>
+          </View>
+        </>
+      )}
     </View>
   )
 }
@@ -84,5 +118,8 @@ const style = StyleSheet.create({
     justifyContent: 'space-between',
     paddingVertical: 15,
     paddingHorizontal: 20,
+  },
+  buttonsRight: {
+    flexDirection: 'row',
   },
 })

@@ -1,40 +1,29 @@
-import AppLoading from 'expo-app-loading'
-import { useFonts } from 'expo-font'
 import React, { useState } from 'react'
-import { Text, View, StyleSheet, Dimensions, Image } from 'react-native'
-import { useAppSelector } from 'store/hooks'
-import {
-  getTimeDurationLabel,
-  getTotalDuration,
-  toTimeObject,
-  useInterval,
-} from 'utils'
+import { Text, View, StyleSheet, Dimensions } from 'react-native'
+import { useAppDispatch, useAppSelector } from 'store/hooks'
+import { formatTimeObject, toTimeObject, useInterval } from 'utils'
 
 const window = Dimensions.get('window')
 
 export const Timer = () => {
+  const dispatch = useAppDispatch()
   const data = useAppSelector((state) => state)
-  const [currentTime, setCurrentTime] = useState(getTotalDuration(data))
+  const { currentState } = data
+  const [currentTime, setCurrentTime] = useState<number>(0)
 
-  const [fontsLoaded] = useFonts({
-    Impact: require('assets/fonts/Impact.ttf'),
-  })
+  const isPaused = currentState === 'paused'
 
-  const { hours, minutes, seconds } = toTimeObject(currentTime)
-
-  useInterval(() => {
-    setCurrentTime(currentTime - 1)
-  }, 1000)
-
-  if (!fontsLoaded) {
-    return <AppLoading />
-  }
+  useInterval(
+    () => {
+      setCurrentTime(currentTime - 1)
+    },
+    isPaused ? null : 1000,
+  )
 
   return (
     <View>
       <Text style={style.text}>
-        {String(hours).padStart(2, '0')}:{String(minutes).padStart(2, '0')}:
-        {String(seconds).padStart(2, '0')}
+        {formatTimeObject(toTimeObject(currentTime))}
       </Text>
       <Text>Width: {window.width}</Text>
     </View>
