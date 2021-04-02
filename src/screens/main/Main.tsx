@@ -82,8 +82,12 @@ export const Main = ({ navigation }: MainProps) => {
                   color="#c8ddee"
                 />
               </TouchableOpacity>
-              <TouchableOpacity onPress={gotoSettings} activeOpacity={0.5}>
-                <Ionicons name="settings-outline" size={43} color="#c8ddee" />
+              <TouchableOpacity
+                onPress={gotoSettings}
+                activeOpacity={0.5}
+                style={style.gearButton}
+              >
+                <Ionicons name="settings-outline" size={41} color="#c8ddee" />
               </TouchableOpacity>
             </View>
           </View>
@@ -121,5 +125,9 @@ const style = StyleSheet.create({
   },
   buttonsRight: {
     flexDirection: 'row',
+    alignItems: 'center',
+  },
+  gearButton: {
+    marginLeft: 10,
   },
 })
