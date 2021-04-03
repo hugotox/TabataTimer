@@ -3,7 +3,6 @@ import { Text, View, StyleSheet, Dimensions } from 'react-native'
 import { stop } from 'store/actions'
 import { useAppDispatch, useAppSelector } from 'store/hooks'
 import {
-  createWorkflow,
   formatTimeObject,
   getCurrentWorkoutLabel,
   isPortrait,
@@ -13,13 +12,13 @@ import {
   WorkflowItem,
 } from 'utils'
 
-const window = Dimensions.get('window')
-const dim = Dimensions.get('screen')
+interface Props {
+  workflow: WorkflowItem[]
+}
 
-export const Timer = () => {
+export const Timer = ({ workflow }: Props) => {
   const dispatch = useAppDispatch()
   const data = useAppSelector((state) => state)
-  const [workflow, setWorkflow] = useState<WorkflowItem[]>([])
   const { currentState } = data
   const [currentTime, setCurrentTime] = useState<number>(0)
   const [currentWorkflowItem, setCurrentWorkflowItem] = useState<number>(-1)
@@ -30,11 +29,9 @@ export const Timer = () => {
   const isPaused = currentState === 'paused'
 
   useMount(() => {
-    const _workflow = createWorkflow(data)
     let initialTime = 0
-    if (_workflow.length) {
-      initialTime = _workflow[0][1]
-      setWorkflow(_workflow)
+    if (workflow.length) {
+      initialTime = workflow[0][1]
       setCurrentWorkflowItem(0)
       setCurrentTime(initialTime)
     }

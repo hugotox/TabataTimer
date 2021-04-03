@@ -3,12 +3,13 @@ import { RouteProp } from '@react-navigation/core'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { Timer } from 'components/Timer'
 import { useFonts } from 'expo-font'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { View, Text, StyleSheet } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { RootStackParamList } from 'routes/rootStackParamList'
 import { start, pause, stop } from 'store/actions'
 import { useAppDispatch, useAppSelector } from 'store/hooks'
+import { createWorkflow, WorkflowItem, getTimeDurationLabel } from 'utils'
 
 export type MainNavigationProp = StackNavigationProp<RootStackParamList, 'Main'>
 export type MainRouteProp = RouteProp<RootStackParamList, 'Main'>
@@ -23,8 +24,9 @@ export const Main = ({ navigation }: MainProps) => {
   })
   const dispatch = useAppDispatch()
   const data = useAppSelector((state) => state)
-  const { currentState } = data
+  const [workflow, setWorkflow] = useState<WorkflowItem[]>([])
 
+  const { currentState } = data
   const isPlaying = currentState === 'playing'
   const isPaused = currentState === 'paused'
   const isStopped = currentState === 'stopped'
@@ -45,15 +47,44 @@ export const Main = ({ navigation }: MainProps) => {
     dispatch(stop())
   }
 
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      setWorkflow(createWorkflow(data))
+    })
+
+    return unsubscribe
+  }, [navigation, data])
+
   return (
     <View style={style.container}>
       {fontsLoaded && (
         <>
           <View style={style.mainArea}>
             {isStopped && (
-              <Text style={style.playText}>Press Play to start</Text>
+              <>
+                <Text style={style.playText}>Press Play to start</Text>
+                <Text style={style.schedule}>
+                  Workout schedule:{'\n'}
+                  Countdown: {getTimeDurationLabel(data.initialCountdown)}
+                  {'\n'}
+                  Warmup: {getTimeDurationLabel(data.warmup)}
+                  {'\n'}
+                  Exercise: {getTimeDurationLabel(data.exercise)}
+                  {'\n'}
+                  Rest: {getTimeDurationLabel(data.rest)}
+                  {'\n'}
+                  Reps: {data.numReps}
+                  {'\n'}
+                  Recovery: {getTimeDurationLabel(data.recovery)}
+                  {'\n'}
+                  Sets: {data.numSets}
+                  {'\n'}
+                  Cooldown: {getTimeDurationLabel(data.coolDownInterval)}
+                  {'\n'}
+                </Text>
+              </>
             )}
-            {(isPlaying || isPaused) && <Timer />}
+            {(isPlaying || isPaused) && <Timer workflow={workflow} />}
           </View>
           <View style={style.buttons}>
             <View>
@@ -65,21 +96,25 @@ export const Main = ({ navigation }: MainProps) => {
                       : 'pause-circle-outline'
                   }
                   size={45}
-                  color="#dcebfd"
+                  color={ICON_COLOR}
                 />
               </TouchableOpacity>
             </View>
             <View style={style.buttonsRight}>
               {currentState === 'stopped' ? (
                 <TouchableOpacity onPress={gotoSettings} activeOpacity={0.5}>
-                  <Ionicons name="settings-outline" size={41} color="#c8ddee" />
+                  <Ionicons
+                    name="settings-outline"
+                    size={41}
+                    color={ICON_COLOR}
+                  />
                 </TouchableOpacity>
               ) : (
                 <TouchableOpacity onPress={handleStop} activeOpacity={0.5}>
                   <Ionicons
                     name="stop-circle-outline"
                     size={45}
-                    color="#c8ddee"
+                    color={ICON_COLOR}
                   />
                 </TouchableOpacity>
               )}
@@ -91,10 +126,12 @@ export const Main = ({ navigation }: MainProps) => {
   )
 }
 
+const ICON_COLOR = '#d5ecff'
+
 const style = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#192433',
+    backgroundColor: '#1e232b',
     flexDirection: 'column',
     justifyContent: 'space-between',
   },
@@ -109,6 +146,9 @@ const style = StyleSheet.create({
   },
   timerText: {
     fontSize: 30,
+  },
+  schedule: {
+    color: '#fff',
   },
   buttons: {
     backgroundColor: '#28313d',
