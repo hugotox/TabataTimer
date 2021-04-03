@@ -13,7 +13,7 @@ export const getTotalDuration = (data: AppState) => {
     rest,
     numSets,
     recovery,
-    numCycles,
+    numReps,
     coolDownInterval,
   } = data
 
@@ -22,10 +22,10 @@ export const getTotalDuration = (data: AppState) => {
   // add initial, warmup and cooldown times
   totalTime += initialCountdown + warmup + coolDownInterval
 
-  // add one set time multiplied by number of sets
-  const allSetsTime = (exercise + rest) * numSets
+  // add one set time multiplied by number of reps
+  const allSetsTime = (exercise + rest) * numReps
 
-  totalTime += (allSetsTime + recovery) * numCycles
+  totalTime += (allSetsTime + recovery) * numSets
 
   return totalTime
 }

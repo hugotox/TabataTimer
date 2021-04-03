@@ -6,7 +6,6 @@ import { Text, View, StyleSheet } from 'react-native'
 import { RootStackParamList } from 'routes'
 import { updateValue } from 'store/actions'
 import { useAppDispatch, useAppSelector } from 'store/hooks'
-import { NumberKeys } from 'store/slice'
 
 type TimeInputRouteProp = RouteProp<RootStackParamList, 'Number of Sets'>
 
@@ -19,15 +18,15 @@ const OPTIONS = [...Array(100)].map((_, i) => i + 1)
 export const NumberInput = ({ route }: Props) => {
   const { stateKey } = route.params
   const dispatch = useAppDispatch()
-  const value = useAppSelector<number>((state) => state[stateKey as NumberKeys])
+  const value = useAppSelector<number>((state) => state[stateKey])
 
   const handleOnChange = (value: ItemValue) => {
-    dispatch(updateValue({ stateKey, value }))
+    dispatch(updateValue({ stateKey, value: Number(value) }))
   }
 
   let valueLabel = `${value} `
-  if (stateKey === 'numCycles') {
-    valueLabel += `${value === 1 ? 'Cycle' : 'Cycles'}`
+  if (stateKey === 'numReps') {
+    valueLabel += `${value === 1 ? 'Rep' : 'Reps'}`
   } else if (stateKey === 'numSets') {
     valueLabel += `${value === 1 ? 'Set' : 'Sets'}`
   }
@@ -45,7 +44,7 @@ export const NumberInput = ({ route }: Props) => {
         {OPTIONS.map((value) => (
           <Picker.Item
             key={value}
-            label={`${value} ${stateKey === 'numCycles' ? 'cycles' : 'sets'}`}
+            label={`${value} ${stateKey === 'numReps' ? 'reps' : 'sets'}`}
             value={value}
           />
         ))}

@@ -3,13 +3,12 @@ import { RouteProp } from '@react-navigation/core'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { Timer } from 'components/Timer'
 import { useFonts } from 'expo-font'
-import React, { useMemo } from 'react'
+import React from 'react'
 import { View, Text, StyleSheet } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { RootStackParamList } from 'routes/rootStackParamList'
 import { start, pause, stop } from 'store/actions'
 import { useAppDispatch, useAppSelector } from 'store/hooks'
-import { getCurrentStateLabel } from 'utils'
 
 export type MainNavigationProp = StackNavigationProp<RootStackParamList, 'Main'>
 export type MainRouteProp = RouteProp<RootStackParamList, 'Main'>
@@ -20,21 +19,22 @@ interface MainProps {
 
 export const Main = ({ navigation }: MainProps) => {
   const [fontsLoaded] = useFonts({
-    Impact: require('assets/fonts/Impact.ttf'),
+    calculator: require('assets/fonts/calculator.ttf'),
   })
   const dispatch = useAppDispatch()
-  const currentState = useAppSelector((state) => state.currentState)
+  const data = useAppSelector((state) => state)
+  const { currentState } = data
 
-  const isPlaying = useMemo(() => {
-    return currentState !== 'completed' && currentState !== 'stopped'
-  }, [currentState])
+  const isPlaying = currentState === 'playing'
+  const isPaused = currentState === 'paused'
+  const isStopped = currentState === 'stopped'
 
   const gotoSettings = () => {
     navigation.navigate('Settings')
   }
 
-  const togglePlay = () => {
-    if (isPlaying && currentState !== 'paused') {
+  const handleOnPressPlay = () => {
+    if (isPlaying) {
       dispatch(pause())
     } else {
       dispatch(start())
@@ -50,22 +50,17 @@ export const Main = ({ navigation }: MainProps) => {
       {fontsLoaded && (
         <>
           <View style={style.mainArea}>
-            {currentState === 'stopped' && (
+            {isStopped && (
               <Text style={style.playText}>Press Play to start</Text>
             )}
-            {isPlaying && (
-              <>
-                <Text>{getCurrentStateLabel(currentState)}</Text>
-                <Timer />
-              </>
-            )}
+            {(isPlaying || isPaused) && <Timer />}
           </View>
           <View style={style.buttons}>
             <View>
-              <TouchableOpacity onPress={togglePlay} activeOpacity={0.5}>
+              <TouchableOpacity onPress={handleOnPressPlay} activeOpacity={0.5}>
                 <Ionicons
                   name={
-                    currentState === 'stopped'
+                    currentState !== 'playing'
                       ? 'play-circle-outline'
                       : 'pause-circle-outline'
                   }
@@ -75,20 +70,19 @@ export const Main = ({ navigation }: MainProps) => {
               </TouchableOpacity>
             </View>
             <View style={style.buttonsRight}>
-              <TouchableOpacity onPress={handleStop} activeOpacity={0.5}>
-                <Ionicons
-                  name="stop-circle-outline"
-                  size={45}
-                  color="#c8ddee"
-                />
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={gotoSettings}
-                activeOpacity={0.5}
-                style={style.gearButton}
-              >
-                <Ionicons name="settings-outline" size={41} color="#c8ddee" />
-              </TouchableOpacity>
+              {currentState === 'stopped' ? (
+                <TouchableOpacity onPress={gotoSettings} activeOpacity={0.5}>
+                  <Ionicons name="settings-outline" size={41} color="#c8ddee" />
+                </TouchableOpacity>
+              ) : (
+                <TouchableOpacity onPress={handleStop} activeOpacity={0.5}>
+                  <Ionicons
+                    name="stop-circle-outline"
+                    size={45}
+                    color="#c8ddee"
+                  />
+                </TouchableOpacity>
+              )}
             </View>
           </View>
         </>
@@ -120,14 +114,11 @@ const style = StyleSheet.create({
     backgroundColor: '#28313d',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingVertical: 15,
-    paddingHorizontal: 20,
+    paddingVertical: 10,
+    paddingHorizontal: 25,
   },
   buttonsRight: {
     flexDirection: 'row',
     alignItems: 'center',
-  },
-  gearButton: {
-    marginLeft: 10,
   },
 })

@@ -14,7 +14,7 @@
       "supportsTablet": true
     },
     "name": "TabataTimer",
-    "orientation": "portrait",
+    "orientation": "default",
     "slug": "TabataTimer",
     "splash": {
       "backgroundColor": "#ffffff",

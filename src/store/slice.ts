@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-export type ControlStates = 'stopped' | 'paused' | 'completed'
+export type ControlStates = 'stopped' | 'paused' | 'playing'
 
 export type WorkoutStates =
   | 'initialCountdown'
@@ -12,34 +12,42 @@ export type WorkoutStates =
 
 // all times are in seconds
 export interface AppState {
+  // "playing" states:
   initialCountdown: number
   warmup: number
   exercise: number
   rest: number
-  numSets: number
   recovery: number
-  numCycles: number
   coolDownInterval: number
-  currentState: ControlStates | WorkoutStates
-  pauseState?: ControlStates | WorkoutStates
+
+  // reps settings
+  numReps: number // 1 rep = exercise + rest
+  numSets: number
+
+  // control
+  currentState: ControlStates
+  currentRep: number
+  currentSet: number
 }
 
-export type AppStateKeys = WorkoutStates | 'numSets' | 'numCycles'
+export type SettingsKeys = WorkoutStates | 'numSets' | 'numReps'
 
 const initialState: AppState = {
   initialCountdown: 3,
   warmup: 120,
   exercise: 30,
   rest: 10,
-  numSets: 10,
   recovery: 50,
-  numCycles: 1,
   coolDownInterval: 60,
+  numReps: 10,
+  numSets: 1,
   currentState: 'stopped',
+  currentRep: 1,
+  currentSet: 1,
 }
 
 interface UpdatePayload {
-  stateKey: AppStateKeys
+  stateKey: SettingsKeys
   value: number
 }
 
@@ -52,23 +60,12 @@ export const timerSlice = createSlice({
       state[stateKey] = value
     },
     start: (state) => {
-      if (state.currentState === 'paused' && state.pauseState) {
-        state.currentState = state.pauseState
-        state.pauseState = undefined
-      } else if (state.initialCountdown) {
-        state.currentState = 'initialCountdown'
-      } else if (state.warmup) {
-        state.currentState = 'warmup'
-      } else {
-        state.currentState = 'exercise'
-      }
+      state.currentState = 'playing'
     },
     pause: (state) => {
-      state.pauseState = state.currentState
       state.currentState = 'paused'
     },
     stop: (state) => {
-      state.pauseState = undefined
       state.currentState = 'stopped'
     },
   },

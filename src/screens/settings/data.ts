@@ -2,14 +2,13 @@ import { NumberInput } from 'components/NumberInput'
 import { TimeInput } from 'components/TimeInput'
 import React from 'react'
 import { RootStackParamList } from 'routes'
-import { Load } from 'screens/presets/load'
-import { AppState } from 'store/slice'
+import { SettingsKeys } from 'store/slice'
 
 export interface ItemType {
   icon: string
   route: keyof RootStackParamList
   component: React.ComponentType<any>
-  stateKey: keyof AppState
+  stateKey: SettingsKeys
 }
 
 interface Sections {
@@ -46,9 +45,9 @@ export const MEASURES: Sections = {
     },
     {
       icon: '#️⃣',
-      route: 'Number of Sets',
+      route: 'Number of Reps',
       component: NumberInput,
-      stateKey: 'numSets',
+      stateKey: 'numReps',
     },
     {
       icon: '⛑',
@@ -58,9 +57,9 @@ export const MEASURES: Sections = {
     },
     {
       icon: '♺',
-      route: 'Number of Cycles',
+      route: 'Number of Sets',
       component: NumberInput,
-      stateKey: 'numCycles',
+      stateKey: 'numSets',
     },
     {
       icon: '⏱',

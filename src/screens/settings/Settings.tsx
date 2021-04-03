@@ -6,7 +6,7 @@ import { ScrollView, TouchableHighlight } from 'react-native-gesture-handler'
 import { RootStackParamList } from 'routes/rootStackParamList'
 import { MEASURES, PRESETS } from 'screens/settings/data'
 import { useAppSelector } from 'store/hooks'
-import { AppState } from 'store/slice'
+import { SettingsKeys } from 'store/slice'
 import { getTimeDurationLabel, getTotalDuration } from 'utils'
 
 import { Item } from './Item'
@@ -24,16 +24,14 @@ interface SettingsProps {
 export const Settings = ({ navigation }: SettingsProps) => {
   const stateData = useAppSelector((state) => state)
 
-  const getValue = (stateKey: keyof AppState) => {
+  const getValue = (stateKey: SettingsKeys) => {
     const data = stateData[stateKey]
     switch (stateKey) {
-      case 'numCycles': {
-        return data > 0
-          ? `${String(data)} ${data === 1 ? 'cycle' : 'cycles'}`
-          : ''
-      }
       case 'numSets': {
         return data > 0 ? `${String(data)} ${data === 1 ? 'set' : 'sets'}` : ''
+      }
+      case 'numReps': {
+        return data > 0 ? `${String(data)} ${data === 1 ? 'rep' : 'reps'}` : ''
       }
       default: {
         return getTimeDurationLabel(data)
