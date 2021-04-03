@@ -7,9 +7,9 @@ describe('getTotalDuration', () => {
       warmup: 10,
       exercise: 10,
       rest: 10,
-      numSets: 1,
+      numReps: 1,
       recovery: 10,
-      numCycles: 1,
+      numSets: 1,
       coolDownInterval: 10,
     }
     expect(getTotalDuration(data)).toEqual(60)
@@ -20,9 +20,9 @@ describe('getTotalDuration', () => {
       warmup: 10,
       exercise: 10,
       rest: 10,
-      numSets: 2,
+      numReps: 2,
       recovery: 10,
-      numCycles: 1,
+      numSets: 1,
       coolDownInterval: 10,
     }
     expect(getTotalDuration(data)).toEqual(80)
@@ -33,9 +33,9 @@ describe('getTotalDuration', () => {
       warmup: 10,
       exercise: 10,
       rest: 10,
-      numSets: 2,
+      numReps: 2,
       recovery: 10,
-      numCycles: 2,
+      numSets: 2,
       coolDownInterval: 10,
     }
     expect(getTotalDuration(data)).toEqual(130)
