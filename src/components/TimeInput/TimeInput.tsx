@@ -44,7 +44,7 @@ export const TimeInput = ({ route }: Props) => {
           onValueChange={handleMinuteChange}
         >
           {MINS_OPTIONS.map((_, i) => (
-            <Picker.Item key={i} label={String(i)} value={i} />
+            <Picker.Item key={i} label={`${String(i)} minutes`} value={i} />
           ))}
         </Picker>
         <Picker
@@ -53,7 +53,7 @@ export const TimeInput = ({ route }: Props) => {
           onValueChange={handleSecondsChange}
         >
           {SECS_OPTIONS.map((_, i) => (
-            <Picker.Item key={i} label={String(i)} value={i} />
+            <Picker.Item key={i} label={`${String(i)} seconds`} value={i} />
           ))}
         </Picker>
       </View>

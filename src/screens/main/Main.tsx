@@ -1,15 +1,24 @@
-import { Ionicons } from '@expo/vector-icons'
 import { RouteProp } from '@react-navigation/core'
 import { StackNavigationProp } from '@react-navigation/stack'
+import { ButtonBar } from 'components/ButtonBar'
+import { CurrentWorkout } from 'components/CurrentWorkout'
+import { ScheduleInfo } from 'components/ScheduleInfo'
 import { Timer } from 'components/Timer'
+import { WorkoutStatus } from 'components/WorkoutStatus'
 import { useFonts } from 'expo-font'
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { View, Text, StyleSheet } from 'react-native'
-import { TouchableOpacity } from 'react-native-gesture-handler'
+import { SafeAreaView } from 'react-native-safe-area-context'
 import { RootStackParamList } from 'routes/rootStackParamList'
 import { start, pause, stop } from 'store/actions'
 import { useAppDispatch, useAppSelector } from 'store/hooks'
-import { createWorkflow, WorkflowItem, getTimeDurationLabel } from 'utils'
+import {
+  createWorkflow,
+  WorkflowItem,
+  useInterval,
+  getCurrentWorkoutLabel,
+  getTotalDuration,
+} from 'utils'
 
 export type MainNavigationProp = StackNavigationProp<RootStackParamList, 'Main'>
 export type MainRouteProp = RouteProp<RootStackParamList, 'Main'>
@@ -25,108 +34,134 @@ export const Main = ({ navigation }: MainProps) => {
   const dispatch = useAppDispatch()
   const data = useAppSelector((state) => state)
   const [workflow, setWorkflow] = useState<WorkflowItem[]>([])
+  const [currentWorkflowItem, setCurrentWorkflowItem] = useState<number>(-1)
+  const [currentTime, setCurrentTime] = useState<number>(0)
+  const [currentTotalTime, setCurrentTotalTime] = useState<number>(0)
+  const [currentRep, setCurrentRep] = useState<number>(data.numReps)
+  const [currentSet, setCurrentSet] = useState<number>(data.numSets)
 
   const { currentState } = data
   const isPlaying = currentState === 'playing'
   const isPaused = currentState === 'paused'
   const isStopped = currentState === 'stopped'
 
-  const gotoSettings = () => {
-    navigation.navigate('Settings')
-  }
+  const currentWorkoutLabel = useMemo(() => {
+    if (workflow.length && currentWorkflowItem >= 0) {
+      return getCurrentWorkoutLabel(workflow[currentWorkflowItem][0])
+    } else {
+      return ''
+    }
+  }, [currentWorkflowItem, workflow])
+
+  const init = useCallback(() => {
+    if (workflow.length) {
+      const initialTime = workflow[0][1]
+      setCurrentWorkflowItem(0)
+      setCurrentTotalTime(getTotalDuration(data))
+      setCurrentTime(initialTime)
+      setCurrentRep(data.numReps)
+      setCurrentSet(data.numSets)
+    }
+  }, [data, workflow])
+
+  const updateReps = useCallback(
+    (nextIndex: number) => {
+      if (nextIndex > 0 && workflow[currentWorkflowItem][0] === 'exercise') {
+        if (currentRep > 0) {
+          setCurrentRep(currentRep - 1)
+          if (currentRep - 1 === 0) {
+            setCurrentSet(currentSet - 1)
+            if (currentSet - 1 > 0) {
+              setCurrentRep(data.numReps)
+            }
+          }
+        } else {
+          setCurrentRep(data.numReps)
+          setCurrentSet(currentSet - 1)
+        }
+      }
+    },
+    [currentRep, currentSet, currentWorkflowItem, data.numReps, workflow]
+  )
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      setWorkflow(createWorkflow(data))
+      init()
+    })
+    return unsubscribe
+  }, [navigation, data, init])
+
+  useInterval(
+    () => {
+      if (currentTime > 1) {
+        setCurrentTime(currentTime - 1)
+      } else {
+        if (currentWorkflowItem < workflow.length - 1) {
+          // advance to next workflow item:
+          const nextIndex = currentWorkflowItem + 1
+          updateReps(nextIndex)
+          setCurrentWorkflowItem(nextIndex)
+          setCurrentTime(workflow[nextIndex][1])
+        } else {
+          setCurrentWorkflowItem(-1)
+          dispatch(stop())
+        }
+      }
+      if (currentTotalTime > 0) {
+        setCurrentTotalTime(currentTotalTime - 1)
+      }
+    },
+    !isPlaying ? null : 1000
+  )
 
   const handleOnPressPlay = () => {
     if (isPlaying) {
       dispatch(pause())
     } else {
+      if (workflow.length && isStopped) {
+        init()
+      }
+      // if its paused, just come back to play:
       dispatch(start())
     }
   }
 
-  const handleStop = () => {
-    dispatch(stop())
-  }
-
-  useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', () => {
-      setWorkflow(createWorkflow(data))
-    })
-
-    return unsubscribe
-  }, [navigation, data])
-
   return (
-    <View style={style.container}>
+    <SafeAreaView style={style.container}>
       {fontsLoaded && (
         <>
-          <View style={style.mainArea}>
-            {isStopped && (
-              <>
-                <Text style={style.playText}>Press Play to start</Text>
-                <Text style={style.schedule}>
-                  Workout schedule:{'\n'}
-                  Countdown: {getTimeDurationLabel(data.initialCountdown)}
-                  {'\n'}
-                  Warmup: {getTimeDurationLabel(data.warmup)}
-                  {'\n'}
-                  Exercise: {getTimeDurationLabel(data.exercise)}
-                  {'\n'}
-                  Rest: {getTimeDurationLabel(data.rest)}
-                  {'\n'}
-                  Reps: {data.numReps}
-                  {'\n'}
-                  Recovery: {getTimeDurationLabel(data.recovery)}
-                  {'\n'}
-                  Sets: {data.numSets}
-                  {'\n'}
-                  Cooldown: {getTimeDurationLabel(data.coolDownInterval)}
-                  {'\n'}
-                </Text>
-              </>
-            )}
-            {(isPlaying || isPaused) && <Timer workflow={workflow} />}
-          </View>
-          <View style={style.buttons}>
-            <View>
-              <TouchableOpacity onPress={handleOnPressPlay} activeOpacity={0.5}>
-                <Ionicons
-                  name={
-                    currentState !== 'playing'
-                      ? 'play-circle-outline'
-                      : 'pause-circle-outline'
-                  }
-                  size={45}
-                  color={ICON_COLOR}
-                />
-              </TouchableOpacity>
+          {isStopped && (
+            <View style={style.stoppedArea}>
+              <Text style={style.playText}>Press Play to start</Text>
+              <ScheduleInfo data={data} />
             </View>
-            <View style={style.buttonsRight}>
-              {currentState === 'stopped' ? (
-                <TouchableOpacity onPress={gotoSettings} activeOpacity={0.5}>
-                  <Ionicons
-                    name="settings-outline"
-                    size={41}
-                    color={ICON_COLOR}
-                  />
-                </TouchableOpacity>
-              ) : (
-                <TouchableOpacity onPress={handleStop} activeOpacity={0.5}>
-                  <Ionicons
-                    name="stop-circle-outline"
-                    size={45}
-                    color={ICON_COLOR}
-                  />
-                </TouchableOpacity>
-              )}
+          )}
+          {(isPlaying || isPaused) && (
+            <View style={style.playingArea}>
+              <CurrentWorkout label={currentWorkoutLabel} />
+              <View>
+                <Timer currentTime={currentTime} />
+                <View style={style.separator} />
+              </View>
+              <WorkoutStatus
+                timeLeft={currentTotalTime}
+                reps={currentRep}
+                sets={currentSet}
+              />
             </View>
-          </View>
+          )}
+          <ButtonBar
+            currentState={currentState}
+            onPressPlay={handleOnPressPlay}
+            onPressStop={() => dispatch(stop())}
+            onPressSettings={() => navigation.navigate('Settings')}
+          />
         </>
       )}
-    </View>
+    </SafeAreaView>
   )
 }
-
-const ICON_COLOR = '#d5ecff'
 
 const style = StyleSheet.create({
   container: {
@@ -135,30 +170,23 @@ const style = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'space-between',
   },
-  mainArea: {
+  stoppedArea: {
     justifyContent: 'center',
     alignItems: 'center',
     flex: 1,
   },
+  playingArea: {
+    flex: 1,
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  separator: {
+    borderBottomColor: '#9b9b9b',
+    borderBottomWidth: 1,
+    alignSelf: 'stretch',
+  },
   playText: {
     color: '#aaa',
     fontSize: 32,
-  },
-  timerText: {
-    fontSize: 30,
-  },
-  schedule: {
-    color: '#fff',
-  },
-  buttons: {
-    backgroundColor: '#28313d',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingVertical: 10,
-    paddingHorizontal: 25,
-  },
-  buttonsRight: {
-    flexDirection: 'row',
-    alignItems: 'center',
   },
 })

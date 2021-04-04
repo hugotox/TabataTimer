@@ -3,11 +3,11 @@ import { WorkoutStates } from 'store/slice'
 export const getCurrentWorkoutLabel = (state: WorkoutStates) => {
   switch (state) {
     case 'initialCountdown': {
-      return 'COUNTDOWN'
+      return 'countdown'
     }
     case 'coolDownInterval': {
-      return 'COOLDOWN'
+      return 'cooldown'
     }
   }
-  return state.toUpperCase()
+  return state.toLowerCase()
 }
