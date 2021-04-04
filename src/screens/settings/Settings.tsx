@@ -7,6 +7,7 @@ import { RootStackParamList } from 'routes/rootStackParamList'
 import { MEASURES, PRESETS } from 'screens/settings/data'
 import { useAppSelector } from 'store/hooks'
 import { SettingsKeys } from 'store/slice'
+import { Colors, Font } from 'themeConstants'
 import { getTimeDurationLabel, getTotalDuration } from 'utils'
 
 import { Item } from './Item'
@@ -45,7 +46,7 @@ export const Settings = ({ navigation }: SettingsProps) => {
   }, [stateData])
 
   return (
-    <ScrollView>
+    <ScrollView style={styles.container}>
       <Text style={styles.header}>Measures</Text>
       {MEASURES.items.map((item, i) => (
         <TouchableHighlight
@@ -62,7 +63,7 @@ export const Settings = ({ navigation }: SettingsProps) => {
       <View style={styles.duration}>
         <Text style={styles.durationText}>Total duration: {durationLabel}</Text>
       </View>
-      <Text style={styles.header}>Presets</Text>
+      {/* <Text style={styles.header}>Presets</Text> */}
       {PRESETS.items.map((item, i) => (
         <TouchableHighlight
           key={i}
@@ -76,9 +77,14 @@ export const Settings = ({ navigation }: SettingsProps) => {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    backgroundColor: Colors.background,
+  },
   header: {
     fontSize: 20,
-    backgroundColor: '#fff',
+    color: Colors.textDefault,
+    fontWeight: Font.weightNormal,
+    backgroundColor: Colors.background,
     paddingVertical: 10,
     paddingHorizontal: 15,
   },
@@ -88,5 +94,7 @@ const styles = StyleSheet.create({
   },
   durationText: {
     fontSize: 18,
+    color: Colors.textDefault,
+    fontWeight: Font.weightNormal,
   },
 })

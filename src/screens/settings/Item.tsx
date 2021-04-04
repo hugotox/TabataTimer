@@ -1,6 +1,7 @@
 import { Entypo } from '@expo/vector-icons'
 import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
+import { Colors, Font } from 'themeConstants'
 
 interface ItemProps {
   icon: string
@@ -18,7 +19,7 @@ export const Item = ({ icon, title, value }: ItemProps) => {
           <Text style={styles.textSmall}>{value}</Text>
         </View>
       </View>
-      <Entypo name="chevron-small-right" size={24} color="black" />
+      <Entypo name="chevron-small-right" size={24} color={Colors.textDefault} />
     </View>
   )
 }
@@ -42,14 +43,18 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     borderBottomWidth: 1,
-    borderBottomColor: '#ccc',
+    borderBottomColor: Colors.separator,
   },
   text: {
     fontSize: 16,
     lineHeight: 19,
+    color: Colors.textDefault,
+    fontWeight: Font.weightNormal,
   },
   textSmall: {
     fontSize: 12,
     marginTop: 2,
+    color: Colors.textDefault,
+    fontWeight: Font.weightNormal,
   },
 })

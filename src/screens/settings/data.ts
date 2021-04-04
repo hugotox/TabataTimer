@@ -56,7 +56,7 @@ export const MEASURES: Sections = {
       stateKey: 'recovery',
     },
     {
-      icon: '♺',
+      icon: '♻️',
       route: 'Number of Sets',
       component: NumberInput,
       stateKey: 'numSets',

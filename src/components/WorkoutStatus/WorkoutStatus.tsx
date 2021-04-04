@@ -1,5 +1,6 @@
 import React from 'react'
 import { Text, View, StyleSheet } from 'react-native'
+import { Colors, Font } from 'themeConstants'
 import { toTimeObject } from 'utils'
 
 interface Props {
@@ -54,8 +55,8 @@ const style = StyleSheet.create({
     alignItems: 'flex-end',
   },
   title: {
-    fontWeight: '300',
-    color: '#ccc',
+    fontWeight: Font.weightNormal,
+    color: Colors.textDefault,
     flex: 1,
     fontSize: 25,
   },
@@ -64,7 +65,7 @@ const style = StyleSheet.create({
   },
   number: {
     fontSize: 35,
-    fontWeight: '600',
+    fontWeight: Font.weightBold,
   },
   time: {
     textAlign: 'right',

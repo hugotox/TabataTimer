@@ -2,9 +2,11 @@ import { createStackNavigator } from '@react-navigation/stack'
 import { BackButton } from 'components/BackButton'
 import { SaveButton } from 'components/SaveButton'
 import React from 'react'
+import { StyleSheet } from 'react-native'
 import { RootStackParamList } from 'routes/rootStackParamList'
 import { Main } from 'screens/main'
 import { MEASURES, PRESETS, Settings } from 'screens/settings'
+import { Colors } from 'themeConstants'
 
 const Stack = createStackNavigator<RootStackParamList>()
 
@@ -23,6 +25,8 @@ export const Routes = () => {
         options={{
           headerBackImage: () => <SaveButton />,
           headerBackTitleVisible: false,
+          headerStyle: styles.headerStyle,
+          headerTitleStyle: styles.headerTitleStyle,
         }}
       />
       {items.map((item) => (
@@ -34,9 +38,21 @@ export const Routes = () => {
           options={{
             headerBackImage: () => <BackButton />,
             headerBackTitleVisible: false,
+            headerStyle: styles.headerStyle,
+            headerTitleStyle: styles.headerTitleStyle,
           }}
         />
       ))}
     </Stack.Navigator>
   )
 }
+
+const styles = StyleSheet.create({
+  headerStyle: {
+    backgroundColor: Colors.background,
+    shadowColor: Colors.separator, //'transparent',
+  },
+  headerTitleStyle: {
+    color: Colors.textDefault,
+  },
+})

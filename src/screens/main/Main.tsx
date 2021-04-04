@@ -12,6 +12,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { RootStackParamList } from 'routes/rootStackParamList'
 import { start, pause, stop } from 'store/actions'
 import { useAppDispatch, useAppSelector } from 'store/hooks'
+import { Colors, Font } from 'themeConstants'
 import {
   createWorkflow,
   WorkflowItem,
@@ -29,7 +30,7 @@ interface MainProps {
 
 export const Main = ({ navigation }: MainProps) => {
   const [fontsLoaded] = useFonts({
-    calculator: require('assets/fonts/calculator.ttf'),
+    digital: require('assets/fonts/digital.otf'),
   })
   const dispatch = useAppDispatch()
   const data = useAppSelector((state) => state)
@@ -166,7 +167,7 @@ export const Main = ({ navigation }: MainProps) => {
 const style = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#1e232b',
+    backgroundColor: Colors.background,
     flexDirection: 'column',
     justifyContent: 'space-between',
   },
@@ -181,12 +182,13 @@ const style = StyleSheet.create({
     alignItems: 'center',
   },
   separator: {
-    borderBottomColor: '#9b9b9b',
+    borderBottomColor: Colors.separator,
     borderBottomWidth: 1,
     alignSelf: 'stretch',
   },
   playText: {
-    color: '#aaa',
+    color: Colors.textDefault,
+    fontWeight: Font.weightNormal,
     fontSize: 32,
   },
 })

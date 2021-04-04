@@ -6,6 +6,7 @@ import { Text, View, StyleSheet } from 'react-native'
 import { RootStackParamList } from 'routes'
 import { updateValue } from 'store/actions'
 import { useAppDispatch, useAppSelector } from 'store/hooks'
+import { Colors, Font } from 'themeConstants'
 
 type TimeInputRouteProp = RouteProp<RootStackParamList, 'Number of Sets'>
 
@@ -38,6 +39,7 @@ export const NumberInput = ({ route }: Props) => {
       </View>
       <Picker
         style={style.picker}
+        itemStyle={style.pickerItem}
         selectedValue={value}
         onValueChange={handleOnChange}
       >
@@ -58,18 +60,25 @@ const style = StyleSheet.create({
     flexDirection: 'column',
     flex: 1,
     justifyContent: 'space-between',
+    backgroundColor: Colors.background,
   },
   value: {
     justifyContent: 'center',
     alignItems: 'center',
     flex: 1,
-    borderBottomColor: '#e4e2e2',
+    borderBottomColor: Colors.separator,
     borderBottomWidth: 1,
   },
   valueText: {
     fontSize: 22,
+    color: Colors.textDefault,
+    fontWeight: Font.weightNormal,
   },
   picker: {
-    // backgroundColor: '#73a2e9',
+    backgroundColor: Colors.background,
+  },
+  pickerItem: {
+    color: Colors.textDefault,
+    fontWeight: Font.weightNormal,
   },
 })

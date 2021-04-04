@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Text, StyleSheet, Dimensions } from 'react-native'
+import { Colors } from 'themeConstants'
 import { formatTimeObject, isPortrait, toTimeObject } from 'utils'
 
 interface Props {
@@ -31,12 +32,12 @@ export const Timer = ({ currentTime }: Props) => {
 const style = StyleSheet.create({
   time: {
     fontSize: 90,
-    fontFamily: 'calculator',
-    color: '#fff',
+    fontFamily: 'digital',
+    color: Colors.textRed,
   },
   timeLandscape: {
-    fontSize: 200,
-    fontFamily: 'calculator',
-    color: '#fff',
+    fontSize: 150,
+    fontFamily: 'digital',
+    color: Colors.textRed,
   },
 })

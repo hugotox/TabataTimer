@@ -6,6 +6,7 @@ import { View, StyleSheet, Text } from 'react-native'
 import { RootStackParamList } from 'routes'
 import { updateValue } from 'store/actions'
 import { useAppDispatch, useAppSelector } from 'store/hooks'
+import { Colors, Font } from 'themeConstants'
 import { getTimeDurationLabel } from 'utils'
 import { toTimeObject } from 'utils/toTimeObject'
 
@@ -40,6 +41,7 @@ export const TimeInput = ({ route }: Props) => {
       <View style={style.pickers}>
         <Picker
           style={style.picker}
+          itemStyle={style.pickerItem}
           selectedValue={minutes}
           onValueChange={handleMinuteChange}
         >
@@ -49,6 +51,7 @@ export const TimeInput = ({ route }: Props) => {
         </Picker>
         <Picker
           style={style.picker}
+          itemStyle={style.pickerItem}
           selectedValue={seconds}
           onValueChange={handleSecondsChange}
         >
@@ -66,21 +69,29 @@ const style = StyleSheet.create({
     flexDirection: 'column',
     flex: 1,
     justifyContent: 'space-between',
+    backgroundColor: Colors.background,
   },
   value: {
     justifyContent: 'center',
     alignItems: 'center',
     flex: 1,
-    borderBottomColor: '#e4e2e2',
+    borderBottomColor: Colors.separator,
     borderBottomWidth: 1,
   },
   valueText: {
     fontSize: 22,
+    color: Colors.textDefault,
+    fontWeight: Font.weightNormal,
   },
   pickers: {
     flexDirection: 'row',
   },
   picker: {
     flex: 1,
+    backgroundColor: Colors.background,
+  },
+  pickerItem: {
+    color: Colors.textDefault,
+    fontWeight: Font.weightNormal,
   },
 })
