@@ -1,16 +1,20 @@
 import React, { useEffect, useState } from 'react'
 import { Text, StyleSheet, Dimensions } from 'react-native'
-import { Colors } from 'themeConstants'
+import { Colors, workoutStyles } from 'themeConstants'
 import { formatTimeObject, isPortrait, toTimeObject } from 'utils'
 
 interface Props {
   currentTime: number
+  label: string
 }
 
-export const Timer = ({ currentTime }: Props) => {
+export const Timer = ({ currentTime, label }: Props) => {
   const [orientation, setOrientation] = useState(
     isPortrait() ? 'portrait' : 'landscape'
   )
+
+  // @ts-expect-error
+  const extra = workoutStyles[label] ? workoutStyles[label] : {}
 
   useEffect(() => {
     const rotateHandler = () => {
@@ -23,7 +27,12 @@ export const Timer = ({ currentTime }: Props) => {
   }, [])
 
   return (
-    <Text style={orientation === 'portrait' ? style.time : style.timeLandscape}>
+    <Text
+      style={[
+        orientation === 'portrait' ? style.time : style.timeLandscape,
+        extra,
+      ]}
+    >
       {formatTimeObject(toTimeObject(currentTime))}
     </Text>
   )

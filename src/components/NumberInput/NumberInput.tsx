@@ -78,7 +78,7 @@ const style = StyleSheet.create({
     backgroundColor: Colors.background,
   },
   pickerItem: {
-    color: Colors.textDefault,
+    color: '#fff',
     fontWeight: Font.weightNormal,
   },
 })

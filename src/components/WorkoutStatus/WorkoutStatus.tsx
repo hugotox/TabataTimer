@@ -27,8 +27,12 @@ export const WorkoutStatus = ({ reps, sets, timeLeft }: Props) => {
       </View>
       <View style={style.container}>
         <View style={style.col1}>
-          <Text style={[style.title, style.number]}>{sets}</Text>
-          <Text style={[style.title, style.number]}>{reps}</Text>
+          <Text style={[style.title, style.number]}>
+            {String(sets).padStart(2, '0')}
+          </Text>
+          <Text style={[style.title, style.number]}>
+            {String(reps).padStart(2, '0')}
+          </Text>
         </View>
         <View style={style.col1}>
           <Text style={[style.title, style.time]}>{timeString}</Text>
@@ -64,11 +68,12 @@ const style = StyleSheet.create({
     textAlign: 'right',
   },
   number: {
-    fontSize: 35,
-    fontWeight: Font.weightBold,
+    fontSize: 50,
+    fontFamily: 'digital',
   },
   time: {
     textAlign: 'right',
-    fontSize: 40,
+    fontSize: 50,
+    fontFamily: 'digital',
   },
 })

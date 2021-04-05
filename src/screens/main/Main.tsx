@@ -135,14 +135,16 @@ export const Main = ({ navigation }: MainProps) => {
           {isStopped && (
             <View style={style.stoppedArea}>
               <Text style={style.playText}>Press Play to start</Text>
-              <ScheduleInfo data={data} />
+              <View style={style.info}>
+                <ScheduleInfo data={data} />
+              </View>
             </View>
           )}
           {(isPlaying || isPaused) && (
             <View style={style.playingArea}>
               <CurrentWorkout label={currentWorkoutLabel} />
               <View>
-                <Timer currentTime={currentTime} />
+                <Timer currentTime={currentTime} label={currentWorkoutLabel} />
                 <View style={style.separator} />
               </View>
               <WorkoutStatus
@@ -190,5 +192,10 @@ const style = StyleSheet.create({
     color: Colors.textDefault,
     fontWeight: Font.weightNormal,
     fontSize: 32,
+    marginBottom: 30,
+  },
+  info: {
+    alignSelf: 'flex-end',
+    marginRight: 25,
   },
 })

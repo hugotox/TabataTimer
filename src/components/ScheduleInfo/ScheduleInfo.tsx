@@ -1,38 +1,99 @@
-import React from 'react'
-import { Text, StyleSheet } from 'react-native'
+import React, { useMemo } from 'react'
+import { Text, StyleSheet, View } from 'react-native'
 import { AppState } from 'store/slice'
-import { getTimeDurationLabel } from 'utils'
+import { Colors, Font } from 'themeConstants'
+import { getTimeDurationLabel, getTotalDuration } from 'utils'
 
 interface Props {
   data: AppState
 }
 
 export const ScheduleInfo = ({ data }: Props) => {
+  const durationLabel = useMemo(() => {
+    const totalDuration = getTotalDuration(data)
+    return getTimeDurationLabel(totalDuration)
+  }, [data])
+
   return (
-    <Text style={style.schedule}>
-      Workout schedule:{'\n'}
-      Countdown: {getTimeDurationLabel(data.initialCountdown)}
-      {'\n'}
-      Warmup: {getTimeDurationLabel(data.warmup)}
-      {'\n'}
-      Exercise: {getTimeDurationLabel(data.exercise)}
-      {'\n'}
-      Rest: {getTimeDurationLabel(data.rest)}
-      {'\n'}
-      Reps: {data.numReps}
-      {'\n'}
-      Recovery: {getTimeDurationLabel(data.recovery)}
-      {'\n'}
-      Sets: {data.numSets}
-      {'\n'}
-      Cooldown: {getTimeDurationLabel(data.coolDownInterval)}
-      {'\n'}
-    </Text>
+    <View>
+      <Text style={[style.text, style.title]}>Workout schedule:</Text>
+      <View style={style.row}>
+        <Text style={style.label}>Countdown:</Text>
+        <Text style={style.text}>
+          {getTimeDurationLabel(data.initialCountdown, true)}
+        </Text>
+      </View>
+      <View style={style.row}>
+        <Text style={style.label}>Warmup:</Text>
+        <Text style={style.text}>
+          {getTimeDurationLabel(data.warmup, true)}
+        </Text>
+      </View>
+      <View style={style.row}>
+        <Text style={style.label}>Exercise:</Text>
+        <Text style={style.text}>
+          {getTimeDurationLabel(data.exercise, true)}
+        </Text>
+      </View>
+      <View style={style.row}>
+        <Text style={style.label}>Rest:</Text>
+        <Text style={style.text}>{getTimeDurationLabel(data.rest, true)}</Text>
+      </View>
+      <View style={style.row}>
+        <Text style={style.label}>Reps:</Text>
+        <Text style={style.text}>{data.numReps}</Text>
+      </View>
+      <View style={style.row}>
+        <Text style={style.label}>Set duration:</Text>
+        <Text style={style.text}>
+          {getTimeDurationLabel(
+            (data.exercise + data.rest) * data.numReps,
+            true
+          )}
+        </Text>
+      </View>
+      <View style={style.row}>
+        <Text style={style.label}>Recovery:</Text>
+        <Text style={style.text}>
+          {getTimeDurationLabel(data.recovery, true)}
+        </Text>
+      </View>
+      <View style={style.row}>
+        <Text style={style.label}>Sets:</Text>
+        <Text style={style.text}>{(data.numSets, true)}</Text>
+      </View>
+      <View style={style.row}>
+        <Text style={style.label}>Cooldown:</Text>
+        <Text style={style.text}>
+          {getTimeDurationLabel(data.coolDownInterval, true)}
+        </Text>
+      </View>
+      <Text style={[style.text, style.total]}>TOTAL: {durationLabel}</Text>
+    </View>
   )
 }
 
 const style = StyleSheet.create({
-  schedule: {
-    color: '#fff',
+  row: {
+    flexDirection: 'row',
+  },
+  title: {
+    marginBottom: 10,
+  },
+  text: {
+    color: Colors.textDefault,
+    fontWeight: Font.weightNormal,
+    fontSize: 16,
+  },
+  label: {
+    width: 100,
+    color: Colors.textDefault,
+    fontWeight: Font.weightNormal,
+    fontSize: 16,
+    fontStyle: 'italic',
+  },
+  total: {
+    marginTop: 10,
+    textAlign: 'right',
   },
 })

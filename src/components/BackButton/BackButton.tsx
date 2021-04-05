@@ -12,7 +12,7 @@ export const BackButton = () => {
 const styles = StyleSheet.create({
   button: {
     paddingHorizontal: 15,
-    paddingVertical: 0,
+    paddingVertical: 10,
   },
   icon: {
     fontSize: 18,

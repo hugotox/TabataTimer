@@ -96,5 +96,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: Colors.textDefault,
     fontWeight: Font.weightNormal,
+    textAlign: 'right',
+    marginTop: 10,
   },
 })
