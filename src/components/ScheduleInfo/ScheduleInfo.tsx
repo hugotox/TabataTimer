@@ -17,18 +17,22 @@ export const ScheduleInfo = ({ data }: Props) => {
   return (
     <View>
       <Text style={[style.text, style.title]}>Workout schedule:</Text>
-      <View style={style.row}>
-        <Text style={style.label}>Countdown:</Text>
-        <Text style={style.text}>
-          {getTimeDurationLabel(data.initialCountdown, true)}
-        </Text>
-      </View>
-      <View style={style.row}>
-        <Text style={style.label}>Warmup:</Text>
-        <Text style={style.text}>
-          {getTimeDurationLabel(data.warmup, true)}
-        </Text>
-      </View>
+      {data.initialCountdown ? (
+        <View style={style.row}>
+          <Text style={style.label}>Countdown:</Text>
+          <Text style={style.text}>
+            {getTimeDurationLabel(data.initialCountdown, true)}
+          </Text>
+        </View>
+      ) : null}
+      {data.warmup ? (
+        <View style={style.row}>
+          <Text style={style.label}>Warmup:</Text>
+          <Text style={style.text}>
+            {getTimeDurationLabel(data.warmup, true)}
+          </Text>
+        </View>
+      ) : null}
       <View style={style.row}>
         <Text style={style.label}>Exercise:</Text>
         <Text style={style.text}>
@@ -52,22 +56,26 @@ export const ScheduleInfo = ({ data }: Props) => {
           )}
         </Text>
       </View>
-      <View style={style.row}>
-        <Text style={style.label}>Recovery:</Text>
-        <Text style={style.text}>
-          {getTimeDurationLabel(data.recovery, true)}
-        </Text>
-      </View>
+      {data.recovery ? (
+        <View style={style.row}>
+          <Text style={style.label}>Recovery:</Text>
+          <Text style={style.text}>
+            {getTimeDurationLabel(data.recovery, true)}
+          </Text>
+        </View>
+      ) : null}
       <View style={style.row}>
         <Text style={style.label}>Sets:</Text>
-        <Text style={style.text}>{(data.numSets, true)}</Text>
+        <Text style={style.text}>{data.numSets}</Text>
       </View>
-      <View style={style.row}>
-        <Text style={style.label}>Cooldown:</Text>
-        <Text style={style.text}>
-          {getTimeDurationLabel(data.coolDownInterval, true)}
-        </Text>
-      </View>
+      {data.coolDownInterval ? (
+        <View style={style.row}>
+          <Text style={style.label}>Cooldown:</Text>
+          <Text style={style.text}>
+            {getTimeDurationLabel(data.coolDownInterval, true)}
+          </Text>
+        </View>
+      ) : null}
       <Text style={[style.text, style.total]}>TOTAL: {durationLabel}</Text>
     </View>
   )
