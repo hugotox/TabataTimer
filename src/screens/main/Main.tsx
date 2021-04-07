@@ -6,6 +6,7 @@ import { CurrentWorkout } from 'components/CurrentWorkout'
 import { ScheduleInfo } from 'components/ScheduleInfo'
 import { Timer } from 'components/Timer'
 import { WorkoutStatus } from 'components/WorkoutStatus'
+import { Audio } from 'expo-av'
 import { useFonts } from 'expo-font'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { View, Text, StyleSheet } from 'react-native'
@@ -41,6 +42,8 @@ export const Main = ({ navigation }: MainProps) => {
   const [currentTotalTime, setCurrentTotalTime] = useState<number>(0)
   const [currentRep, setCurrentRep] = useState<number>(data.numReps)
   const [currentSet, setCurrentSet] = useState<number>(data.numSets)
+
+  const [sound, setSound] = useState<Audio.Sound>()
 
   const { currentState } = data
   const isPlaying = currentState === 'playing'
@@ -86,6 +89,26 @@ export const Main = ({ navigation }: MainProps) => {
     [currentRep, currentSet, currentWorkflowItem, data.numReps, workflow]
   )
 
+  const playSound = async () => {
+    console.log('Loading Sound')
+    const { sound } = await Audio.Sound.createAsync(
+      require('assets/sounds/beep.mp3')
+    )
+    setSound(sound)
+
+    console.log('Playing Sound')
+    await sound.playAsync()
+  }
+
+  useEffect(() => {
+    return sound
+      ? () => {
+          console.log('Unloading Sound')
+          sound.unloadAsync()
+        }
+      : undefined
+  }, [sound])
+
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
       setWorkflow(createWorkflow(data))
@@ -98,6 +121,9 @@ export const Main = ({ navigation }: MainProps) => {
     () => {
       if (currentTime > 1) {
         setCurrentTime(currentTime - 1)
+        if (currentTime <= 4) {
+          playSound()
+        }
       } else {
         if (currentWorkflowItem < workflow.length - 1) {
           // advance to next workflow item:
