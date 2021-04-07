@@ -1,5 +1,6 @@
 import { RouteProp } from '@react-navigation/core'
 import { StackNavigationProp } from '@react-navigation/stack'
+import { Background } from 'components/Background/Background'
 import { ButtonBar } from 'components/ButtonBar'
 import { CurrentWorkout } from 'components/CurrentWorkout'
 import { ScheduleInfo } from 'components/ScheduleInfo'
@@ -130,6 +131,7 @@ export const Main = ({ navigation }: MainProps) => {
 
   return (
     <SafeAreaView style={style.container}>
+      <Background />
       {fontsLoaded && (
         <>
           {isStopped && (
@@ -169,7 +171,6 @@ export const Main = ({ navigation }: MainProps) => {
 const style = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.background,
     flexDirection: 'column',
     justifyContent: 'space-between',
   },

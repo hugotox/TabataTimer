@@ -46,11 +46,11 @@ export const ButtonBar = ({
   )
 }
 
-const ICON_COLOR = '#d5ecff'
+const ICON_COLOR = '#cf943a'
 
 const style = StyleSheet.create({
   buttons: {
-    backgroundColor: '#28313d',
+    backgroundColor: '#2b2a2a',
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingVertical: 10,

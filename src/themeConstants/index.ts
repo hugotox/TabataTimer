@@ -1,7 +1,7 @@
 import { TextStyle, StyleSheet } from 'react-native'
 
 export const Colors = {
-  background: '#101010',
+  background: '#1b1b1b',
   separator: '#303030',
   textDefault: '#ffffff',
   textRed: 'red',

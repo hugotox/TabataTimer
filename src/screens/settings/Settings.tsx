@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: Colors.textDefault,
     fontWeight: Font.weightNormal,
-    backgroundColor: Colors.background,
+    // backgroundColor: Colors.background,
     paddingVertical: 10,
     paddingHorizontal: 15,
   },
