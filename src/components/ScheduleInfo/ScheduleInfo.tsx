@@ -23,7 +23,7 @@ export const ScheduleInfo = () => {
   const numReps = useAppSelector(selectNumReps)
   const recovery = useAppSelector(selectRecovery)
   const numSets = useAppSelector(selectNumSets)
-  const coolDownInterval = useAppSelector(selectCooldown)
+  const cooldownInterval = useAppSelector(selectCooldown)
   const totalDuration = useAppSelector(selectTotalDuration)
   const durationLabel = useMemo(() => {
     return getTimeDurationLabel(totalDuration)
@@ -74,11 +74,11 @@ export const ScheduleInfo = () => {
         <Text style={style.label}>Sets:</Text>
         <Text style={style.text}>{numSets}</Text>
       </View>
-      {coolDownInterval ? (
+      {cooldownInterval ? (
         <View style={style.row}>
           <Text style={style.label}>Cooldown:</Text>
           <Text style={style.text}>
-            {getTimeDurationLabel(coolDownInterval, true)}
+            {getTimeDurationLabel(cooldownInterval, true)}
           </Text>
         </View>
       ) : null}

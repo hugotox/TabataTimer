@@ -94,6 +94,26 @@ export const Main = ({ navigation }: MainProps) => {
     [currentRep, currentSet, currentWorkflowItem, numReps, workflow]
   )
 
+  const moveNext = () => {
+    const nextIndex = currentWorkflowItem + 1
+
+    if (workflow[nextIndex][0] === 'exercise') {
+      playStart()
+    } else {
+      playBell()
+    }
+
+    updateReps(nextIndex)
+    setCurrentWorkflowItem(nextIndex)
+    setCurrentTime(workflow[nextIndex][1])
+
+    // TODO update setCurrentTotalTime
+  }
+
+  const movePrevious = () => {
+    // TODO
+  }
+
   useInterval(
     () => {
       if (currentTime > 1) {
@@ -104,17 +124,7 @@ export const Main = ({ navigation }: MainProps) => {
       } else {
         if (currentWorkflowItem < workflow.length - 1) {
           // advance to next workflow item:
-          const nextIndex = currentWorkflowItem + 1
-
-          if (workflow[nextIndex][0] === 'exercise') {
-            playStart()
-          } else {
-            playBell()
-          }
-
-          updateReps(nextIndex)
-          setCurrentWorkflowItem(nextIndex)
-          setCurrentTime(workflow[nextIndex][1])
+          moveNext()
         } else {
           setCurrentWorkflowItem(-1)
           dispatch(stop())
@@ -171,6 +181,8 @@ export const Main = ({ navigation }: MainProps) => {
             onPressPlay={handleOnPressPlay}
             onPressStop={() => dispatch(stop())}
             onPressSettings={() => navigation.navigate('Settings')}
+            onPressNext={moveNext}
+            onPressPrevious={movePrevious}
           />
         </>
       )}

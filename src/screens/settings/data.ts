@@ -65,7 +65,7 @@ export const MEASURES: Sections = {
       icon: '⏱',
       route: 'Cooldown Interval',
       component: TimeInput,
-      stateKey: 'coolDownInterval',
+      stateKey: 'cooldownInterval',
     },
   ],
 }

@@ -16,7 +16,7 @@ export const selectRest = (data: AppState) => data.rest
 
 export const selectRecovery = (data: AppState) => data.recovery
 
-export const selectCooldown = (data: AppState) => data.coolDownInterval
+export const selectCooldown = (data: AppState) => data.cooldownInterval
 
 export const selectCurrentState = (data: AppState) => data.currentState
 
@@ -32,7 +32,7 @@ export const selectWorkflow = createSelector(
     selectWarmup,
   ],
   (
-    coolDownInterval,
+    cooldownInterval,
     exercise,
     initialCountdown,
     numReps,
@@ -65,8 +65,8 @@ export const selectWorkflow = createSelector(
         workflow.push(['recovery', recovery])
       }
     }
-    if (coolDownInterval) {
-      workflow.push(['coolDownInterval', coolDownInterval])
+    if (cooldownInterval) {
+      workflow.push(['cooldownInterval', cooldownInterval])
     }
     return workflow
   }

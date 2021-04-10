@@ -9,7 +9,7 @@ describe('selectWorkflow', () => {
       exercise: 30,
       rest: 10,
       recovery: 50,
-      coolDownInterval: 60,
+      cooldownInterval: 60,
       numReps: 2,
       numSets: 2,
       currentState: 'stopped',
@@ -40,7 +40,7 @@ describe('selectWorkflow', () => {
       ['exercise', 30],
       ['recovery', 50],
 
-      ['coolDownInterval', 60],
+      ['cooldownInterval', 60],
     ])
   })
   it('works - no initial countdown', () => {
@@ -50,7 +50,7 @@ describe('selectWorkflow', () => {
       exercise: 30,
       rest: 10,
       recovery: 50,
-      coolDownInterval: 60,
+      cooldownInterval: 60,
       numReps: 2,
       numSets: 2,
       currentState: 'stopped',
@@ -80,7 +80,7 @@ describe('selectWorkflow', () => {
       ['exercise', 30],
       ['recovery', 50],
 
-      ['coolDownInterval', 60],
+      ['cooldownInterval', 60],
     ])
   })
   it('works - no warmup', () => {
@@ -90,7 +90,7 @@ describe('selectWorkflow', () => {
       exercise: 30,
       rest: 10,
       recovery: 50,
-      coolDownInterval: 60,
+      cooldownInterval: 60,
       numReps: 2,
       numSets: 2,
       currentState: 'stopped',
@@ -120,7 +120,7 @@ describe('selectWorkflow', () => {
       ['exercise', 30],
       ['recovery', 50],
 
-      ['coolDownInterval', 60],
+      ['cooldownInterval', 60],
     ])
   })
   it('works - even with no exercise', () => {
@@ -130,7 +130,7 @@ describe('selectWorkflow', () => {
       exercise: 0,
       rest: 10,
       recovery: 50,
-      coolDownInterval: 60,
+      cooldownInterval: 60,
       numReps: 2,
       numSets: 2,
       currentState: 'stopped',
@@ -157,7 +157,7 @@ describe('selectWorkflow', () => {
       // rep 2
       ['recovery', 50],
 
-      ['coolDownInterval', 60],
+      ['cooldownInterval', 60],
     ])
   })
   it('works - no rest', () => {
@@ -167,7 +167,7 @@ describe('selectWorkflow', () => {
       exercise: 30,
       rest: 0,
       recovery: 50,
-      coolDownInterval: 60,
+      cooldownInterval: 60,
       numReps: 2,
       numSets: 2,
       currentState: 'stopped',
@@ -196,7 +196,7 @@ describe('selectWorkflow', () => {
       ['exercise', 30],
       ['recovery', 50],
 
-      ['coolDownInterval', 60],
+      ['cooldownInterval', 60],
     ])
   })
   it('works - no recov', () => {
@@ -206,7 +206,7 @@ describe('selectWorkflow', () => {
       exercise: 30,
       rest: 10,
       recovery: 0,
-      coolDownInterval: 60,
+      cooldownInterval: 60,
       numReps: 2,
       numSets: 2,
       currentState: 'stopped',
@@ -237,7 +237,7 @@ describe('selectWorkflow', () => {
       ['exercise', 30],
       ['rest', 10],
 
-      ['coolDownInterval', 60],
+      ['cooldownInterval', 60],
     ])
   })
   it('works - no cooldown', () => {
@@ -247,7 +247,7 @@ describe('selectWorkflow', () => {
       exercise: 30,
       rest: 10,
       recovery: 50,
-      coolDownInterval: 0,
+      cooldownInterval: 0,
       numReps: 2,
       numSets: 2,
       currentState: 'stopped',

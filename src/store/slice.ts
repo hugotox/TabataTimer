@@ -8,7 +8,7 @@ export type WorkoutStates =
   | 'exercise'
   | 'rest'
   | 'recovery'
-  | 'coolDownInterval'
+  | 'cooldownInterval'
 
 // all times are in seconds
 export interface AppState {
@@ -18,7 +18,7 @@ export interface AppState {
   exercise: number
   rest: number
   recovery: number
-  coolDownInterval: number
+  cooldownInterval: number
 
   // reps settings
   numReps: number // 1 rep = exercise + rest
@@ -38,7 +38,7 @@ const initialState: AppState = {
   exercise: 30,
   rest: 10,
   recovery: 50,
-  coolDownInterval: 60,
+  cooldownInterval: 60,
   numReps: 10,
   numSets: 1,
   currentState: 'stopped',

@@ -5,7 +5,7 @@ export const getCurrentWorkoutLabel = (state: WorkoutStates) => {
     case 'initialCountdown': {
       return 'countdown'
     }
-    case 'coolDownInterval': {
+    case 'cooldownInterval': {
       return 'cooldown'
     }
   }
