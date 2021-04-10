@@ -1,7 +1,7 @@
+import { selectWorkflow } from 'store/selectors'
 import { AppState } from 'store/slice'
-import { createWorkflow } from 'utils'
 
-describe('createWorkflow', () => {
+describe('selectWorkflow', () => {
   it('works', () => {
     const data: AppState = {
       initialCountdown: 3,
@@ -16,7 +16,7 @@ describe('createWorkflow', () => {
       currentRep: 1,
       currentSet: 1,
     }
-    expect(createWorkflow(data)).toEqual([
+    expect(selectWorkflow(data)).toEqual([
       ['initialCountdown', 3],
       ['warmup', 120],
 
@@ -57,7 +57,7 @@ describe('createWorkflow', () => {
       currentRep: 1,
       currentSet: 1,
     }
-    expect(createWorkflow(data)).toEqual([
+    expect(selectWorkflow(data)).toEqual([
       ['warmup', 120],
 
       // SET 1:
@@ -97,7 +97,7 @@ describe('createWorkflow', () => {
       currentRep: 1,
       currentSet: 1,
     }
-    expect(createWorkflow(data)).toEqual([
+    expect(selectWorkflow(data)).toEqual([
       ['initialCountdown', 3],
 
       // SET 1:
@@ -137,7 +137,7 @@ describe('createWorkflow', () => {
       currentRep: 1,
       currentSet: 1,
     }
-    expect(createWorkflow(data)).toEqual([
+    expect(selectWorkflow(data)).toEqual([
       ['initialCountdown', 3],
       ['warmup', 120],
 
@@ -174,7 +174,7 @@ describe('createWorkflow', () => {
       currentRep: 1,
       currentSet: 1,
     }
-    expect(createWorkflow(data)).toEqual([
+    expect(selectWorkflow(data)).toEqual([
       ['initialCountdown', 3],
       ['warmup', 120],
 
@@ -213,7 +213,7 @@ describe('createWorkflow', () => {
       currentRep: 1,
       currentSet: 1,
     }
-    expect(createWorkflow(data)).toEqual([
+    expect(selectWorkflow(data)).toEqual([
       ['initialCountdown', 3],
       ['warmup', 120],
 
@@ -254,7 +254,7 @@ describe('createWorkflow', () => {
       currentRep: 1,
       currentSet: 1,
     }
-    expect(createWorkflow(data)).toEqual([
+    expect(selectWorkflow(data)).toEqual([
       ['initialCountdown', 3],
       ['warmup', 120],
 

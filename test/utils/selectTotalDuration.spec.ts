@@ -1,8 +1,9 @@
-import { getTotalDuration } from 'utils'
+import { selectTotalDuration } from 'store/selectors'
+import { AppState } from 'store/slice'
 
-describe('getTotalDuration', () => {
+describe('selectTotalDuration', () => {
   it('test 1 set 1 cycle', () => {
-    const data = {
+    const data: AppState = {
       initialCountdown: 10,
       warmup: 10,
       exercise: 10,
@@ -11,11 +12,14 @@ describe('getTotalDuration', () => {
       recovery: 10,
       numSets: 1,
       coolDownInterval: 10,
+      currentState: 'playing',
+      currentRep: 1,
+      currentSet: 1,
     }
-    expect(getTotalDuration(data)).toEqual(60)
+    expect(selectTotalDuration(data)).toEqual(50)
   })
   it('test 2 sets 1 cycle', () => {
-    const data = {
+    const data: AppState = {
       initialCountdown: 10,
       warmup: 10,
       exercise: 10,
@@ -24,11 +28,14 @@ describe('getTotalDuration', () => {
       recovery: 10,
       numSets: 1,
       coolDownInterval: 10,
+      currentState: 'playing',
+      currentRep: 1,
+      currentSet: 1,
     }
-    expect(getTotalDuration(data)).toEqual(80)
+    expect(selectTotalDuration(data)).toEqual(70)
   })
   it('test 2 sets 2 cycles', () => {
-    const data = {
+    const data: AppState = {
       initialCountdown: 10,
       warmup: 10,
       exercise: 10,
@@ -37,7 +44,10 @@ describe('getTotalDuration', () => {
       recovery: 10,
       numSets: 2,
       coolDownInterval: 10,
+      currentState: 'playing',
+      currentRep: 1,
+      currentSet: 1,
     }
-    expect(getTotalDuration(data)).toEqual(130)
+    expect(selectTotalDuration(data)).toEqual(110)
   })
 })
