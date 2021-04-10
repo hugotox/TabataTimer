@@ -6,9 +6,10 @@ import { ScrollView, TouchableHighlight } from 'react-native-gesture-handler'
 import { RootStackParamList } from 'routes/rootStackParamList'
 import { MEASURES, PRESETS } from 'screens/settings/data'
 import { useAppSelector } from 'store/hooks'
+import { selectTotalDuration } from 'store/selectors'
 import { SettingsKeys } from 'store/slice'
 import { Colors, Font } from 'themeConstants'
-import { getTimeDurationLabel, getTotalDuration } from 'utils'
+import { getTimeDurationLabel } from 'utils'
 
 import { Item } from './Item'
 
@@ -24,6 +25,7 @@ interface SettingsProps {
 
 export const Settings = ({ navigation }: SettingsProps) => {
   const stateData = useAppSelector((state) => state)
+  const totalDuration = useAppSelector(selectTotalDuration)
 
   const getValue = (stateKey: SettingsKeys) => {
     const data = stateData[stateKey]
@@ -41,9 +43,8 @@ export const Settings = ({ navigation }: SettingsProps) => {
   }
 
   const durationLabel = useMemo(() => {
-    const totalDuration = getTotalDuration(stateData)
     return getTimeDurationLabel(totalDuration)
-  }, [stateData])
+  }, [totalDuration])
 
   return (
     <ScrollView style={styles.container}>

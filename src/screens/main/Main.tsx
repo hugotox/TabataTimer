@@ -6,22 +6,22 @@ import { CurrentWorkout } from 'components/CurrentWorkout'
 import { ScheduleInfo } from 'components/ScheduleInfo'
 import { Timer } from 'components/Timer'
 import { WorkoutStatus } from 'components/WorkoutStatus'
-import { Audio } from 'expo-av'
 import { useFonts } from 'expo-font'
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import { View, Text, StyleSheet } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { RootStackParamList } from 'routes/rootStackParamList'
 import { start, pause, stop } from 'store/actions'
 import { useAppDispatch, useAppSelector } from 'store/hooks'
-import { Colors, Font } from 'themeConstants'
 import {
-  createWorkflow,
-  WorkflowItem,
-  useInterval,
-  getCurrentWorkoutLabel,
-  getTotalDuration,
-} from 'utils'
+  selectNumReps,
+  selectNumSets,
+  selectTotalDuration,
+  selectWorkflow,
+  selectCurrentState,
+} from 'store/selectors'
+import { Colors, Font } from 'themeConstants'
+import { useInterval, getCurrentWorkoutLabel, useSound } from 'utils'
 
 export type MainNavigationProp = StackNavigationProp<RootStackParamList, 'Main'>
 export type MainRouteProp = RouteProp<RootStackParamList, 'Main'>
@@ -35,17 +35,22 @@ export const Main = ({ navigation }: MainProps) => {
     digital: require('assets/fonts/digital.otf'),
   })
   const dispatch = useAppDispatch()
-  const data = useAppSelector((state) => state)
-  const [workflow, setWorkflow] = useState<WorkflowItem[]>([])
+  const currentState = useAppSelector(selectCurrentState)
+  const workflow = useAppSelector(selectWorkflow)
+  const numReps = useAppSelector(selectNumReps)
+  const numSets = useAppSelector(selectNumSets)
+  const totalDuration = useAppSelector(selectTotalDuration)
+
   const [currentWorkflowItem, setCurrentWorkflowItem] = useState<number>(-1)
   const [currentTime, setCurrentTime] = useState<number>(0)
   const [currentTotalTime, setCurrentTotalTime] = useState<number>(0)
-  const [currentRep, setCurrentRep] = useState<number>(data.numReps)
-  const [currentSet, setCurrentSet] = useState<number>(data.numSets)
+  const [currentRep, setCurrentRep] = useState<number>(numReps)
+  const [currentSet, setCurrentSet] = useState<number>(numSets)
 
-  const [sound, setSound] = useState<Audio.Sound>()
+  const playBeep = useSound('beep')
+  const playStart = useSound('start')
+  const playBell = useSound('bell')
 
-  const { currentState } = data
   const isPlaying = currentState === 'playing'
   const isPaused = currentState === 'paused'
   const isStopped = currentState === 'stopped'
@@ -62,12 +67,12 @@ export const Main = ({ navigation }: MainProps) => {
     if (workflow.length) {
       const initialTime = workflow[0][1]
       setCurrentWorkflowItem(0)
-      setCurrentTotalTime(getTotalDuration(data))
+      setCurrentTotalTime(totalDuration)
       setCurrentTime(initialTime)
-      setCurrentRep(data.numReps)
-      setCurrentSet(data.numSets)
+      setCurrentRep(numReps)
+      setCurrentSet(numSets)
     }
-  }, [data, workflow])
+  }, [numReps, numSets, workflow, totalDuration])
 
   const updateReps = useCallback(
     (nextIndex: number) => {
@@ -77,55 +82,31 @@ export const Main = ({ navigation }: MainProps) => {
           if (currentRep - 1 === 0) {
             setCurrentSet(currentSet - 1)
             if (currentSet - 1 > 0) {
-              setCurrentRep(data.numReps)
+              setCurrentRep(numReps)
             }
           }
         } else {
-          setCurrentRep(data.numReps)
+          setCurrentRep(numReps)
           setCurrentSet(currentSet - 1)
         }
       }
     },
-    [currentRep, currentSet, currentWorkflowItem, data.numReps, workflow]
+    [currentRep, currentSet, currentWorkflowItem, numReps, workflow]
   )
-
-  const playSound = async () => {
-    console.log('Loading Sound')
-    const { sound } = await Audio.Sound.createAsync(
-      require('assets/sounds/beep.mp3')
-    )
-    setSound(sound)
-
-    console.log('Playing Sound')
-    await sound.playAsync()
-  }
-
-  useEffect(() => {
-    return sound
-      ? () => {
-          console.log('Unloading Sound')
-          sound.unloadAsync()
-        }
-      : undefined
-  }, [sound])
-
-  useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', () => {
-      setWorkflow(createWorkflow(data))
-      init()
-    })
-    return unsubscribe
-  }, [navigation, data, init])
 
   useInterval(
     () => {
       if (currentTime > 1) {
         setCurrentTime(currentTime - 1)
         if (currentTime <= 4) {
-          playSound()
+          playBeep()
         }
       } else {
+        if (currentTime === 1) {
+          //playSound('start')
+        }
         if (currentWorkflowItem < workflow.length - 1) {
+          playBell()
           // advance to next workflow item:
           const nextIndex = currentWorkflowItem + 1
           updateReps(nextIndex)
@@ -164,7 +145,7 @@ export const Main = ({ navigation }: MainProps) => {
             <View style={style.stoppedArea}>
               <Text style={style.playText}>Press Play to start</Text>
               <View style={style.info}>
-                <ScheduleInfo data={data} />
+                <ScheduleInfo />
               </View>
             </View>
           )}

@@ -1,78 +1,84 @@
 import React, { useMemo } from 'react'
 import { Text, StyleSheet, View } from 'react-native'
-import { AppState } from 'store/slice'
+import { useAppSelector } from 'store/hooks'
+import {
+  selectCooldown,
+  selectExercise,
+  selectInitialCountdown,
+  selectNumReps,
+  selectNumSets,
+  selectRecovery,
+  selectRest,
+  selectTotalDuration,
+  selectWarmup,
+} from 'store/selectors'
 import { Colors, Font } from 'themeConstants'
-import { getTimeDurationLabel, getTotalDuration } from 'utils'
+import { getTimeDurationLabel } from 'utils'
 
-interface Props {
-  data: AppState
-}
-
-export const ScheduleInfo = ({ data }: Props) => {
+export const ScheduleInfo = () => {
+  const initialCountdown = useAppSelector(selectInitialCountdown)
+  const warmup = useAppSelector(selectWarmup)
+  const exercise = useAppSelector(selectExercise)
+  const rest = useAppSelector(selectRest)
+  const numReps = useAppSelector(selectNumReps)
+  const recovery = useAppSelector(selectRecovery)
+  const numSets = useAppSelector(selectNumSets)
+  const coolDownInterval = useAppSelector(selectCooldown)
+  const totalDuration = useAppSelector(selectTotalDuration)
   const durationLabel = useMemo(() => {
-    const totalDuration = getTotalDuration(data)
     return getTimeDurationLabel(totalDuration)
-  }, [data])
+  }, [totalDuration])
 
   return (
     <View>
       <Text style={[style.text, style.title]}>Workout schedule:</Text>
-      {data.initialCountdown ? (
+      {initialCountdown ? (
         <View style={style.row}>
           <Text style={style.label}>Countdown:</Text>
           <Text style={style.text}>
-            {getTimeDurationLabel(data.initialCountdown, true)}
+            {getTimeDurationLabel(initialCountdown, true)}
           </Text>
         </View>
       ) : null}
-      {data.warmup ? (
+      {warmup ? (
         <View style={style.row}>
           <Text style={style.label}>Warmup:</Text>
-          <Text style={style.text}>
-            {getTimeDurationLabel(data.warmup, true)}
-          </Text>
+          <Text style={style.text}>{getTimeDurationLabel(warmup, true)}</Text>
         </View>
       ) : null}
       <View style={style.row}>
         <Text style={style.label}>Exercise:</Text>
-        <Text style={style.text}>
-          {getTimeDurationLabel(data.exercise, true)}
-        </Text>
+        <Text style={style.text}>{getTimeDurationLabel(exercise, true)}</Text>
       </View>
       <View style={style.row}>
         <Text style={style.label}>Rest:</Text>
-        <Text style={style.text}>{getTimeDurationLabel(data.rest, true)}</Text>
+        <Text style={style.text}>{getTimeDurationLabel(rest, true)}</Text>
       </View>
       <View style={style.row}>
         <Text style={style.label}>Reps:</Text>
-        <Text style={style.text}>{data.numReps}</Text>
+        <Text style={style.text}>{numReps}</Text>
       </View>
       <View style={style.row}>
         <Text style={style.label}>Set duration:</Text>
         <Text style={style.text}>
-          {getTimeDurationLabel(
-            (data.exercise + data.rest) * data.numReps,
-            true
-          )}
+          {getTimeDurationLabel((exercise + rest) * numReps, true)}
         </Text>
       </View>
-      {data.recovery ? (
+      {recovery ? (
         <View style={style.row}>
           <Text style={style.label}>Recovery:</Text>
-          <Text style={style.text}>
-            {getTimeDurationLabel(data.recovery, true)}
-          </Text>
+          <Text style={style.text}>{getTimeDurationLabel(recovery, true)}</Text>
         </View>
       ) : null}
       <View style={style.row}>
         <Text style={style.label}>Sets:</Text>
-        <Text style={style.text}>{data.numSets}</Text>
+        <Text style={style.text}>{numSets}</Text>
       </View>
-      {data.coolDownInterval ? (
+      {coolDownInterval ? (
         <View style={style.row}>
           <Text style={style.label}>Cooldown:</Text>
           <Text style={style.text}>
-            {getTimeDurationLabel(data.coolDownInterval, true)}
+            {getTimeDurationLabel(coolDownInterval, true)}
           </Text>
         </View>
       ) : null}
