@@ -72,15 +72,6 @@ export const selectWorkflow = createSelector(
   }
 )
 
-export const selectTotalDuration = createSelector(
-  selectWorkflow,
-  (workflow) => {
-    let totalTime = 0 // in seconds
-
-    workflow.forEach((item) => {
-      totalTime += item[1]
-    })
-
-    return totalTime
-  }
+export const selectTotalDuration = createSelector(selectWorkflow, (workflow) =>
+  workflow.reduce((acc, item) => acc + item[1], 0)
 )

@@ -56,7 +56,11 @@ export const Main = ({ navigation }: MainProps) => {
   const isStopped = currentState === 'stopped'
 
   const currentWorkoutLabel = useMemo(() => {
-    if (workflow.length && currentWorkflowItem >= 0) {
+    if (
+      workflow.length &&
+      currentWorkflowItem >= 0 &&
+      workflow[currentWorkflowItem]?.[0]
+    ) {
       return getCurrentWorkoutLabel(workflow[currentWorkflowItem][0])
     } else {
       return ''
@@ -94,8 +98,13 @@ export const Main = ({ navigation }: MainProps) => {
     [currentRep, currentSet, currentWorkflowItem, numReps, workflow]
   )
 
-  const moveNext = () => {
+  const moveNext = (updateTotalTime: boolean = false) => {
     const nextIndex = currentWorkflowItem + 1
+
+    // bail for case when tap "next" but is the last item
+    if (!workflow[nextIndex]?.[0]) {
+      return
+    }
 
     if (workflow[nextIndex][0] === 'exercise') {
       playStart()
@@ -107,11 +116,14 @@ export const Main = ({ navigation }: MainProps) => {
     setCurrentWorkflowItem(nextIndex)
     setCurrentTime(workflow[nextIndex][1])
 
-    // TODO update setCurrentTotalTime
+    if (updateTotalTime) {
+      const workSlice = workflow.slice(nextIndex)
+      setCurrentTotalTime(workSlice.reduce((acc, item) => acc + item[1], 0))
+    }
   }
 
   const movePrevious = () => {
-    // TODO
+    // if current item time is 3 or less, move to previous, otherwise reset current
   }
 
   useInterval(
@@ -126,6 +138,7 @@ export const Main = ({ navigation }: MainProps) => {
           // advance to next workflow item:
           moveNext()
         } else {
+          // reached the end of the workflow
           setCurrentWorkflowItem(-1)
           dispatch(stop())
         }
@@ -181,7 +194,7 @@ export const Main = ({ navigation }: MainProps) => {
             onPressPlay={handleOnPressPlay}
             onPressStop={() => dispatch(stop())}
             onPressSettings={() => navigation.navigate('Settings')}
-            onPressNext={moveNext}
+            onPressNext={() => moveNext(true)}
             onPressPrevious={movePrevious}
           />
         </>
