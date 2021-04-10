@@ -1,10 +1,16 @@
+import { Ionicons } from '@expo/vector-icons'
 import React from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import { View, StyleSheet } from 'react-native'
+import { Colors } from 'themeConstants'
 
 export const BackButton = () => {
   return (
     <View style={styles.button}>
-      <Text style={styles.icon}>⬅️</Text>
+      <Ionicons
+        name="chevron-back-circle-outline"
+        size={30}
+        color={Colors.iconColor}
+      />
     </View>
   )
 }
@@ -12,9 +18,5 @@ export const BackButton = () => {
 const styles = StyleSheet.create({
   button: {
     paddingHorizontal: 15,
-    paddingVertical: 10,
-  },
-  icon: {
-    fontSize: 18,
   },
 })

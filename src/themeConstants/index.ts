@@ -10,6 +10,7 @@ export const Colors = {
   textBlue: '#0099ff',
   textLightBlue: '#92d2e0',
   textGreen: '#00ff00',
+  iconColor: '#cf943a',
 }
 
 interface IFont {

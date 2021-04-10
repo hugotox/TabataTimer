@@ -2,6 +2,7 @@ import { Ionicons } from '@expo/vector-icons'
 import React from 'react'
 import { View, StyleSheet, TouchableOpacity } from 'react-native'
 import { ControlStates } from 'store/slice'
+import { Colors } from 'themeConstants'
 
 interface Props {
   currentState: ControlStates
@@ -27,26 +28,32 @@ export const ButtonBar = ({
                 : 'pause-circle-outline'
             }
             size={45}
-            color={ICON_COLOR}
+            color={Colors.iconColor}
           />
         </TouchableOpacity>
       </View>
       <View style={style.buttonsRight}>
         {currentState === 'stopped' ? (
           <TouchableOpacity onPress={onPressSettings} activeOpacity={0.5}>
-            <Ionicons name="settings-outline" size={41} color={ICON_COLOR} />
+            <Ionicons
+              name="settings-outline"
+              size={41}
+              color={Colors.iconColor}
+            />
           </TouchableOpacity>
         ) : (
           <TouchableOpacity onPress={onPressStop} activeOpacity={0.5}>
-            <Ionicons name="stop-circle-outline" size={45} color={ICON_COLOR} />
+            <Ionicons
+              name="stop-circle-outline"
+              size={45}
+              color={Colors.iconColor}
+            />
           </TouchableOpacity>
         )}
       </View>
     </View>
   )
 }
-
-const ICON_COLOR = '#cf943a'
 
 const style = StyleSheet.create({
   buttons: {
