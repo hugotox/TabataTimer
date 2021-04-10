@@ -68,7 +68,6 @@ export const selectWorkflow = createSelector(
     if (coolDownInterval) {
       workflow.push(['coolDownInterval', coolDownInterval])
     }
-    console.log('workflow created', workflow)
     return workflow
   }
 )

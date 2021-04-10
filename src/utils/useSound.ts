@@ -31,7 +31,6 @@ export const useSound = (name: Sounds) => {
     const { sound } = await Audio.Sound.createAsync(source)
     setSound(sound)
 
-    console.log('Playing Sound')
     await sound.playAsync()
   }
 }

@@ -102,13 +102,16 @@ export const Main = ({ navigation }: MainProps) => {
           playBeep()
         }
       } else {
-        if (currentTime === 1) {
-          //playSound('start')
-        }
         if (currentWorkflowItem < workflow.length - 1) {
-          playBell()
           // advance to next workflow item:
           const nextIndex = currentWorkflowItem + 1
+
+          if (workflow[nextIndex][0] === 'exercise') {
+            playStart()
+          } else {
+            playBell()
+          }
+
           updateReps(nextIndex)
           setCurrentWorkflowItem(nextIndex)
           setCurrentTime(workflow[nextIndex][1])
