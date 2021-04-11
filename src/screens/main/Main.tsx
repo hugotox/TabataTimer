@@ -8,7 +8,7 @@ import { Timer } from 'components/Timer'
 import { WorkoutStatus } from 'components/WorkoutStatus'
 import { useFonts } from 'expo-font'
 import React, { useCallback, useMemo, useState } from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { RootStackParamList } from 'routes/rootStackParamList'
 import { start, pause, stop } from 'store/actions'
@@ -20,8 +20,9 @@ import {
   selectWorkflow,
   selectCurrentState,
 } from 'store/selectors'
-import { Colors, Font } from 'themeConstants'
 import { useInterval, getCurrentWorkoutLabel, useSound } from 'utils'
+
+import { style } from './style'
 
 export type MainNavigationProp = StackNavigationProp<RootStackParamList, 'Main'>
 export type MainRouteProp = RouteProp<RootStackParamList, 'Main'>
@@ -138,7 +139,10 @@ export const Main = ({ navigation }: MainProps) => {
     () => {
       if (currentTime > 1) {
         setCurrentTime(currentTime - 1)
-        if (currentTime <= 4) {
+        if (
+          currentTime <= 4 &&
+          workflow[currentWorkflowItem][0] !== 'exercise'
+        ) {
           playBeep()
         }
       } else {
@@ -210,36 +214,3 @@ export const Main = ({ navigation }: MainProps) => {
     </SafeAreaView>
   )
 }
-
-const style = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-  },
-  stoppedArea: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    flex: 1,
-  },
-  playingArea: {
-    flex: 1,
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  separator: {
-    borderBottomColor: Colors.separator,
-    borderBottomWidth: 1,
-    alignSelf: 'stretch',
-  },
-  playText: {
-    color: Colors.textDefault,
-    fontWeight: Font.weightNormal,
-    fontSize: 32,
-    marginBottom: 30,
-  },
-  info: {
-    alignSelf: 'flex-end',
-    marginRight: 25,
-  },
-})
