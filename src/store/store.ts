@@ -8,6 +8,7 @@ const rootReducer = timerSlice.reducer
 const persistConfig = {
   key: 'root',
   storage,
+  blacklist: ['currentState', 'currentRep', 'currentSet'],
 }
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)

@@ -98,9 +98,7 @@ export const Main = ({ navigation }: MainProps) => {
     [currentRep, currentSet, currentWorkflowItem, numReps, workflow]
   )
 
-  const moveNext = (updateTotalTime: boolean = false) => {
-    const nextIndex = currentWorkflowItem + 1
-
+  const moveNext = (nextIndex: number, updateTotalTime: boolean = false) => {
     // bail for case when tap "next" but is the last item
     if (!workflow[nextIndex]?.[0]) {
       return
@@ -123,7 +121,17 @@ export const Main = ({ navigation }: MainProps) => {
   }
 
   const movePrevious = () => {
-    // if current item time is 3 or less, move to previous, otherwise reset current
+    if (typeof workflow[currentWorkflowItem]?.[1] !== 'undefined') {
+      // if time elapsed is 3 or less, move to previous, otherwise reset current
+      const timeElapsed = workflow[currentWorkflowItem][1] - currentTime + 1
+      if (timeElapsed <= 3 && currentWorkflowItem > 0) {
+        // move to previous
+        moveNext(currentWorkflowItem - 1, true)
+      } else {
+        // reset current
+        moveNext(currentWorkflowItem, true)
+      }
+    }
   }
 
   useInterval(
@@ -136,7 +144,7 @@ export const Main = ({ navigation }: MainProps) => {
       } else {
         if (currentWorkflowItem < workflow.length - 1) {
           // advance to next workflow item:
-          moveNext()
+          moveNext(currentWorkflowItem + 1)
         } else {
           // reached the end of the workflow
           setCurrentWorkflowItem(-1)
@@ -194,7 +202,7 @@ export const Main = ({ navigation }: MainProps) => {
             onPressPlay={handleOnPressPlay}
             onPressStop={() => dispatch(stop())}
             onPressSettings={() => navigation.navigate('Settings')}
-            onPressNext={() => moveNext(true)}
+            onPressNext={() => moveNext(currentWorkflowItem + 1, true)}
             onPressPrevious={movePrevious}
           />
         </>
