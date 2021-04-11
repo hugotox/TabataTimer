@@ -1,24 +1,56 @@
 import { createSelector } from 'reselect'
-import { AppState } from 'store/slice'
+import { RootState } from 'store/store'
+import { TimerState } from 'store/timerSlice'
 import { WorkflowItem } from 'store/types'
 
-export const selectInitialCountdown = (data: AppState) => data.initialCountdown
+export const selectTimer = (state: RootState) => state.timer
 
-export const selectWarmup = (data: AppState) => data.warmup
+export const selectPresets = (state: RootState) => state.presets
 
-export const selectNumSets = (data: AppState) => data.numSets
+export const selectInitialCountdown = createSelector(
+  selectTimer,
+  (data: TimerState) => data.initialCountdown
+)
 
-export const selectNumReps = (data: AppState) => data.numReps
+export const selectWarmup = createSelector(
+  selectTimer,
+  (data: TimerState) => data.warmup
+)
 
-export const selectExercise = (data: AppState) => data.exercise
+export const selectNumSets = createSelector(
+  selectTimer,
+  (data: TimerState) => data.numSets
+)
 
-export const selectRest = (data: AppState) => data.rest
+export const selectNumReps = createSelector(
+  selectTimer,
+  (data: TimerState) => data.numReps
+)
 
-export const selectRecovery = (data: AppState) => data.recovery
+export const selectExercise = createSelector(
+  selectTimer,
+  (data: TimerState) => data.exercise
+)
 
-export const selectCooldown = (data: AppState) => data.cooldownInterval
+export const selectRest = createSelector(
+  selectTimer,
+  (data: TimerState) => data.rest
+)
 
-export const selectCurrentState = (data: AppState) => data.currentState
+export const selectRecovery = createSelector(
+  selectTimer,
+  (data: TimerState) => data.recovery
+)
+
+export const selectCooldown = createSelector(
+  selectTimer,
+  (data: TimerState) => data.cooldownInterval
+)
+
+export const selectCurrentState = createSelector(
+  selectTimer,
+  (data: TimerState) => data.currentState
+)
 
 export const selectWorkflow = createSelector(
   [

@@ -6,7 +6,7 @@ import { Colors, Font } from 'themeConstants'
 interface ItemProps {
   icon: string
   title: string
-  value: string
+  value?: string
 }
 
 export const Item = ({ icon, title, value }: ItemProps) => {
@@ -16,7 +16,7 @@ export const Item = ({ icon, title, value }: ItemProps) => {
         <Text style={styles.icon}>{icon}</Text>
         <View>
           <Text style={styles.text}>{title}</Text>
-          <Text style={styles.textSmall}>{value}</Text>
+          {value ? <Text style={styles.textSmall}>{value}</Text> : null}
         </View>
       </View>
       <Entypo name="chevron-small-right" size={24} color={Colors.textDefault} />

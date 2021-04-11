@@ -1,9 +1,13 @@
 import storage from '@react-native-async-storage/async-storage'
-import { configureStore } from '@reduxjs/toolkit'
+import { combineReducers, configureStore } from '@reduxjs/toolkit'
 import { persistStore, persistReducer } from 'redux-persist'
-import { timerSlice } from 'store/slice'
+import { presetsSlice } from 'store/presetsSlice'
+import { timerSlice } from 'store/timerSlice'
 
-const rootReducer = timerSlice.reducer
+const rootReducer = combineReducers({
+  timer: timerSlice.reducer,
+  presets: presetsSlice.reducer,
+})
 
 const persistConfig = {
   key: 'root',

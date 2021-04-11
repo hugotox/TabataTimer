@@ -1,4 +1,4 @@
-import { WorkoutStates } from 'store/slice'
+import { WorkoutStates } from 'store/timerSlice'
 
 export const getCurrentWorkoutLabel = (state: WorkoutStates) => {
   switch (state) {

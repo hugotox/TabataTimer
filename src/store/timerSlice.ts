@@ -11,7 +11,7 @@ export type WorkoutStates =
   | 'cooldownInterval'
 
 // all times are in seconds
-export interface AppState {
+export interface TimerState {
   // "playing" states:
   initialCountdown: number
   warmup: number
@@ -32,7 +32,7 @@ export interface AppState {
 
 export type SettingsKeys = WorkoutStates | 'numSets' | 'numReps'
 
-const initialState: AppState = {
+const initialState: TimerState = {
   initialCountdown: 3,
   warmup: 120,
   exercise: 30,

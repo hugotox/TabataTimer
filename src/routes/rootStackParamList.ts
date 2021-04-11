@@ -1,4 +1,4 @@
-import { SettingsKeys } from 'store/slice'
+import { SettingsKeys } from 'store/timerSlice'
 
 export type RootStackParamList = {
   Main: undefined

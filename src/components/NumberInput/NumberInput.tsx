@@ -6,6 +6,7 @@ import { Text, View, StyleSheet } from 'react-native'
 import { RootStackParamList } from 'routes'
 import { updateValue } from 'store/actions'
 import { useAppDispatch, useAppSelector } from 'store/hooks'
+import { selectTimer } from 'store/selectors'
 import { Colors, Font } from 'themeConstants'
 
 type TimeInputRouteProp = RouteProp<RootStackParamList, 'Number of Sets'>
@@ -19,7 +20,8 @@ const OPTIONS = [...Array(100)].map((_, i) => i + 1)
 export const NumberInput = ({ route }: Props) => {
   const { stateKey } = route.params
   const dispatch = useAppDispatch()
-  const value = useAppSelector<number>((state) => state[stateKey])
+  const timerData = useAppSelector(selectTimer)
+  const value = timerData[stateKey]
 
   const handleOnChange = (value: ItemValue) => {
     dispatch(updateValue({ stateKey, value: Number(value) }))

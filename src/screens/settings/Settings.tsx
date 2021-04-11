@@ -6,8 +6,8 @@ import { ScrollView, TouchableHighlight } from 'react-native-gesture-handler'
 import { RootStackParamList } from 'routes/rootStackParamList'
 import { MEASURES, PRESETS } from 'screens/settings/data'
 import { useAppSelector } from 'store/hooks'
-import { selectTotalDuration } from 'store/selectors'
-import { SettingsKeys } from 'store/slice'
+import { selectTimer, selectTotalDuration } from 'store/selectors'
+import { SettingsKeys } from 'store/timerSlice'
 import { Colors, Font } from 'themeConstants'
 import { getTimeDurationLabel } from 'utils'
 
@@ -24,20 +24,26 @@ interface SettingsProps {
 }
 
 export const Settings = ({ navigation }: SettingsProps) => {
-  const stateData = useAppSelector((state) => state)
+  const stateData = useAppSelector(selectTimer)
   const totalDuration = useAppSelector(selectTotalDuration)
 
-  const getValue = (stateKey: SettingsKeys) => {
-    const data = stateData[stateKey]
-    switch (stateKey) {
-      case 'numSets': {
-        return data > 0 ? `${String(data)} ${data === 1 ? 'set' : 'sets'}` : ''
-      }
-      case 'numReps': {
-        return data > 0 ? `${String(data)} ${data === 1 ? 'rep' : 'reps'}` : ''
-      }
-      default: {
-        return getTimeDurationLabel(data)
+  const getValue = (stateKey?: SettingsKeys) => {
+    if (stateKey && stateData[stateKey]) {
+      const data = stateData[stateKey]
+      switch (stateKey) {
+        case 'numSets': {
+          return data > 0
+            ? `${String(data)} ${data === 1 ? 'set' : 'sets'}`
+            : ''
+        }
+        case 'numReps': {
+          return data > 0
+            ? `${String(data)} ${data === 1 ? 'rep' : 'reps'}`
+            : ''
+        }
+        default: {
+          return getTimeDurationLabel(data)
+        }
       }
     }
   }
@@ -64,7 +70,7 @@ export const Settings = ({ navigation }: SettingsProps) => {
       <View style={styles.duration}>
         <Text style={styles.durationText}>Total duration: {durationLabel}</Text>
       </View>
-      {/* <Text style={styles.header}>Presets</Text> */}
+      <Text style={styles.header}>Presets</Text>
       {PRESETS.items.map((item, i) => (
         <TouchableHighlight
           key={i}

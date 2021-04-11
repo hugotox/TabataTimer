@@ -1,7 +1,7 @@
 import { Ionicons } from '@expo/vector-icons'
 import React from 'react'
 import { View, StyleSheet, TouchableOpacity } from 'react-native'
-import { ControlStates } from 'store/slice'
+import { ControlStates } from 'store/timerSlice'
 import { Colors } from 'themeConstants'
 
 interface Props {

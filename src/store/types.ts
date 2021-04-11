@@ -1,3 +1,3 @@
-import { WorkoutStates } from 'store/slice'
+import { WorkoutStates } from 'store/timerSlice'
 
 export type WorkflowItem = [WorkoutStates, number]

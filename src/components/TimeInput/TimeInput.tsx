@@ -6,6 +6,7 @@ import { View, StyleSheet, Text } from 'react-native'
 import { RootStackParamList } from 'routes'
 import { updateValue } from 'store/actions'
 import { useAppDispatch, useAppSelector } from 'store/hooks'
+import { selectTimer } from 'store/selectors'
 import { Colors, Font } from 'themeConstants'
 import { getTimeDurationLabel } from 'utils'
 import { toTimeObject } from 'utils/toTimeObject'
@@ -22,7 +23,8 @@ const SECS_OPTIONS = [...Array(61)].map((_, i) => i)
 export const TimeInput = ({ route }: Props) => {
   const { stateKey } = route.params
   const dispatch = useAppDispatch()
-  const value = useAppSelector<number>((state) => state[stateKey])
+  const timerData = useAppSelector(selectTimer)
+  const value = timerData[stateKey]
   const { minutes, seconds } = toTimeObject(value)
 
   const handleMinuteChange = (value: ItemValue) => {
