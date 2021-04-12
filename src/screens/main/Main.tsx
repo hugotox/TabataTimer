@@ -9,7 +9,6 @@ import { WorkoutStatus } from 'components/WorkoutStatus'
 import { useFonts } from 'expo-font'
 import React, { useCallback, useMemo, useState } from 'react'
 import { View, Text } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
 import { RootStackParamList } from 'routes/rootStackParamList'
 import { start, pause, stop } from 'store/actions'
 import { useAppDispatch, useAppSelector } from 'store/hooks'
@@ -175,7 +174,7 @@ export const Main = ({ navigation }: MainProps) => {
   }
 
   return (
-    <SafeAreaView style={style.container}>
+    <View style={style.container}>
       <Background />
       {fontsLoaded && (
         <>
@@ -211,6 +210,6 @@ export const Main = ({ navigation }: MainProps) => {
           />
         </>
       )}
-    </SafeAreaView>
+    </View>
   )
 }

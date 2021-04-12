@@ -1,6 +1,7 @@
 import { Ionicons } from '@expo/vector-icons'
 import React from 'react'
 import { View, StyleSheet, TouchableOpacity } from 'react-native'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { ControlStates } from 'store/timerSlice'
 import { Colors } from 'themeConstants'
 
@@ -21,8 +22,10 @@ export const ButtonBar = ({
   onPressNext,
   onPressPrevious,
 }: Props) => {
+  const insets = useSafeAreaInsets()
+
   return (
-    <View style={style.buttons}>
+    <View style={{ ...style.buttons, paddingBottom: insets.bottom || 10 }}>
       <View>
         <TouchableOpacity onPress={onPressPlay} activeOpacity={0.5}>
           <Ionicons
@@ -87,7 +90,7 @@ const style = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingVertical: 10,
-    paddingHorizontal: 25,
+    paddingHorizontal: 20,
   },
   buttonsCenter: {
     flexDirection: 'row',
