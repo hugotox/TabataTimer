@@ -7,6 +7,11 @@ export const style = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'space-between',
   },
+  landScapeContainer: {
+    flex: 1,
+    flexDirection: 'row-reverse',
+    justifyContent: 'space-between',
+  },
   stoppedArea: {
     justifyContent: 'center',
     alignItems: 'center',

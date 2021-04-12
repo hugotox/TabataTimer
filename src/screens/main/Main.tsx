@@ -19,7 +19,12 @@ import {
   selectWorkflow,
   selectCurrentState,
 } from 'store/selectors'
-import { useInterval, getCurrentWorkoutLabel, useSound } from 'utils'
+import {
+  useInterval,
+  getCurrentWorkoutLabel,
+  useSound,
+  useOrientation,
+} from 'utils'
 
 import { style } from './style'
 
@@ -34,6 +39,7 @@ export const Main = ({ navigation }: MainProps) => {
   const [fontsLoaded] = useFonts({
     digital: require('assets/fonts/digital.otf'),
   })
+  const orientation = useOrientation()
   const dispatch = useAppDispatch()
   const currentState = useAppSelector(selectCurrentState)
   const workflow = useAppSelector(selectWorkflow)
@@ -174,7 +180,11 @@ export const Main = ({ navigation }: MainProps) => {
   }
 
   return (
-    <View style={style.container}>
+    <View
+      style={
+        orientation === 'portrait' ? style.container : style.landScapeContainer
+      }
+    >
       <Background />
       {fontsLoaded && (
         <>
@@ -207,6 +217,7 @@ export const Main = ({ navigation }: MainProps) => {
             onPressSettings={() => navigation.navigate('Settings')}
             onPressNext={() => moveNext(currentWorkflowItem + 1, true)}
             onPressPrevious={movePrevious}
+            orientation={orientation}
           />
         </>
       )}

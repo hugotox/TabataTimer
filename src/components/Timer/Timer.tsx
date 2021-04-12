@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react'
-import { Text, StyleSheet, Dimensions } from 'react-native'
+import React from 'react'
+import { Text, StyleSheet } from 'react-native'
 import { Colors, workoutStyles } from 'themeConstants'
-import { formatTimeObject, isPortrait, toTimeObject } from 'utils'
+import { formatTimeObject, toTimeObject, useOrientation } from 'utils'
 
 interface Props {
   currentTime: number
@@ -9,22 +9,9 @@ interface Props {
 }
 
 export const Timer = ({ currentTime, label }: Props) => {
-  const [orientation, setOrientation] = useState(
-    isPortrait() ? 'portrait' : 'landscape'
-  )
-
+  const orientation = useOrientation()
   // @ts-expect-error
   const extra = workoutStyles[label] ? workoutStyles[label] : {}
-
-  useEffect(() => {
-    const rotateHandler = () => {
-      setOrientation(isPortrait() ? 'portrait' : 'landscape')
-    }
-    Dimensions.addEventListener('change', rotateHandler)
-    return () => {
-      Dimensions.removeEventListener('change', rotateHandler)
-    }
-  }, [])
 
   return (
     <Text

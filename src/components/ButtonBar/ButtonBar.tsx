@@ -12,6 +12,7 @@ interface Props {
   onPressStop: () => void
   onPressPrevious: () => void
   onPressNext: () => void
+  orientation: 'portrait' | 'landscape'
 }
 
 export const ButtonBar = ({
@@ -21,11 +22,17 @@ export const ButtonBar = ({
   onPressStop,
   onPressNext,
   onPressPrevious,
+  orientation,
 }: Props) => {
   const insets = useSafeAreaInsets()
 
   return (
-    <View style={{ ...style.buttons, paddingBottom: insets.bottom || 10 }}>
+    <View
+      style={[
+        orientation === 'portrait' ? style.buttons : style.landscapeButtons,
+        { paddingBottom: insets.bottom || 10 },
+      ]}
+    >
       <View>
         <TouchableOpacity onPress={onPressPlay} activeOpacity={0.5}>
           <Ionicons
@@ -40,11 +47,17 @@ export const ButtonBar = ({
         </TouchableOpacity>
       </View>
       {currentState !== 'stopped' && (
-        <View style={style.buttonsCenter}>
+        <View
+          style={
+            orientation === 'portrait'
+              ? style.buttonsCenter
+              : style.landscapeCenter
+          }
+        >
           <TouchableOpacity
             onPress={onPressPrevious}
             activeOpacity={0.5}
-            style={style.backward}
+            style={orientation === 'portrait' ? style.backward : undefined}
           >
             <Ionicons
               name="play-back-circle-outline"
@@ -61,7 +74,11 @@ export const ButtonBar = ({
           </TouchableOpacity>
         </View>
       )}
-      <View style={style.buttonsRight}>
+      <View
+        style={
+          orientation === 'portrait' ? style.buttonsRight : style.landscapeRight
+        }
+      >
         {currentState === 'stopped' ? (
           <TouchableOpacity onPress={onPressSettings} activeOpacity={0.5}>
             <Ionicons
@@ -92,8 +109,19 @@ const style = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 20,
   },
+  landscapeButtons: {
+    backgroundColor: '#2b2a2a',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+  },
   buttonsCenter: {
     flexDirection: 'row',
+    alignItems: 'center',
+  },
+  landscapeCenter: {
+    flexDirection: 'column',
     alignItems: 'center',
   },
   backward: {
@@ -101,6 +129,10 @@ const style = StyleSheet.create({
   },
   buttonsRight: {
     flexDirection: 'row',
+    alignItems: 'center',
+  },
+  landscapeRight: {
+    flexDirection: 'column',
     alignItems: 'center',
   },
 })
