@@ -1,12 +1,12 @@
 import { StackNavigationProp } from '@react-navigation/stack'
 import { ListItem } from 'components/ListItem'
-import React, { useMemo } from 'react'
+import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { ScrollView, TouchableHighlight } from 'react-native-gesture-handler'
 import { RootStackParamList } from 'routes/rootStackParamList'
 import { MEASURES, PRESETS } from 'screens/settings/data'
 import { useAppSelector } from 'store/hooks'
-import { selectTimer, selectTotalDuration } from 'store/selectors'
+import { selectTimer, selectTotalDurationLabel } from 'store/selectors'
 import { SettingsKeys } from 'store/timerSlice'
 import { Colors, Font } from 'themeConstants'
 import { getTimeDurationLabel } from 'utils'
@@ -23,7 +23,7 @@ interface SettingsProps {
 
 export const Settings = ({ navigation }: SettingsProps) => {
   const stateData = useAppSelector(selectTimer)
-  const totalDuration = useAppSelector(selectTotalDuration)
+  const durationLabel = useAppSelector(selectTotalDurationLabel)
 
   const getValue = (stateKey?: SettingsKeys) => {
     if (stateKey && stateData[stateKey]) {
@@ -45,10 +45,6 @@ export const Settings = ({ navigation }: SettingsProps) => {
       }
     }
   }
-
-  const durationLabel = useMemo(() => {
-    return getTimeDurationLabel(totalDuration)
-  }, [totalDuration])
 
   return (
     <ScrollView style={styles.container}>

@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 import { Text, StyleSheet, View } from 'react-native'
 import { useAppSelector } from 'store/hooks'
 import {
@@ -9,8 +9,8 @@ import {
   selectNumCycles,
   selectRecovery,
   selectRest,
-  selectTotalDuration,
   selectWarmup,
+  selectTotalDurationLabel,
 } from 'store/selectors'
 import { Colors, Font } from 'themeConstants'
 import { getTimeDurationLabel } from 'utils'
@@ -24,10 +24,7 @@ export const ScheduleInfo = () => {
   const recovery = useAppSelector(selectRecovery)
   const numCycles = useAppSelector(selectNumCycles)
   const cooldownInterval = useAppSelector(selectCooldown)
-  const totalDuration = useAppSelector(selectTotalDuration)
-  const durationLabel = useMemo(() => {
-    return getTimeDurationLabel(totalDuration)
-  }, [totalDuration])
+  const durationLabel = useAppSelector(selectTotalDurationLabel)
 
   return (
     <View>

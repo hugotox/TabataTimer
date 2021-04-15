@@ -2,6 +2,7 @@ import { createSelector } from 'reselect'
 import { RootState } from 'store/store'
 import { TimerState } from 'store/timerSlice'
 import { WorkflowItem } from 'store/types'
+import { getTimeDurationLabel } from 'utils'
 
 export const selectTimer = (state: RootState) => state.timer
 
@@ -104,11 +105,12 @@ export const selectWorkflow = createSelector(
   }
 )
 
-// exclude countdown and cooldown from the total duration
 export const selectTotalDuration = createSelector(selectWorkflow, (workflow) =>
-  workflow.reduce((acc, item) => {
-    return item[0] !== 'initialCountdown' && item[0] !== 'cooldownInterval'
-      ? acc + item[1]
-      : acc
-  }, 0)
+  workflow.reduce((acc, item) => acc + item[1], 0)
+)
+
+export const selectTotalDurationLabel = createSelector(
+  [selectInitialCountdown, selectTotalDuration, selectCooldown],
+  (initialCountdown, totalDuration, cooldown) =>
+    getTimeDurationLabel(totalDuration - initialCountdown - cooldown)
 )
