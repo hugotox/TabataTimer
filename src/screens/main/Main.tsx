@@ -13,8 +13,8 @@ import { RootStackParamList } from 'routes/rootStackParamList'
 import { start, pause, stop } from 'store/actions'
 import { useAppDispatch, useAppSelector } from 'store/hooks'
 import {
-  selectNumReps,
-  selectNumSets,
+  selectNumRounds,
+  selectNumCycles,
   selectTotalDuration,
   selectWorkflow,
   selectCurrentState,
@@ -26,7 +26,7 @@ import {
   useOrientation,
 } from 'utils'
 
-import { style } from './style'
+import { styles } from './styles'
 
 export type MainNavigationProp = StackNavigationProp<RootStackParamList, 'Main'>
 export type MainRouteProp = RouteProp<RootStackParamList, 'Main'>
@@ -43,15 +43,15 @@ export const Main = ({ navigation }: MainProps) => {
   const dispatch = useAppDispatch()
   const currentState = useAppSelector(selectCurrentState)
   const workflow = useAppSelector(selectWorkflow)
-  const numReps = useAppSelector(selectNumReps)
-  const numSets = useAppSelector(selectNumSets)
+  const numRounds = useAppSelector(selectNumRounds)
+  const numCycles = useAppSelector(selectNumCycles)
   const totalDuration = useAppSelector(selectTotalDuration)
 
   const [currentWorkflowItem, setCurrentWorkflowItem] = useState<number>(-1)
   const [currentTime, setCurrentTime] = useState<number>(0)
   const [currentTotalTime, setCurrentTotalTime] = useState<number>(0)
-  const [currentRep, setCurrentRep] = useState<number>(numReps)
-  const [currentSet, setCurrentSet] = useState<number>(numSets)
+  const [currentRep, setCurrentRep] = useState<number>(numRounds)
+  const [currentSet, setCurrentSet] = useState<number>(numCycles)
 
   const playBeep = useSound('beep')
   const playStart = useSound('start')
@@ -79,10 +79,10 @@ export const Main = ({ navigation }: MainProps) => {
       setCurrentWorkflowItem(0)
       setCurrentTotalTime(totalDuration)
       setCurrentTime(initialTime)
-      setCurrentRep(numReps)
-      setCurrentSet(numSets)
+      setCurrentRep(numRounds)
+      setCurrentSet(numCycles)
     }
-  }, [numReps, numSets, workflow, totalDuration])
+  }, [numRounds, numCycles, workflow, totalDuration])
 
   const updateReps = useCallback(
     (nextIndex: number) => {
@@ -92,16 +92,16 @@ export const Main = ({ navigation }: MainProps) => {
           if (currentRep - 1 === 0) {
             setCurrentSet(currentSet - 1)
             if (currentSet - 1 > 0) {
-              setCurrentRep(numReps)
+              setCurrentRep(numRounds)
             }
           }
         } else {
-          setCurrentRep(numReps)
+          setCurrentRep(numRounds)
           setCurrentSet(currentSet - 1)
         }
       }
     },
-    [currentRep, currentSet, currentWorkflowItem, numReps, workflow]
+    [currentRep, currentSet, currentWorkflowItem, numRounds, workflow]
   )
 
   const moveNext = (nextIndex: number, updateTotalTime: boolean = false) => {
@@ -182,31 +182,33 @@ export const Main = ({ navigation }: MainProps) => {
   return (
     <View
       style={
-        orientation === 'portrait' ? style.container : style.landScapeContainer
+        orientation === 'portrait'
+          ? styles.container
+          : styles.landScapeContainer
       }
     >
       <Background />
       {fontsLoaded && (
         <>
           {isStopped && (
-            <View style={style.stoppedArea}>
-              <Text style={style.playText}>Press Play to start</Text>
-              <View style={style.info}>
+            <View style={styles.stoppedArea}>
+              <Text style={styles.playText}>Press Play to start</Text>
+              <View style={styles.info}>
                 <ScheduleInfo />
               </View>
             </View>
           )}
           {(isPlaying || isPaused) && (
-            <View style={style.playingArea}>
+            <View style={styles.playingArea}>
               <CurrentWorkout label={currentWorkoutLabel} />
               <View>
                 <Timer currentTime={currentTime} label={currentWorkoutLabel} />
-                <View style={style.separator} />
+                <View style={styles.separator} />
               </View>
               <WorkoutStatus
                 timeLeft={currentTotalTime}
-                reps={currentRep}
-                sets={currentSet}
+                rounds={currentRep}
+                cycles={currentSet}
               />
             </View>
           )}

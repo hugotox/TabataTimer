@@ -46,9 +46,9 @@ export const MEASURES: Sections = {
     },
     {
       icon: '#️⃣',
-      route: 'Number of Reps',
+      route: 'Number of Rounds',
       component: NumberInput,
-      stateKey: 'numReps',
+      stateKey: 'numRounds',
     },
     {
       icon: '⛑',
@@ -58,9 +58,9 @@ export const MEASURES: Sections = {
     },
     {
       icon: '♻️',
-      route: 'Number of Sets',
+      route: 'Number of Cycles',
       component: NumberInput,
-      stateKey: 'numSets',
+      stateKey: 'numCycles',
     },
     {
       icon: '⏱',

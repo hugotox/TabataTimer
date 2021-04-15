@@ -10,8 +10,8 @@ describe('selectWorkflow', () => {
         rest: 10,
         recovery: 50,
         cooldownInterval: 60,
-        numReps: 2,
-        numSets: 2,
+        numRounds: 2,
+        numCycles: 2,
         currentState: 'stopped',
         currentRep: 1,
         currentSet: 1,
@@ -23,21 +23,21 @@ describe('selectWorkflow', () => {
 
       // SET 1:
 
-      // rep 1
+      // round 1
       ['exercise', 30],
       ['rest', 10],
 
-      // rep 2
+      // round 2
       ['exercise', 30],
       ['recovery', 50],
 
       // SET 2:
 
-      // rep 1
+      // round 1
       ['exercise', 30],
       ['rest', 10],
 
-      // rep 2
+      // round 2
       ['exercise', 30],
       ['recovery', 50],
 
@@ -53,8 +53,8 @@ describe('selectWorkflow', () => {
         rest: 10,
         recovery: 50,
         cooldownInterval: 60,
-        numReps: 2,
-        numSets: 2,
+        numRounds: 2,
+        numCycles: 2,
         currentState: 'stopped',
         currentRep: 1,
         currentSet: 1,
@@ -65,21 +65,21 @@ describe('selectWorkflow', () => {
 
       // SET 1:
 
-      // rep 1
+      // round 1
       ['exercise', 30],
       ['rest', 10],
 
-      // rep 2
+      // round 2
       ['exercise', 30],
       ['recovery', 50],
 
       // SET 2:
 
-      // rep 1
+      // round 1
       ['exercise', 30],
       ['rest', 10],
 
-      // rep 2
+      // round 2
       ['exercise', 30],
       ['recovery', 50],
 
@@ -95,8 +95,8 @@ describe('selectWorkflow', () => {
         rest: 10,
         recovery: 50,
         cooldownInterval: 60,
-        numReps: 2,
-        numSets: 2,
+        numRounds: 2,
+        numCycles: 2,
         currentState: 'stopped',
         currentRep: 1,
         currentSet: 1,
@@ -107,21 +107,21 @@ describe('selectWorkflow', () => {
 
       // SET 1:
 
-      // rep 1
+      // round 1
       ['exercise', 30],
       ['rest', 10],
 
-      // rep 2
+      // round 2
       ['exercise', 30],
       ['recovery', 50],
 
       // SET 2:
 
-      // rep 1
+      // round 1
       ['exercise', 30],
       ['rest', 10],
 
-      // rep 2
+      // round 2
       ['exercise', 30],
       ['recovery', 50],
 
@@ -137,8 +137,8 @@ describe('selectWorkflow', () => {
         rest: 10,
         recovery: 50,
         cooldownInterval: 60,
-        numReps: 2,
-        numSets: 2,
+        numRounds: 2,
+        numCycles: 2,
         currentState: 'stopped',
         currentRep: 1,
         currentSet: 1,
@@ -150,18 +150,18 @@ describe('selectWorkflow', () => {
 
       // SET 1:
 
-      // rep 1
+      // round 1
       ['rest', 10],
 
-      // rep 2
+      // round 2
       ['recovery', 50],
 
       // SET 2:
 
-      // rep 1
+      // round 1
       ['rest', 10],
 
-      // rep 2
+      // round 2
       ['recovery', 50],
 
       ['cooldownInterval', 60],
@@ -176,8 +176,8 @@ describe('selectWorkflow', () => {
         rest: 0,
         recovery: 50,
         cooldownInterval: 60,
-        numReps: 2,
-        numSets: 2,
+        numRounds: 2,
+        numCycles: 2,
         currentState: 'stopped',
         currentRep: 1,
         currentSet: 1,
@@ -189,19 +189,19 @@ describe('selectWorkflow', () => {
 
       // SET 1:
 
-      // rep 1
+      // round 1
       ['exercise', 30],
 
-      // rep 2
+      // round 2
       ['exercise', 30],
       ['recovery', 50],
 
       // SET 2:
 
-      // rep 1
+      // round 1
       ['exercise', 30],
 
-      // rep 2
+      // round 2
       ['exercise', 30],
       ['recovery', 50],
 
@@ -217,8 +217,8 @@ describe('selectWorkflow', () => {
         rest: 10,
         recovery: 0,
         cooldownInterval: 60,
-        numReps: 2,
-        numSets: 2,
+        numRounds: 2,
+        numCycles: 2,
         currentState: 'stopped',
         currentRep: 1,
         currentSet: 1,
@@ -230,21 +230,21 @@ describe('selectWorkflow', () => {
 
       // SET 1:
 
-      // rep 1
+      // round 1
       ['exercise', 30],
       ['rest', 10],
 
-      // rep 2
+      // round 2
       ['exercise', 30],
       ['rest', 10],
 
       // SET 2:
 
-      // rep 1
+      // round 1
       ['exercise', 30],
       ['rest', 10],
 
-      // rep 2
+      // round 2
       ['exercise', 30],
       ['rest', 10],
 
@@ -260,8 +260,8 @@ describe('selectWorkflow', () => {
         rest: 10,
         recovery: 50,
         cooldownInterval: 0,
-        numReps: 2,
-        numSets: 2,
+        numRounds: 2,
+        numCycles: 2,
         currentState: 'stopped',
         currentRep: 1,
         currentSet: 1,
@@ -273,21 +273,21 @@ describe('selectWorkflow', () => {
 
       // SET 1:
 
-      // rep 1
+      // round 1
       ['exercise', 30],
       ['rest', 10],
 
-      // rep 2
+      // round 2
       ['exercise', 30],
       ['recovery', 50],
 
       // SET 2:
 
-      // rep 1
+      // round 1
       ['exercise', 30],
       ['rest', 10],
 
-      // rep 2
+      // round 2
       ['exercise', 30],
       ['recovery', 50],
     ])

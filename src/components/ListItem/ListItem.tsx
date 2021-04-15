@@ -3,13 +3,13 @@ import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { Colors, Font } from 'themeConstants'
 
-interface ItemProps {
+interface ListItemProps {
   icon: string
   title: string
   value?: string
 }
 
-export const Item = ({ icon, title, value }: ItemProps) => {
+export const ListItem = ({ icon, title, value }: ListItemProps) => {
   return (
     <View style={styles.item}>
       <View style={styles.iconText}>

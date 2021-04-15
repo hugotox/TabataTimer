@@ -20,17 +20,15 @@ export interface TimerState {
   recovery: number
   cooldownInterval: number
 
-  // reps settings
-  numReps: number // 1 rep = exercise + rest
-  numSets: number
+  // rounds settings
+  numRounds: number // 1 round = exercise + rest
+  numCycles: number
 
   // control
   currentState: ControlStates
-  currentRep: number
-  currentSet: number
 }
 
-export type SettingsKeys = WorkoutStates | 'numSets' | 'numReps'
+export type SettingsKeys = WorkoutStates | 'numCycles' | 'numRounds'
 
 const initialState: TimerState = {
   initialCountdown: 3,
@@ -39,16 +37,22 @@ const initialState: TimerState = {
   rest: 10,
   recovery: 50,
   cooldownInterval: 60,
-  numReps: 10,
-  numSets: 1,
+  numRounds: 10,
+  numCycles: 1,
   currentState: 'stopped',
-  currentRep: 1,
-  currentSet: 1,
 }
 
 interface UpdatePayload {
   stateKey: SettingsKeys
   value: number
+}
+
+interface LoadPresetPayload {
+  exercise: number
+  rest: number
+  recovery: number
+  numRounds: number
+  numCycles: number
 }
 
 export const timerSlice = createSlice({
@@ -67,6 +71,17 @@ export const timerSlice = createSlice({
     },
     stop: (state) => {
       state.currentState = 'stopped'
+    },
+    loadPreset: (state, action: PayloadAction<LoadPresetPayload>) => {
+      const { exercise, rest, recovery, numRounds, numCycles } = action.payload
+      state.initialCountdown = 7
+      state.warmup = 0
+      state.exercise = exercise
+      state.rest = rest
+      state.recovery = recovery
+      state.numRounds = numRounds
+      state.numCycles = numCycles
+      state.cooldownInterval = 0
     },
   },
 })

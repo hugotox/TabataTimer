@@ -29,7 +29,7 @@ export const ButtonBar = ({
   return (
     <View
       style={[
-        orientation === 'portrait' ? style.buttons : style.landscapeButtons,
+        orientation === 'portrait' ? styles.buttons : styles.landscapeButtons,
         { paddingBottom: insets.bottom || 10 },
       ]}
     >
@@ -50,14 +50,14 @@ export const ButtonBar = ({
         <View
           style={
             orientation === 'portrait'
-              ? style.buttonsCenter
-              : style.landscapeCenter
+              ? styles.buttonsCenter
+              : styles.landscapeCenter
           }
         >
           <TouchableOpacity
             onPress={onPressPrevious}
             activeOpacity={0.5}
-            style={orientation === 'portrait' ? style.backward : undefined}
+            style={orientation === 'portrait' ? styles.backward : undefined}
           >
             <Ionicons
               name="play-back-circle-outline"
@@ -76,7 +76,9 @@ export const ButtonBar = ({
       )}
       <View
         style={
-          orientation === 'portrait' ? style.buttonsRight : style.landscapeRight
+          orientation === 'portrait'
+            ? styles.buttonsRight
+            : styles.landscapeRight
         }
       >
         {currentState === 'stopped' ? (
@@ -101,7 +103,7 @@ export const ButtonBar = ({
   )
 }
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
   buttons: {
     backgroundColor: '#2b2a2a',
     flexDirection: 'row',

@@ -4,45 +4,45 @@ import { Colors, Font } from 'themeConstants'
 import { toTimeObject } from 'utils'
 
 interface Props {
-  reps: number
-  sets: number
+  rounds: number
+  cycles: number
   timeLeft: number
 }
 
-export const WorkoutStatus = ({ reps, sets, timeLeft }: Props) => {
+export const WorkoutStatus = ({ rounds, cycles, timeLeft }: Props) => {
   const { minutes, seconds } = toTimeObject(timeLeft)
   const timeString = `${String(minutes).padStart(2, '0')}:${String(
     seconds
   ).padStart(2, '0')}`
   return (
-    <View style={style.layout}>
-      <View style={style.container}>
-        <View style={style.col1}>
-          <Text style={style.title}>sets</Text>
-          <Text style={style.title}>reps</Text>
+    <View style={styles.layout}>
+      <View style={styles.container}>
+        <View style={styles.col1}>
+          <Text style={styles.title}>cycles</Text>
+          <Text style={styles.title}>rounds</Text>
         </View>
-        <View style={style.col1}>
-          <Text style={[style.title, style.titleRight]}>total time</Text>
+        <View style={styles.col1}>
+          <Text style={[styles.title, styles.titleRight]}>total time</Text>
         </View>
       </View>
-      <View style={style.container}>
-        <View style={style.col1}>
-          <Text style={[style.title, style.number]}>
-            {String(sets).padStart(2, '0')}
+      <View style={styles.container}>
+        <View style={styles.col1}>
+          <Text style={[styles.title, styles.number]}>
+            {String(cycles).padStart(2, '0')}
           </Text>
-          <Text style={[style.title, style.number]}>
-            {String(reps).padStart(2, '0')}
+          <Text style={[styles.title, styles.number]}>
+            {String(rounds).padStart(2, '0')}
           </Text>
         </View>
-        <View style={style.col1}>
-          <Text style={[style.title, style.time]}>{timeString}</Text>
+        <View style={styles.col1}>
+          <Text style={[styles.title, styles.time]}>{timeString}</Text>
         </View>
       </View>
     </View>
   )
 }
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
   layout: {
     alignSelf: 'stretch',
   },

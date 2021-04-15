@@ -36,14 +36,14 @@ export const TimeInput = ({ route }: Props) => {
   }
 
   return (
-    <View style={style.container}>
-      <View style={style.value}>
-        <Text style={style.valueText}>{getTimeDurationLabel(value)}</Text>
+    <View style={styles.container}>
+      <View style={styles.value}>
+        <Text style={styles.valueText}>{getTimeDurationLabel(value)}</Text>
       </View>
-      <View style={style.pickers}>
+      <View style={styles.pickers}>
         <Picker
-          style={style.picker}
-          itemStyle={style.pickerItem}
+          style={styles.picker}
+          itemStyle={styles.pickerItem}
           selectedValue={minutes}
           onValueChange={handleMinuteChange}
         >
@@ -52,8 +52,8 @@ export const TimeInput = ({ route }: Props) => {
           ))}
         </Picker>
         <Picker
-          style={style.picker}
-          itemStyle={style.pickerItem}
+          style={styles.picker}
+          itemStyle={styles.pickerItem}
           selectedValue={seconds}
           onValueChange={handleSecondsChange}
         >
@@ -66,7 +66,7 @@ export const TimeInput = ({ route }: Props) => {
   )
 }
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     flexDirection: 'column',
     flex: 1,

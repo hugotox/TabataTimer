@@ -9,7 +9,7 @@ import { useAppDispatch, useAppSelector } from 'store/hooks'
 import { selectTimer } from 'store/selectors'
 import { Colors, Font } from 'themeConstants'
 
-type TimeInputRouteProp = RouteProp<RootStackParamList, 'Number of Sets'>
+type TimeInputRouteProp = RouteProp<RootStackParamList, 'Number of Cycles'>
 
 interface Props {
   route: TimeInputRouteProp
@@ -28,27 +28,27 @@ export const NumberInput = ({ route }: Props) => {
   }
 
   let valueLabel = `${value} `
-  if (stateKey === 'numReps') {
-    valueLabel += `${value === 1 ? 'Rep' : 'Reps'}`
-  } else if (stateKey === 'numSets') {
-    valueLabel += `${value === 1 ? 'Set' : 'Sets'}`
+  if (stateKey === 'numRounds') {
+    valueLabel += `${value === 1 ? 'Round' : 'Rounds'}`
+  } else if (stateKey === 'numCycles') {
+    valueLabel += `${value === 1 ? 'Cycle' : 'Cycles'}`
   }
 
   return (
-    <View style={style.container}>
-      <View style={style.value}>
-        <Text style={style.valueText}>{valueLabel}</Text>
+    <View style={styles.container}>
+      <View style={styles.value}>
+        <Text style={styles.valueText}>{valueLabel}</Text>
       </View>
       <Picker
-        style={style.picker}
-        itemStyle={style.pickerItem}
+        style={styles.picker}
+        itemStyle={styles.pickerItem}
         selectedValue={value}
         onValueChange={handleOnChange}
       >
         {OPTIONS.map((value) => (
           <Picker.Item
             key={value}
-            label={`${value} ${stateKey === 'numReps' ? 'reps' : 'sets'}`}
+            label={`${value} ${stateKey === 'numRounds' ? 'rounds' : 'cycles'}`}
             value={value}
           />
         ))}
@@ -57,7 +57,7 @@ export const NumberInput = ({ route }: Props) => {
   )
 }
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     flexDirection: 'column',
     flex: 1,

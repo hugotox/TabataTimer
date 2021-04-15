@@ -16,7 +16,7 @@ export const Timer = ({ currentTime, label }: Props) => {
   return (
     <Text
       style={[
-        orientation === 'portrait' ? style.time : style.timeLandscape,
+        orientation === 'portrait' ? styles.time : styles.timeLandscape,
         extra,
       ]}
     >
@@ -25,7 +25,7 @@ export const Timer = ({ currentTime, label }: Props) => {
   )
 }
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
   time: {
     fontSize: 90,
     fontFamily: 'digital',

@@ -1,5 +1,6 @@
 import { RouteProp } from '@react-navigation/core'
 import { StackNavigationProp } from '@react-navigation/stack'
+import { ListItem } from 'components/ListItem'
 import React, { useMemo } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { ScrollView, TouchableHighlight } from 'react-native-gesture-handler'
@@ -10,8 +11,6 @@ import { selectTimer, selectTotalDuration } from 'store/selectors'
 import { SettingsKeys } from 'store/timerSlice'
 import { Colors, Font } from 'themeConstants'
 import { getTimeDurationLabel } from 'utils'
-
-import { Item } from './Item'
 
 export type SettingsNavigationProp = StackNavigationProp<
   RootStackParamList,
@@ -31,14 +30,14 @@ export const Settings = ({ navigation }: SettingsProps) => {
     if (stateKey && stateData[stateKey]) {
       const data = stateData[stateKey]
       switch (stateKey) {
-        case 'numSets': {
+        case 'numCycles': {
           return data > 0
-            ? `${String(data)} ${data === 1 ? 'set' : 'sets'}`
+            ? `${String(data)} ${data === 1 ? 'cycle' : 'cycles'}`
             : ''
         }
-        case 'numReps': {
+        case 'numRounds': {
           return data > 0
-            ? `${String(data)} ${data === 1 ? 'rep' : 'reps'}`
+            ? `${String(data)} ${data === 1 ? 'round' : 'rounds'}`
             : ''
         }
         default: {
@@ -60,7 +59,7 @@ export const Settings = ({ navigation }: SettingsProps) => {
           key={i}
           onPress={() => navigation.navigate(item.route)}
         >
-          <Item
+          <ListItem
             title={item.route}
             icon={item.icon}
             value={getValue(item.stateKey)}
@@ -76,7 +75,7 @@ export const Settings = ({ navigation }: SettingsProps) => {
           key={i}
           onPress={() => navigation.navigate(item.route)}
         >
-          <Item title={item.route} icon={item.icon} value="" />
+          <ListItem title={item.route} icon={item.icon} value="" />
         </TouchableHighlight>
       ))}
     </ScrollView>
@@ -91,7 +90,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: Colors.textDefault,
     fontWeight: Font.weightNormal,
-    // backgroundColor: Colors.background,
     paddingVertical: 10,
     paddingHorizontal: 15,
   },

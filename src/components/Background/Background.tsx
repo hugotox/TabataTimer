@@ -6,14 +6,14 @@ export const Background = () => {
   return (
     <LinearGradient
       colors={['rgba(0,0,0,0.5)', 'rgba(0,0,0,0.3)']}
-      style={style.background}
+      style={styles.background}
       start={{ x: 0, y: 0 }}
       end={{ x: 0.3, y: 0 }}
     />
   )
 }
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
   background: {
     position: 'absolute',
     left: 0,

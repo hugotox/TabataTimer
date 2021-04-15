@@ -9,10 +9,10 @@ interface Props {
 export const CurrentWorkout = ({ label }: Props) => {
   // @ts-expect-error
   const extra = workoutStyles[label] ? workoutStyles[label] : {}
-  return <Text style={[style.text, extra]}>{label}</Text>
+  return <Text style={[styles.text, extra]}>{label}</Text>
 }
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
   text: {
     fontWeight: '200',
     color: Colors.textDefault,

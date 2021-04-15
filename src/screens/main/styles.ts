@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native'
 import { Colors, Font } from 'themeConstants'
 
-export const style = StyleSheet.create({
+export const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
