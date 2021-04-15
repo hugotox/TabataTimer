@@ -13,8 +13,8 @@ describe('selectTotalDuration', () => {
         numCycles: 1,
         cooldownInterval: 10,
         currentState: 'playing',
-        currentRep: 1,
-        currentSet: 1,
+        currentRound: 1,
+        currentCycle: 1,
       },
     }
     expect(selectTotalDuration(storeState)).toEqual(30)
@@ -31,8 +31,8 @@ describe('selectTotalDuration', () => {
         numCycles: 1,
         cooldownInterval: 10,
         currentState: 'playing',
-        currentRep: 1,
-        currentSet: 1,
+        currentRound: 1,
+        currentCycle: 1,
       },
     }
     expect(selectTotalDuration(storeState)).toEqual(50)
@@ -49,8 +49,8 @@ describe('selectTotalDuration', () => {
         numCycles: 2,
         cooldownInterval: 10,
         currentState: 'playing',
-        currentRep: 1,
-        currentSet: 1,
+        currentRound: 1,
+        currentCycle: 1,
       },
     }
     expect(selectTotalDuration(storeState)).toEqual(90)

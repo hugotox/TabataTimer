@@ -47,7 +47,7 @@ interface UpdatePayload {
   value: number
 }
 
-interface LoadPresetPayload {
+export interface LoadPresetPayload {
   exercise: number
   rest: number
   recovery: number

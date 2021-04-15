@@ -1,4 +1,3 @@
-import { RouteProp } from '@react-navigation/core'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { ListItem } from 'components/ListItem'
 import React, { useMemo } from 'react'
@@ -16,7 +15,7 @@ export type SettingsNavigationProp = StackNavigationProp<
   RootStackParamList,
   'Settings'
 >
-export type SettingsRouteProp = RouteProp<RootStackParamList, 'Settings'>
+// export type SettingsRouteProp = RouteProp<RootStackParamList, 'Settings'>
 
 interface SettingsProps {
   navigation: SettingsNavigationProp
@@ -75,7 +74,11 @@ export const Settings = ({ navigation }: SettingsProps) => {
           key={i}
           onPress={() => navigation.navigate(item.route)}
         >
-          <ListItem title={item.route} icon={item.icon} value="" />
+          <ListItem
+            title={item.route}
+            icon={item.icon}
+            value={item.description}
+          />
         </TouchableHighlight>
       ))}
     </ScrollView>

@@ -50,8 +50,8 @@ export const Main = ({ navigation }: MainProps) => {
   const [currentWorkflowItem, setCurrentWorkflowItem] = useState<number>(-1)
   const [currentTime, setCurrentTime] = useState<number>(0)
   const [currentTotalTime, setCurrentTotalTime] = useState<number>(0)
-  const [currentRep, setCurrentRep] = useState<number>(numRounds)
-  const [currentSet, setCurrentSet] = useState<number>(numCycles)
+  const [currentRound, setCurrentRound] = useState<number>(numRounds)
+  const [currentCycle, setCurrentCycle] = useState<number>(numCycles)
 
   const playBeep = useSound('beep')
   const playStart = useSound('start')
@@ -79,29 +79,29 @@ export const Main = ({ navigation }: MainProps) => {
       setCurrentWorkflowItem(0)
       setCurrentTotalTime(totalDuration)
       setCurrentTime(initialTime)
-      setCurrentRep(numRounds)
-      setCurrentSet(numCycles)
+      setCurrentRound(numRounds)
+      setCurrentCycle(numCycles)
     }
   }, [numRounds, numCycles, workflow, totalDuration])
 
   const updateReps = useCallback(
     (nextIndex: number) => {
       if (nextIndex > 0 && workflow[currentWorkflowItem][0] === 'exercise') {
-        if (currentRep > 0) {
-          setCurrentRep(currentRep - 1)
-          if (currentRep - 1 === 0) {
-            setCurrentSet(currentSet - 1)
-            if (currentSet - 1 > 0) {
-              setCurrentRep(numRounds)
+        if (currentRound > 0) {
+          setCurrentRound(currentRound - 1)
+          if (currentRound - 1 === 0) {
+            setCurrentCycle(currentCycle - 1)
+            if (currentCycle - 1 > 0) {
+              setCurrentRound(numRounds)
             }
           }
         } else {
-          setCurrentRep(numRounds)
-          setCurrentSet(currentSet - 1)
+          setCurrentRound(numRounds)
+          setCurrentCycle(currentCycle - 1)
         }
       }
     },
-    [currentRep, currentSet, currentWorkflowItem, numRounds, workflow]
+    [currentRound, currentCycle, currentWorkflowItem, numRounds, workflow]
   )
 
   const moveNext = (nextIndex: number, updateTotalTime: boolean = false) => {
@@ -207,8 +207,8 @@ export const Main = ({ navigation }: MainProps) => {
               </View>
               <WorkoutStatus
                 timeLeft={currentTotalTime}
-                rounds={currentRep}
-                cycles={currentSet}
+                rounds={currentRound}
+                cycles={currentCycle}
               />
             </View>
           )}

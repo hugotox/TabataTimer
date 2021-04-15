@@ -1,4 +1,3 @@
-export * from './clearStorage'
 export * from './formatTimeObject'
 export * from './getCurrentWorkoutLabel'
 export * from './getTimeDurationLabel'

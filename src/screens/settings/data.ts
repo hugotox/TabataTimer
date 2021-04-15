@@ -10,6 +10,7 @@ export interface ItemType {
   route: keyof RootStackParamList
   component: React.ComponentType<any>
   stateKey?: SettingsKeys
+  description?: string
 }
 
 interface Sections {
@@ -78,16 +79,19 @@ export const PRESETS: Sections = {
       icon: '👉',
       route: 'Load',
       component: Load,
+      description: 'Load settings from a Preset',
     },
     {
       icon: '💾',
       route: 'Save',
       component: Load,
+      description: 'Save current setting as a Preset',
     },
     {
       icon: '↕️',
       route: 'Arrange',
       component: Load,
+      description: 'Edit/delete Presets',
     },
   ],
 }

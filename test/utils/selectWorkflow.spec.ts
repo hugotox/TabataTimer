@@ -13,8 +13,8 @@ describe('selectWorkflow', () => {
         numRounds: 2,
         numCycles: 2,
         currentState: 'stopped',
-        currentRep: 1,
-        currentSet: 1,
+        currentRound: 1,
+        currentCycle: 1,
       },
     }
     expect(selectWorkflow(storeState)).toEqual([
@@ -56,8 +56,8 @@ describe('selectWorkflow', () => {
         numRounds: 2,
         numCycles: 2,
         currentState: 'stopped',
-        currentRep: 1,
-        currentSet: 1,
+        currentRound: 1,
+        currentCycle: 1,
       },
     }
     expect(selectWorkflow(storeState)).toEqual([
@@ -98,8 +98,8 @@ describe('selectWorkflow', () => {
         numRounds: 2,
         numCycles: 2,
         currentState: 'stopped',
-        currentRep: 1,
-        currentSet: 1,
+        currentRound: 1,
+        currentCycle: 1,
       },
     }
     expect(selectWorkflow(storeState)).toEqual([
@@ -140,8 +140,8 @@ describe('selectWorkflow', () => {
         numRounds: 2,
         numCycles: 2,
         currentState: 'stopped',
-        currentRep: 1,
-        currentSet: 1,
+        currentRound: 1,
+        currentCycle: 1,
       },
     }
     expect(selectWorkflow(storeState)).toEqual([
@@ -179,8 +179,8 @@ describe('selectWorkflow', () => {
         numRounds: 2,
         numCycles: 2,
         currentState: 'stopped',
-        currentRep: 1,
-        currentSet: 1,
+        currentRound: 1,
+        currentCycle: 1,
       },
     }
     expect(selectWorkflow(storeState)).toEqual([
@@ -220,8 +220,8 @@ describe('selectWorkflow', () => {
         numRounds: 2,
         numCycles: 2,
         currentState: 'stopped',
-        currentRep: 1,
-        currentSet: 1,
+        currentRound: 1,
+        currentCycle: 1,
       },
     }
     expect(selectWorkflow(storeState)).toEqual([
@@ -263,8 +263,8 @@ describe('selectWorkflow', () => {
         numRounds: 2,
         numCycles: 2,
         currentState: 'stopped',
-        currentRep: 1,
-        currentSet: 1,
+        currentRound: 1,
+        currentCycle: 1,
       },
     }
     expect(selectWorkflow(storeState)).toEqual([

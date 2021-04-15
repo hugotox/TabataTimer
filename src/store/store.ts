@@ -4,18 +4,24 @@ import { persistStore, persistReducer } from 'redux-persist'
 import { presetsSlice } from 'store/presetsSlice'
 import { timerSlice } from 'store/timerSlice'
 
+const timerPersistConfig = {
+  key: 'timer',
+  storage,
+  blacklist: ['currentState'],
+}
+
+const rootPersistConfig = {
+  key: 'root',
+  storage,
+  blacklist: ['timer'],
+}
+
 const rootReducer = combineReducers({
-  timer: timerSlice.reducer,
+  timer: persistReducer(timerPersistConfig, timerSlice.reducer),
   presets: presetsSlice.reducer,
 })
 
-const persistConfig = {
-  key: 'root',
-  storage,
-  blacklist: ['currentState', 'currentRep', 'currentSet'],
-}
-
-const persistedReducer = persistReducer(persistConfig, rootReducer)
+const persistedReducer = persistReducer(rootPersistConfig, rootReducer)
 
 export const store = configureStore({
   reducer: persistedReducer,
@@ -27,6 +33,7 @@ export const store = configureStore({
 })
 
 export const persistor = persistStore(store)
+// persistor.purge()
 
 export type RootState = ReturnType<typeof store.getState>
 export type AppDispatch = typeof store.dispatch

@@ -4,7 +4,7 @@ import { StyleSheet, Text, View } from 'react-native'
 import { Colors, Font } from 'themeConstants'
 
 interface ListItemProps {
-  icon: string
+  icon?: string
   title: string
   value?: string
 }
@@ -13,7 +13,7 @@ export const ListItem = ({ icon, title, value }: ListItemProps) => {
   return (
     <View style={styles.item}>
       <View style={styles.iconText}>
-        <Text style={styles.icon}>{icon}</Text>
+        {!!icon && <Text style={styles.icon}>{icon}</Text>}
         <View>
           <Text style={styles.text}>{title}</Text>
           {value ? <Text style={styles.textSmall}>{value}</Text> : null}

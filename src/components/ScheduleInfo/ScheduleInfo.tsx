@@ -59,23 +59,17 @@ export const ScheduleInfo = () => {
         <Text style={styles.text}>{numRounds}</Text>
       </View>
       <View style={styles.row}>
-        <Text style={styles.label}>Cycle duration:</Text>
-        <Text style={styles.text}>
-          {getTimeDurationLabel((exercise + rest) * numRounds, true)}
-        </Text>
+        <Text style={styles.label}>Cycles:</Text>
+        <Text style={styles.text}>{numCycles}</Text>
       </View>
       {recovery ? (
         <View style={styles.row}>
-          <Text style={styles.label}>Recovery:</Text>
+          <Text style={styles.label}>Recovery between cycles:</Text>
           <Text style={styles.text}>
             {getTimeDurationLabel(recovery, true)}
           </Text>
         </View>
       ) : null}
-      <View style={styles.row}>
-        <Text style={styles.label}>Cycles:</Text>
-        <Text style={styles.text}>{numCycles}</Text>
-      </View>
       {cooldownInterval ? (
         <View style={styles.row}>
           <Text style={styles.label}>Cooldown:</Text>
@@ -102,7 +96,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   label: {
-    width: 100,
+    width: 150,
     color: Colors.textDefault,
     fontWeight: Font.weightNormal,
     fontSize: 16,
