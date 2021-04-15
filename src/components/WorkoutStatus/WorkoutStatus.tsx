@@ -22,7 +22,7 @@ export const WorkoutStatus = ({ rounds, cycles, timeLeft }: Props) => {
           <Text style={styles.title}>rounds</Text>
         </View>
         <View style={styles.col1}>
-          <Text style={[styles.title, styles.titleRight]}>total time</Text>
+          <Text style={[styles.title, styles.titleRight]}>time left</Text>
         </View>
       </View>
       <View style={styles.container}>
