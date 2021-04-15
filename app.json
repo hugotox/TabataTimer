@@ -9,26 +9,18 @@
     "assetBundlePatterns": [
       "**/*"
     ],
+    "description": "",
     "icon": "./assets/icon.png",
     "ios": {
+      "infoPlist": {
+        "UIBackgroundModes": [
+          "audio"
+        ]
+      },
       "supportsTablet": true
     },
     "name": "TabataTimer",
     "orientation": "default",
-    "slug": "TabataTimer",
-    "splash": {
-      "backgroundColor": "#ffffff",
-      "image": "./assets/splash.png",
-      "resizeMode": "contain"
-    },
-    "updates": {
-      "fallbackToCacheTimeout": 0
-    },
-    "userInterfaceStyle": "automatic",
-    "version": "1.0.0",
-    "web": {
-      "favicon": "./assets/favicon.png"
-    },
     "packagerOpts": {
       "config": "metro.config.js",
       "sourceExts": [
@@ -45,6 +37,19 @@
         "svg"
       ]
     },
-    "description": ""
+    "slug": "TabataTimer",
+    "splash": {
+      "backgroundColor": "#ffffff",
+      "image": "./assets/splash.png",
+      "resizeMode": "contain"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "userInterfaceStyle": "automatic",
+    "version": "1.0.0",
+    "web": {
+      "favicon": "./assets/favicon.png"
+    }
   }
 }
