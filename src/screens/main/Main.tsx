@@ -7,6 +7,7 @@ import { ScheduleInfo } from 'components/ScheduleInfo'
 import { Timer } from 'components/Timer'
 import { WorkoutStatus } from 'components/WorkoutStatus'
 import { useFonts } from 'expo-font'
+import { useKeepAwake } from 'expo-keep-awake'
 import React, { useCallback, useMemo, useState } from 'react'
 import { View, Text } from 'react-native'
 import { RootStackParamList } from 'routes/rootStackParamList'
@@ -139,6 +140,8 @@ export const Main = ({ navigation }: MainProps) => {
       }
     }
   }
+
+  useKeepAwake()
 
   useInterval(
     () => {
