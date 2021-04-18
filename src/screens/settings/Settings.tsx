@@ -1,10 +1,11 @@
 import { StackNavigationProp } from '@react-navigation/stack'
 import { ListItem } from 'components/ListItem'
-import React from 'react'
+import { SavePresetModal } from 'components/SavePreset'
+import React, { useState } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { ScrollView, TouchableHighlight } from 'react-native-gesture-handler'
 import { RootStackParamList } from 'routes/rootStackParamList'
-import { MEASURES, PRESETS } from 'screens/settings/data'
+import { MEASURES } from 'screens/settings/data'
 import { useAppSelector } from 'store/hooks'
 import { selectTimer, selectTotalDurationLabel } from 'store/selectors'
 import { SettingsKeys } from 'store/timerSlice'
@@ -24,6 +25,7 @@ interface SettingsProps {
 export const Settings = ({ navigation }: SettingsProps) => {
   const stateData = useAppSelector(selectTimer)
   const durationLabel = useAppSelector(selectTotalDurationLabel)
+  const [saveModalVisible, setSaveModalVisible] = useState(false)
 
   const getValue = (stateKey?: SettingsKeys) => {
     if (stateKey && stateData[stateKey]) {
@@ -65,18 +67,23 @@ export const Settings = ({ navigation }: SettingsProps) => {
         <Text style={styles.durationText}>Total duration: {durationLabel}</Text>
       </View>
       <Text style={styles.header}>Presets</Text>
-      {PRESETS.items.map((item, i) => (
-        <TouchableHighlight
-          key={i}
-          onPress={() => navigation.navigate(item.route)}
-        >
-          <ListItem
-            title={item.route}
-            icon={item.icon}
-            value={item.description}
-          />
-        </TouchableHighlight>
-      ))}
+      <TouchableHighlight onPress={() => navigation.navigate('Load')}>
+        <ListItem title="Load" value="Load settings from a Preset" icon="👈" />
+      </TouchableHighlight>
+      <TouchableHighlight onPress={() => setSaveModalVisible(true)}>
+        <ListItem
+          title="Save"
+          value="Save current setting as a Preset"
+          icon="💾"
+        />
+      </TouchableHighlight>
+      <TouchableHighlight onPress={() => navigation.navigate('Load')}>
+        <ListItem title="Edit Presets" icon="↕️" />
+      </TouchableHighlight>
+      <SavePresetModal
+        visible={saveModalVisible}
+        onClose={() => setSaveModalVisible(false)}
+      />
     </ScrollView>
   )
 }

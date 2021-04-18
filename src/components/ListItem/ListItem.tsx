@@ -44,6 +44,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderBottomWidth: 1,
     borderBottomColor: Colors.separator,
+    minHeight: 50,
   },
   text: {
     fontSize: 16,

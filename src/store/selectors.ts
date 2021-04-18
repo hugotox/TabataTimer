@@ -8,6 +8,16 @@ export const selectTimer = (state: RootState) => state.timer
 
 export const selectPresets = (state: RootState) => state.presets
 
+export const selectDefaultPresets = createSelector(
+  selectPresets,
+  (state) => state.defaultPresets
+)
+
+export const selectCustomPresets = createSelector(
+  selectPresets,
+  (state) => state.customPresets
+)
+
 export const selectInitialCountdown = createSelector(
   selectTimer,
   (data: TimerState) => data.initialCountdown

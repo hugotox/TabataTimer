@@ -13,5 +13,5 @@ export type RootStackParamList = {
   'Cooldown Interval': { stateKey: SettingsKeys }
   Load: undefined
   Save: undefined
-  Arrange: undefined
+  'Edit Presets': undefined
 }

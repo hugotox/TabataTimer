@@ -1,3 +1,4 @@
+import { presetsSlice } from 'store/presetsSlice'
 import { timerSlice } from 'store/timerSlice'
 
 export const {
@@ -7,3 +8,5 @@ export const {
   stop,
   loadPreset,
 } = timerSlice.actions
+
+export const { savePreset } = presetsSlice.actions

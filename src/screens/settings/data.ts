@@ -89,9 +89,8 @@ export const PRESETS: Sections = {
     },
     {
       icon: '↕️',
-      route: 'Arrange',
+      route: 'Edit Presets',
       component: Load,
-      description: 'Edit/delete Presets',
     },
   ],
 }

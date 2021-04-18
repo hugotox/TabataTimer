@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { LoadPresetPayload } from 'store/timerSlice'
 
 export interface PresetState {
@@ -7,8 +7,7 @@ export interface PresetState {
   measures: LoadPresetPayload
 }
 
-// default presets
-export const initialState: PresetState[] = [
+const defaultPresets: PresetState[] = [
   {
     name: 'Tabata',
     description: '20s work/10s rest. 20 mins total',
@@ -33,8 +32,17 @@ export const initialState: PresetState[] = [
   },
 ]
 
+const customPresets: PresetState[] = []
+
 export const presetsSlice = createSlice({
   name: 'presets',
-  initialState,
-  reducers: {},
+  initialState: {
+    defaultPresets,
+    customPresets,
+  },
+  reducers: {
+    savePreset: (state, action: PayloadAction<PresetState>) => {
+      state.customPresets = state.customPresets.concat(action.payload)
+    },
+  },
 })
