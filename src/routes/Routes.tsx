@@ -5,13 +5,15 @@ import React from 'react'
 import { StyleSheet } from 'react-native'
 import { RootStackParamList } from 'routes/rootStackParamList'
 import { Main } from 'screens/main'
-import { MEASURES, PRESETS, Settings } from 'screens/settings'
+import { Edit } from 'screens/presets/edit'
+import { Load } from 'screens/presets/load'
+import { MEASURES, Settings } from 'screens/settings'
 import { Colors } from 'themeConstants'
 
 const Stack = createStackNavigator<RootStackParamList>()
 
 export const Routes = () => {
-  const items = MEASURES.items.concat(PRESETS.items)
+  const items = MEASURES.items
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -43,6 +45,26 @@ export const Routes = () => {
           }}
         />
       ))}
+      <Stack.Screen
+        name="Load"
+        component={Load}
+        options={{
+          headerBackImage: () => <BackButton />,
+          headerBackTitleVisible: false,
+          headerStyle: styles.headerStyle,
+          headerTitleStyle: styles.headerTitleStyle,
+        }}
+      />
+      <Stack.Screen
+        name="Edit Presets"
+        component={Edit}
+        options={{
+          headerBackImage: () => <BackButton />,
+          headerBackTitleVisible: false,
+          headerStyle: styles.headerStyle,
+          headerTitleStyle: styles.headerTitleStyle,
+        }}
+      />
     </Stack.Navigator>
   )
 }

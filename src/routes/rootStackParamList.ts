@@ -12,6 +12,5 @@ export type RootStackParamList = {
   'Number of Cycles': { stateKey: SettingsKeys }
   'Cooldown Interval': { stateKey: SettingsKeys }
   Load: undefined
-  Save: undefined
   'Edit Presets': undefined
 }

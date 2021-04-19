@@ -2,7 +2,6 @@ import { NumberInput } from 'components/NumberInput'
 import { TimeInput } from 'components/TimeInput'
 import React from 'react'
 import { RootStackParamList } from 'routes'
-import { Load } from 'screens/presets/load'
 import { SettingsKeys } from 'store/timerSlice'
 
 export interface ItemType {
@@ -68,29 +67,6 @@ export const MEASURES: Sections = {
       route: 'Cooldown Interval',
       component: TimeInput,
       stateKey: 'cooldownInterval',
-    },
-  ],
-}
-
-export const PRESETS: Sections = {
-  sectionLabel: 'Presets',
-  items: [
-    {
-      icon: '👉',
-      route: 'Load',
-      component: Load,
-      description: 'Load settings from a Preset',
-    },
-    {
-      icon: '💾',
-      route: 'Save',
-      component: Load,
-      description: 'Save current setting as a Preset',
-    },
-    {
-      icon: '↕️',
-      route: 'Edit Presets',
-      component: Load,
     },
   ],
 }

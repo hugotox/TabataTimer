@@ -77,7 +77,7 @@ export const Settings = ({ navigation }: SettingsProps) => {
           icon="💾"
         />
       </TouchableHighlight>
-      <TouchableHighlight onPress={() => navigation.navigate('Load')}>
+      <TouchableHighlight onPress={() => navigation.navigate('Edit Presets')}>
         <ListItem title="Edit Presets" icon="↕️" />
       </TouchableHighlight>
       <SavePresetModal
