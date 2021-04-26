@@ -44,5 +44,21 @@ export const presetsSlice = createSlice({
     savePreset: (state, action: PayloadAction<PresetState>) => {
       state.customPresets = state.customPresets.concat(action.payload)
     },
+    editPreset: (
+      state,
+      action: PayloadAction<{
+        index: number
+        name: string
+        description?: string
+      }>
+    ) => {
+      const { index, name, description } = action.payload
+      const preset = state.customPresets[index]
+      state.customPresets[index] = {
+        ...preset,
+        name,
+        description: description ?? '',
+      }
+    },
   },
 })

@@ -1,11 +1,12 @@
 import { StackNavigationProp } from '@react-navigation/stack'
 import { EditItem } from 'components/ListItem'
-import React from 'react'
+import { SavePresetModal } from 'components/SavePreset'
+import React, { useState } from 'react'
 import { StyleSheet } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import { RootStackParamList } from 'routes'
-import { useAppDispatch, useAppSelector } from 'store/hooks'
-import { selectCustomPresets, selectDefaultPresets } from 'store/selectors'
+import { useAppSelector } from 'store/hooks'
+import { selectCustomPresets } from 'store/selectors'
 import { Colors } from 'themeConstants'
 
 export type EditNavigationProp = StackNavigationProp<
@@ -18,22 +19,50 @@ interface EditProps {
 }
 
 export const Edit = ({ navigation }: EditProps) => {
-  const dispatch = useAppDispatch()
-  const defaultPresets = useAppSelector(selectDefaultPresets)
+  const [editModalVisible, setEditModalVisible] = useState(false)
+  const [selectedIndex, setSelectedIndex] = useState(-1)
+  // const dispatch = useAppDispatch()
   const customPresets = useAppSelector(selectCustomPresets)
-  const presets = [...defaultPresets, ...customPresets]
+  const currentName =
+    customPresets.length > 0 && selectedIndex > -1
+      ? customPresets[selectedIndex].name
+      : undefined
+  const currentDescription =
+    customPresets.length > 0 && selectedIndex > -1
+      ? customPresets[selectedIndex].description
+      : undefined
 
   // const handleLoadPreset = (preset: PresetState) => {
   //   dispatch(loadPreset(preset.measures))
   //   navigation.goBack()
   // }
 
+  const handleEditItem = (index: number) => {
+    setSelectedIndex(index)
+    setEditModalVisible(true)
+  }
+
   return (
-    <ScrollView style={styles.container}>
-      {presets.map((preset, i) => (
-        <EditItem key={i} title={preset.name} value={preset.description} />
-      ))}
-    </ScrollView>
+    <>
+      <ScrollView style={styles.container}>
+        {customPresets.map((preset, i) => (
+          <EditItem
+            key={i}
+            onPress={() => handleEditItem(i)}
+            title={preset.name}
+            value={preset.description}
+          />
+        ))}
+      </ScrollView>
+      <SavePresetModal
+        editMode
+        visible={editModalVisible}
+        onClose={() => setEditModalVisible(false)}
+        currentDescription={currentDescription}
+        currentName={currentName}
+        currentIndex={selectedIndex}
+      />
+    </>
   )
 }
 

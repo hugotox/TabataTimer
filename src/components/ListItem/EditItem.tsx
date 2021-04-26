@@ -1,40 +1,41 @@
 import { MaterialIcons } from '@expo/vector-icons'
 import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
-import { TouchableOpacity } from 'react-native-gesture-handler'
-import { Colors } from 'themeConstants'
+import { TouchableHighlight } from 'react-native-gesture-handler'
+import { useDimensions } from 'utils'
 
 import { styles } from './styles'
 
 interface EditItemProps {
   title: string
   value?: string
+  onPress: () => void
 }
 
-export const EditItem = ({ title, value }: EditItemProps) => {
+export const EditItem = ({ title, value, onPress }: EditItemProps) => {
+  const { width } = useDimensions()
   return (
     <View style={styles.item}>
       <View style={styles.iconText}>
-        <View style={editStyles.drag}>
-          <MaterialIcons
-            name="drag-handle"
-            size={24}
-            color={Colors.textOrange}
-          />
-        </View>
-        <View>
-          <Text style={styles.text}>{title}</Text>
-          {value ? <Text style={styles.textSmall}>{value}</Text> : null}
-        </View>
+        <TouchableHighlight onPress={onPress} style={{ width: width - 70 }}>
+          <View>
+            <Text style={styles.text}>{title}</Text>
+            {value ? <Text style={styles.textSmall}>{value}</Text> : null}
+          </View>
+        </TouchableHighlight>
       </View>
-      <MaterialIcons name="delete-outline" size={24} color="#cc0000" />
+      <TouchableHighlight style={editStyles.icon}>
+        <MaterialIcons name="delete-outline" size={24} color="#cc0000" />
+      </TouchableHighlight>
     </View>
   )
 }
 
 const editStyles = StyleSheet.create({
-  drag: {
-    paddingVertical: 5,
-    paddingRight: 5,
+  icon: {
+    width: 30,
+    height: 35,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 })

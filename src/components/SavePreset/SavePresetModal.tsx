@@ -4,12 +4,29 @@ import { Modal, ModalProps } from 'react-native'
 
 interface Props extends ModalProps {
   onClose: () => void
+  editMode?: boolean
+  currentDescription?: string
+  currentIndex?: number
+  currentName?: string
 }
 
-export const SavePresetModal = ({ onClose, ...rest }: Props) => {
+export const SavePresetModal = ({
+  onClose,
+  editMode,
+  currentDescription,
+  currentName,
+  currentIndex,
+  ...rest
+}: Props) => {
   return (
     <Modal onRequestClose={onClose} animationType="slide" {...rest}>
-      <SavePreset onClose={onClose} />
+      <SavePreset
+        onClose={onClose}
+        editMode={editMode}
+        currentDescription={currentDescription}
+        currentName={currentName}
+        currentIndex={currentIndex}
+      />
     </Modal>
   )
 }

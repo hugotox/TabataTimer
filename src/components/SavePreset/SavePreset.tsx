@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Text, StyleSheet, View } from 'react-native'
 import { TextInput, TouchableHighlight } from 'react-native-gesture-handler'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { savePreset } from 'store/actions'
+import { editPreset, savePreset } from 'store/actions'
 import { useAppDispatch, useAppSelector } from 'store/hooks'
 import {
   selectExercise,
@@ -14,10 +14,20 @@ import {
 import { Colors, Font } from 'themeConstants'
 
 interface Props {
+  editMode?: boolean
+  currentDescription?: string
+  currentName?: string
+  currentIndex?: number
   onClose: () => void
 }
 
-export const SavePreset = ({ onClose }: Props) => {
+export const SavePreset = ({
+  editMode,
+  currentDescription,
+  currentIndex,
+  currentName,
+  onClose,
+}: Props) => {
   const dispatch = useAppDispatch()
   const exercise = useAppSelector(selectExercise)
   const rest = useAppSelector(selectRest)
@@ -25,8 +35,8 @@ export const SavePreset = ({ onClose }: Props) => {
   const numRounds = useAppSelector(selectNumRounds)
   const numCycles = useAppSelector(selectNumCycles)
 
-  const [name, setName] = useState('')
-  const [description, setDescription] = useState('')
+  const [name, setName] = useState(currentName ?? '')
+  const [description, setDescription] = useState(currentDescription ?? '')
 
   const handleOnSave = () => {
     dispatch(
@@ -45,9 +55,24 @@ export const SavePreset = ({ onClose }: Props) => {
     onClose()
   }
 
+  const handleOnEdit = () => {
+    if (typeof currentIndex !== 'undefined') {
+      dispatch(
+        editPreset({
+          name,
+          description,
+          index: currentIndex,
+        })
+      )
+      onClose()
+    }
+  }
+
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.title}>Save Preset</Text>
+      <Text style={styles.title}>
+        {editMode ? 'Edit Preset' : 'Save Preset'}
+      </Text>
       <Text style={styles.label}>Name</Text>
       <TextInput
         style={styles.input}
@@ -65,7 +90,7 @@ export const SavePreset = ({ onClose }: Props) => {
           <Text style={styles.button}>Cancel</Text>
         </TouchableHighlight>
         <View style={styles.buttonSep} />
-        <TouchableHighlight onPress={handleOnSave}>
+        <TouchableHighlight onPress={editMode ? handleOnEdit : handleOnSave}>
           <Text style={styles.button}>Save</Text>
         </TouchableHighlight>
       </View>
