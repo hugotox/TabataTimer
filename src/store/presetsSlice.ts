@@ -60,5 +60,13 @@ export const presetsSlice = createSlice({
         description: description ?? '',
       }
     },
+    deletePreset: (state, action: PayloadAction<number>) => {
+      const index = action.payload
+      const customPresets = state.customPresets.slice()
+      if (index >= 0 && index < state.customPresets.length) {
+        customPresets.splice(index, 1)
+      }
+      state.customPresets = customPresets
+    },
   },
 })

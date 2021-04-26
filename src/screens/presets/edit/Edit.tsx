@@ -2,10 +2,11 @@ import { StackNavigationProp } from '@react-navigation/stack'
 import { EditItem } from 'components/ListItem'
 import { SavePresetModal } from 'components/SavePreset'
 import React, { useState } from 'react'
-import { StyleSheet } from 'react-native'
+import { Alert, StyleSheet } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import { RootStackParamList } from 'routes'
-import { useAppSelector } from 'store/hooks'
+import { deletePreset } from 'store/actions'
+import { useAppDispatch, useAppSelector } from 'store/hooks'
 import { selectCustomPresets } from 'store/selectors'
 import { Colors } from 'themeConstants'
 
@@ -21,7 +22,7 @@ interface EditProps {
 export const Edit = ({ navigation }: EditProps) => {
   const [editModalVisible, setEditModalVisible] = useState(false)
   const [selectedIndex, setSelectedIndex] = useState(-1)
-  // const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch()
   const customPresets = useAppSelector(selectCustomPresets)
   const currentName =
     customPresets.length > 0 && selectedIndex > -1
@@ -32,14 +33,20 @@ export const Edit = ({ navigation }: EditProps) => {
       ? customPresets[selectedIndex].description
       : undefined
 
-  // const handleLoadPreset = (preset: PresetState) => {
-  //   dispatch(loadPreset(preset.measures))
-  //   navigation.goBack()
-  // }
-
   const handleEditItem = (index: number) => {
     setSelectedIndex(index)
     setEditModalVisible(true)
+  }
+
+  const handleDeleteItem = (index: number) => {
+    Alert.alert(
+      'Confirm delete preset',
+      `Delete preset ${customPresets[index].name}?`,
+      [
+        { text: 'Cancel', style: 'cancel' },
+        { text: 'Ok', onPress: () => dispatch(deletePreset(index)) },
+      ]
+    )
   }
 
   return (
@@ -49,6 +56,7 @@ export const Edit = ({ navigation }: EditProps) => {
           <EditItem
             key={i}
             onPress={() => handleEditItem(i)}
+            onDelete={() => handleDeleteItem(i)}
             title={preset.name}
             value={preset.description}
           />

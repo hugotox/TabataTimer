@@ -17,7 +17,7 @@ describe('selectTotalDuration', () => {
         currentCycle: 1,
       },
     }
-    expect(selectTotalDuration(storeState)).toEqual(30)
+    expect(selectTotalDuration(storeState)).toEqual(50)
   })
   it('test 2 cycles 1 cycle', () => {
     const storeState: any = {
@@ -35,7 +35,7 @@ describe('selectTotalDuration', () => {
         currentCycle: 1,
       },
     }
-    expect(selectTotalDuration(storeState)).toEqual(50)
+    expect(selectTotalDuration(storeState)).toEqual(70)
   })
   it('test 2 cycles 2 cycles', () => {
     const storeState: any = {
@@ -53,6 +53,6 @@ describe('selectTotalDuration', () => {
         currentCycle: 1,
       },
     }
-    expect(selectTotalDuration(storeState)).toEqual(90)
+    expect(selectTotalDuration(storeState)).toEqual(110)
   })
 })

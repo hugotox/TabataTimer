@@ -10,21 +10,34 @@ interface EditItemProps {
   title: string
   value?: string
   onPress: () => void
+  onDelete: () => void
 }
 
-export const EditItem = ({ title, value, onPress }: EditItemProps) => {
+export const EditItem = ({
+  title,
+  value,
+  onPress,
+  onDelete,
+}: EditItemProps) => {
   const { width } = useDimensions()
   return (
     <View style={styles.item}>
       <View style={styles.iconText}>
-        <TouchableHighlight onPress={onPress} style={{ width: width - 70 }}>
+        <TouchableHighlight
+          onPress={onPress}
+          style={{
+            width: width - 70,
+            minHeight: 35,
+            justifyContent: 'center',
+          }}
+        >
           <View>
             <Text style={styles.text}>{title}</Text>
             {value ? <Text style={styles.textSmall}>{value}</Text> : null}
           </View>
         </TouchableHighlight>
       </View>
-      <TouchableHighlight style={editStyles.icon}>
+      <TouchableHighlight style={editStyles.icon} onPress={onDelete}>
         <MaterialIcons name="delete-outline" size={24} color="#cc0000" />
       </TouchableHighlight>
     </View>

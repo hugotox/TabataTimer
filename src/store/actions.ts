@@ -9,4 +9,4 @@ export const {
   loadPreset,
 } = timerSlice.actions
 
-export const { editPreset, savePreset } = presetsSlice.actions
+export const { editPreset, savePreset, deletePreset } = presetsSlice.actions
