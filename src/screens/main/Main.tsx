@@ -27,6 +27,7 @@ import {
   useSound,
   useOrientation,
 } from 'utils'
+import { getTimerColor } from 'utils/getTimerColor'
 
 import { styles } from './styles'
 
@@ -191,6 +192,8 @@ export const Main = ({ navigation }: MainProps) => {
     }
   }
 
+  const color = getTimerColor(currentTime)
+
   return (
     <View
       style={
@@ -212,10 +215,13 @@ export const Main = ({ navigation }: MainProps) => {
           )}
           {(isPlaying || isPaused) && (
             <View style={styles.playingArea}>
-              <CurrentWorkout label={currentWorkoutLabel} />
+              <CurrentWorkout label={currentWorkoutLabel} color={color} />
               <View>
-                <Timer currentTime={currentTime} label={currentWorkoutLabel} />
-                <View style={styles.separator} />
+                <Timer
+                  currentTime={currentTime}
+                  color={color}
+                  label={currentWorkoutLabel}
+                />
               </View>
               <WorkoutStatus
                 timeLeft={currentTotalTime}

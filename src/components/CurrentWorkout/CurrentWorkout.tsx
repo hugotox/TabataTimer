@@ -4,12 +4,13 @@ import { Colors, workoutStyles } from 'themeConstants'
 
 interface Props {
   label: string
+  color: string
 }
 
-export const CurrentWorkout = ({ label }: Props) => {
+export const CurrentWorkout = ({ label, color }: Props) => {
   // @ts-expect-error
   const extra = workoutStyles[label] ? workoutStyles[label] : {}
-  return <Text style={[styles.text, extra]}>{label}</Text>
+  return <Text style={[styles.text, { color }, extra]}>{label}</Text>
 }
 
 const styles = StyleSheet.create({

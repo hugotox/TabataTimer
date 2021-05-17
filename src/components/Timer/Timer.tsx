@@ -1,14 +1,15 @@
 import React from 'react'
 import { Text, StyleSheet } from 'react-native'
-import { Colors, workoutStyles } from 'themeConstants'
+import { workoutStyles } from 'themeConstants'
 import { formatTimeObject, toTimeObject, useOrientation } from 'utils'
 
 interface Props {
   currentTime: number
+  color: string
   label: string
 }
 
-export const Timer = ({ currentTime, label }: Props) => {
+export const Timer = ({ currentTime, color, label }: Props) => {
   const orientation = useOrientation()
   // @ts-expect-error
   const extra = workoutStyles[label] ? workoutStyles[label] : {}
@@ -17,6 +18,7 @@ export const Timer = ({ currentTime, label }: Props) => {
     <Text
       style={[
         orientation === 'portrait' ? styles.time : styles.timeLandscape,
+        { color },
         extra,
       ]}
     >
@@ -27,13 +29,11 @@ export const Timer = ({ currentTime, label }: Props) => {
 
 const styles = StyleSheet.create({
   time: {
-    fontSize: 90,
+    fontSize: 120,
     fontFamily: 'digital',
-    color: Colors.textRed,
   },
   timeLandscape: {
     fontSize: 150,
     fontFamily: 'digital',
-    color: Colors.textRed,
   },
 })
