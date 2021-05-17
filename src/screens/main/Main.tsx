@@ -55,6 +55,7 @@ export const Main = ({ navigation }: MainProps) => {
   const [currentTotalTime, setCurrentTotalTime] = useState<number>(0)
   const [currentRound, setCurrentRound] = useState<number>(numRounds)
   const [currentCycle, setCurrentCycle] = useState<number>(numCycles)
+  const [percentage, setPercentage] = useState<number>(0)
 
   const playBeep = useSound('beep')
   const playStart = useSound('start')
@@ -82,6 +83,7 @@ export const Main = ({ navigation }: MainProps) => {
       setCurrentWorkflowItem(0)
       setCurrentTotalTime(totalDuration)
       setCurrentTime(initialTime)
+      setPercentage(10)
       setCurrentRound(numRounds)
       setCurrentCycle(numCycles)
     }
@@ -122,6 +124,7 @@ export const Main = ({ navigation }: MainProps) => {
     updateReps(nextIndex)
     setCurrentWorkflowItem(nextIndex)
     setCurrentTime(workflow[nextIndex][1])
+    setPercentage(10)
 
     if (updateTotalTime) {
       const workSlice = workflow.slice(nextIndex)
@@ -157,6 +160,10 @@ export const Main = ({ navigation }: MainProps) => {
     () => {
       if (currentTime > 1) {
         setCurrentTime(currentTime - 1)
+        setPercentage(
+          110 - ((currentTime - 1) * 100) / workflow[currentWorkflowItem][1]
+        )
+
         if (
           currentTime <= 4 &&
           workflow[currentWorkflowItem][0] !== 'exercise'
@@ -216,13 +223,12 @@ export const Main = ({ navigation }: MainProps) => {
           {(isPlaying || isPaused) && (
             <View style={styles.playingArea}>
               <CurrentWorkout label={currentWorkoutLabel} color={color} />
-              <View>
-                <Timer
-                  currentTime={currentTime}
-                  color={color}
-                  label={currentWorkoutLabel}
-                />
-              </View>
+              <Timer
+                currentTime={currentTime}
+                percentage={percentage}
+                color={color}
+                label={currentWorkoutLabel}
+              />
               <WorkoutStatus
                 timeLeft={currentTotalTime}
                 rounds={currentRound}
