@@ -1,6 +1,8 @@
 import React, { useCallback, useEffect, useRef } from 'react'
 import { Animated, Easing, StyleSheet } from 'react-native'
 import Svg, { Circle } from 'react-native-svg'
+import { useAppSelector } from 'store/hooks'
+import { selectCurrentState } from 'store/selectors'
 import { useMount, usePrevious } from 'utils'
 
 const ONE_SEC = 1000
@@ -32,6 +34,8 @@ export const PercentageCircle = ({
   currentStepDuration,
   currentTime,
 }: Props) => {
+  const currentState = useAppSelector(selectCurrentState)
+  const previousState = usePrevious(currentState)
   const circleSVGRef = useRef(null)
   const progressValueRef = useRef(new Animated.Value(0))
   const progressValueRefCurrent = progressValueRef.current
@@ -43,12 +47,19 @@ export const PercentageCircle = ({
     circleSVGRef?.current?.setNativeProps({ strokeDashoffset })
   }, [])
 
-  useMount(() => {
-    if (animated) {
+  const initAnimation = useCallback(
+    (duration: number) => {
       progressValueRef.current.addListener(({ value }) => {
         setCirclePercentageLength(value)
       })
-      animate(100, currentStepDuration, progressValueRefCurrent)
+      animate(100, duration, progressValueRefCurrent)
+    },
+    [progressValueRefCurrent, setCirclePercentageLength]
+  )
+
+  useMount(() => {
+    if (animated) {
+      initAnimation(currentStepDuration)
     }
   })
 
@@ -66,6 +77,23 @@ export const PercentageCircle = ({
     currentStepDuration,
     currentTime,
     previousCurrentTime,
+    progressValueRefCurrent,
+  ])
+
+  useEffect(() => {
+    if (animated) {
+      if (currentState === 'paused') {
+        progressValueRefCurrent.stopAnimation()
+      } else if (previousState === 'paused') {
+        initAnimation(currentTime)
+      }
+    }
+  }, [
+    animated,
+    currentState,
+    currentTime,
+    initAnimation,
+    previousState,
     progressValueRefCurrent,
   ])
 

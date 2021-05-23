@@ -1,8 +1,15 @@
 import { PercentageCircle } from 'components/PercentageCircle'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Text, StyleSheet, View } from 'react-native'
+import { useAppSelector } from 'store/hooks'
+import { selectCurrentState } from 'store/selectors'
 import { workoutStyles } from 'themeConstants'
-import { formatTimeObject, toTimeObject, useOrientation } from 'utils'
+import {
+  formatTimeObject,
+  toTimeObject,
+  useOrientation,
+  usePrevious,
+} from 'utils'
 
 interface Props {
   currentTime: number
@@ -17,13 +24,32 @@ export const Timer = ({
   label,
   currentStepDuration,
 }: Props) => {
+  const [showBLink, setShowBlink] = useState(false)
+  const currentState = useAppSelector(selectCurrentState)
+  const previousState = usePrevious(currentState)
   const orientation = useOrientation()
   // @ts-expect-error
   const extra = workoutStyles[label] ? workoutStyles[label] : {}
   color = extra.color || color
 
+  useEffect(() => {
+    if (currentState === 'paused') {
+      setShowBlink(true)
+      const interval = setInterval(() => {
+        setShowBlink((showBLink) => !showBLink)
+      }, 600)
+      return () => {
+        clearInterval(interval)
+        setShowBlink(false)
+      }
+    }
+    if (previousState === 'paused') {
+      setShowBlink(false)
+    }
+  }, [currentState, previousState])
+
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, showBLink && styles.containerBlink]}>
       <View style={styles.innerContainer}>
         <PercentageCircle
           color="#363636"
@@ -61,6 +87,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     flex: 1,
+  },
+  containerBlink: {
+    opacity: 0.8,
   },
   innerContainer: {
     position: 'absolute',
