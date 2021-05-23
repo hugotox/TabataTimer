@@ -9,7 +9,7 @@ import { WorkoutStatus } from 'components/WorkoutStatus'
 import { Audio } from 'expo-av'
 import { useFonts } from 'expo-font'
 import { useKeepAwake } from 'expo-keep-awake'
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import { View, Text } from 'react-native'
 import { RootStackParamList } from 'routes/rootStackParamList'
 import { start, pause, stop } from 'store/actions'
@@ -26,6 +26,7 @@ import {
   getCurrentWorkoutLabel,
   useSound,
   useOrientation,
+  useMount,
 } from 'utils'
 import { getTimerColor } from 'utils/getTimerColor'
 
@@ -40,7 +41,7 @@ interface MainProps {
 
 export const Main = ({ navigation }: MainProps) => {
   const [fontsLoaded] = useFonts({
-    digital: require('assets/fonts/digital.otf'),
+    monofonto: require('assets/fonts/monofonto.ttf'),
   })
   const orientation = useOrientation()
   const dispatch = useAppDispatch()
@@ -55,7 +56,6 @@ export const Main = ({ navigation }: MainProps) => {
   const [currentTotalTime, setCurrentTotalTime] = useState<number>(0)
   const [currentRound, setCurrentRound] = useState<number>(numRounds)
   const [currentCycle, setCurrentCycle] = useState<number>(numCycles)
-  const [percentage, setPercentage] = useState<number>(0)
 
   const playBeep = useSound('beep')
   const playStart = useSound('start')
@@ -83,7 +83,6 @@ export const Main = ({ navigation }: MainProps) => {
       setCurrentWorkflowItem(0)
       setCurrentTotalTime(totalDuration)
       setCurrentTime(initialTime)
-      setPercentage(10)
       setCurrentRound(numRounds)
       setCurrentCycle(numCycles)
     }
@@ -124,7 +123,6 @@ export const Main = ({ navigation }: MainProps) => {
     updateReps(nextIndex)
     setCurrentWorkflowItem(nextIndex)
     setCurrentTime(workflow[nextIndex][1])
-    setPercentage(10)
 
     if (updateTotalTime) {
       const workSlice = workflow.slice(nextIndex)
@@ -148,22 +146,18 @@ export const Main = ({ navigation }: MainProps) => {
 
   useKeepAwake()
 
-  useEffect(() => {
+  useMount(() => {
     // allows timer to sound when screen is off
     Audio.setAudioModeAsync({
       playsInSilentModeIOS: true,
       staysActiveInBackground: true,
     })
-  }, [])
+  })
 
   useInterval(
     () => {
       if (currentTime > 1) {
         setCurrentTime(currentTime - 1)
-        setPercentage(
-          110 - ((currentTime - 1) * 100) / workflow[currentWorkflowItem][1]
-        )
-
         if (
           currentTime <= 4 &&
           workflow[currentWorkflowItem][0] !== 'exercise'
@@ -225,7 +219,7 @@ export const Main = ({ navigation }: MainProps) => {
               <CurrentWorkout label={currentWorkoutLabel} color={color} />
               <Timer
                 currentTime={currentTime}
-                percentage={percentage}
+                currentStepDuration={workflow[currentWorkflowItem][1]}
                 color={color}
                 label={currentWorkoutLabel}
               />

@@ -6,12 +6,17 @@ import { formatTimeObject, toTimeObject, useOrientation } from 'utils'
 
 interface Props {
   currentTime: number
-  percentage: number
+  currentStepDuration: number
   color: string
   label: string
 }
 
-export const Timer = ({ currentTime, percentage, color, label }: Props) => {
+export const Timer = ({
+  currentTime,
+  color,
+  label,
+  currentStepDuration,
+}: Props) => {
   const orientation = useOrientation()
   // @ts-expect-error
   const extra = workoutStyles[label] ? workoutStyles[label] : {}
@@ -19,18 +24,32 @@ export const Timer = ({ currentTime, percentage, color, label }: Props) => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.circle}>
-        <PercentageCircle color={color} percentage={percentage} />
+      <View style={styles.innerContainer}>
+        <PercentageCircle
+          color="#363636"
+          currentStepDuration={1}
+          currentTime={1}
+          animated={false}
+        />
       </View>
-      <Text
-        style={[
-          orientation === 'portrait' ? styles.time : styles.timeLandscape,
-          { color },
-          extra,
-        ]}
-      >
-        {formatTimeObject(toTimeObject(currentTime))}
-      </Text>
+      <View style={styles.innerContainer}>
+        <PercentageCircle
+          color={color}
+          currentStepDuration={currentStepDuration}
+          currentTime={currentTime}
+        />
+      </View>
+      <View style={styles.innerContainer}>
+        <Text
+          style={[
+            orientation === 'portrait' ? styles.time : styles.timeLandscape,
+            { color },
+            extra,
+          ]}
+        >
+          {formatTimeObject(toTimeObject(currentTime))}
+        </Text>
+      </View>
     </View>
   )
 }
@@ -38,27 +57,30 @@ export const Timer = ({ currentTime, percentage, color, label }: Props) => {
 const styles = StyleSheet.create({
   container: {
     position: 'relative',
-    // backgroundColor: 'red',
     alignSelf: 'stretch',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flex: 1,
+  },
+  innerContainer: {
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%',
     height: '100%',
-    // flex: 1,
   },
   circle: {
-    position: 'absolute',
-    left: 50,
-    top: 100,
-    width: 300,
-    height: 300,
+    width: '100%',
+    height: '100%',
   },
   time: {
-    position: 'absolute',
-    left: 150,
-    top: 200,
     fontSize: 120,
-    fontFamily: 'digital',
+    fontFamily: 'monofonto',
   },
   timeLandscape: {
     fontSize: 150,
-    fontFamily: 'digital',
+    fontFamily: 'monofonto',
   },
 })

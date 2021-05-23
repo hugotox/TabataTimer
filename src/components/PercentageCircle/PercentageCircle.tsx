@@ -1,66 +1,73 @@
 import React, { useCallback, useEffect, useRef } from 'react'
 import { Animated, Easing, StyleSheet } from 'react-native'
 import Svg, { Circle } from 'react-native-svg'
-// import { usePrevious } from 'utils'
-
-interface Props {
-  color: string
-  percentage: number
-}
+import { useMount, usePrevious } from 'utils'
 
 const ONE_SEC = 1000
+const RADIUS = 45
+const CIRCUMFERENCE = RADIUS * 2 * Math.PI
+interface Props {
+  color: string
+  currentStepDuration: number
+  currentTime: number
+  animated?: boolean
+}
 
-export const PercentageCircle = ({ color, percentage }: Props) => {
-  const radius = 45
-  const circumference = radius * 2 * Math.PI
-  const progressCircle = useRef(null)
-  const progressAnimation = useRef(new Animated.Value(0)).current
+const animate = (
+  toValue: number,
+  currentStepDuration: number,
+  progressValueRefCurrent: Animated.Value
+) => {
+  return Animated.timing(progressValueRefCurrent, {
+    toValue,
+    duration: currentStepDuration * ONE_SEC,
+    useNativeDriver: true,
+    easing: Easing.linear,
+  }).start()
+}
 
-  const animation = useCallback(
-    (toValue: number) => {
-      return Animated.timing(progressAnimation, {
-        toValue,
-        duration: ONE_SEC,
-        useNativeDriver: true,
-        easing: Easing.linear,
+export const PercentageCircle = ({
+  animated = true,
+  color,
+  currentStepDuration,
+  currentTime,
+}: Props) => {
+  const circleSVGRef = useRef(null)
+  const progressValueRef = useRef(new Animated.Value(0))
+  const progressValueRefCurrent = progressValueRef.current
+  const previousCurrentTime = usePrevious(currentTime)
+
+  const setCirclePercentageLength = useCallback((value: number) => {
+    const strokeDashoffset = CIRCUMFERENCE - (value / 100) * CIRCUMFERENCE
+    // @ts-expect-error
+    circleSVGRef?.current?.setNativeProps({ strokeDashoffset })
+  }, [])
+
+  useMount(() => {
+    if (animated) {
+      progressValueRef.current.addListener(({ value }) => {
+        setCirclePercentageLength(value)
       })
-    },
-    [progressAnimation]
-  )
-
-  const setStrokeDashoffset = useCallback(
-    (value: number) => {
-      const strokeDashoffset = circumference - (value / 100) * circumference
-      if (progressCircle?.current) {
-        // @ts-expect-error
-        progressCircle?.current?.setNativeProps({ strokeDashoffset })
-      }
-    },
-    [circumference]
-  )
-
-  useEffect(() => {
-    const animInstance = animation(percentage)
-    animInstance.start()
-    if (percentage === 100) {
-      setTimeout(() => {
-        animInstance.reset()
-        setStrokeDashoffset(0)
-      }, ONE_SEC - 10)
+      animate(100, currentStepDuration, progressValueRefCurrent)
     }
-  }, [animation, percentage, setStrokeDashoffset])
+  })
 
   useEffect(() => {
-    progressAnimation.addListener(({ value }) => {
-      setStrokeDashoffset(value)
-    })
-  }, [progressAnimation, setStrokeDashoffset])
-
-  // useEffect(() => {
-  //   setStrokeDashoffset(percentage)
-  // }, [percentage, setStrokeDashoffset])
-
-  console.log('PERCENTAGE', percentage)
+    if (
+      animated &&
+      typeof previousCurrentTime === 'number' &&
+      currentTime > previousCurrentTime
+    ) {
+      progressValueRefCurrent.setValue(0)
+      animate(100, currentStepDuration, progressValueRefCurrent)
+    }
+  }, [
+    animated,
+    currentStepDuration,
+    currentTime,
+    previousCurrentTime,
+    progressValueRefCurrent,
+  ])
 
   return (
     <Svg
@@ -72,12 +79,12 @@ export const PercentageCircle = ({ color, percentage }: Props) => {
       <Circle
         cx="50"
         cy="50"
-        r={radius}
-        ref={progressCircle}
+        r={RADIUS}
+        ref={circleSVGRef}
         stroke={color}
         strokeLinecap="round"
         strokeWidth="2.5"
-        strokeDasharray={`${circumference} ${circumference}`}
+        strokeDasharray={`${CIRCUMFERENCE} ${CIRCUMFERENCE}`}
         fill="transparent"
       />
     </Svg>

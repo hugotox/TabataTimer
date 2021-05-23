@@ -49,8 +49,8 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 30,
-    alignSelf: 'stretch',
+    marginBottom: 10,
+    marginTop: 10,
     paddingHorizontal: 25,
   },
   col1: {
@@ -62,18 +62,18 @@ const styles = StyleSheet.create({
     fontWeight: Font.weightNormal,
     color: Colors.textDefault,
     flex: 1,
-    fontSize: 25,
+    fontSize: 20,
   },
   titleRight: {
     textAlign: 'right',
   },
   number: {
     fontSize: 50,
-    fontFamily: 'digital',
+    fontFamily: 'monofonto',
   },
   time: {
     textAlign: 'right',
     fontSize: 50,
-    fontFamily: 'digital',
+    fontFamily: 'monofonto',
   },
 })
