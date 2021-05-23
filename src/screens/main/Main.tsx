@@ -215,7 +215,13 @@ export const Main = ({ navigation }: MainProps) => {
             </View>
           )}
           {(isPlaying || isPaused) && (
-            <View style={styles.playingArea}>
+            <View
+              style={
+                orientation === 'portrait'
+                  ? styles.playingArea
+                  : styles.playingAreaLandScape
+              }
+            >
               <CurrentWorkout label={currentWorkoutLabel} color={color} />
               <Timer
                 currentTime={currentTime}

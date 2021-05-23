@@ -22,6 +22,13 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
+  playingAreaLandScape: {
+    flex: 1,
+    flexDirection: 'row',
+    padding: 15,
+    justifyContent: 'space-between',
+    position: 'relative',
+  },
   separator: {
     borderBottomColor: Colors.separator,
     borderBottomWidth: 1,
