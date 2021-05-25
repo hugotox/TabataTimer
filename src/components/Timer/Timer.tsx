@@ -1,6 +1,7 @@
 import { PercentageCircle } from 'components/PercentageCircle'
 import React, { useEffect, useState } from 'react'
 import { Text, StyleSheet, View } from 'react-native'
+import { TouchableOpacity } from 'react-native-gesture-handler'
 import { useAppSelector } from 'store/hooks'
 import { selectCurrentState } from 'store/selectors'
 import { workoutStyles } from 'themeConstants'
@@ -16,6 +17,7 @@ interface Props {
   currentStepDuration: number
   color: string
   label: string
+  onPressPlay: () => void
 }
 
 export const Timer = ({
@@ -23,6 +25,7 @@ export const Timer = ({
   color,
   label,
   currentStepDuration,
+  onPressPlay,
 }: Props) => {
   const [showBLink, setShowBlink] = useState(false)
   const currentState = useAppSelector(selectCurrentState)
@@ -37,7 +40,7 @@ export const Timer = ({
       setShowBlink(true)
       const interval = setInterval(() => {
         setShowBlink((showBLink) => !showBLink)
-      }, 600)
+      }, 500)
       return () => {
         clearInterval(interval)
         setShowBlink(false)
@@ -66,15 +69,17 @@ export const Timer = ({
         />
       </View>
       <View style={styles.innerContainer}>
-        <Text
-          style={[
-            orientation === 'portrait' ? styles.time : styles.timeLandscape,
-            { color },
-            extra,
-          ]}
-        >
-          {formatTimeObject(toTimeObject(currentTime))}
-        </Text>
+        <TouchableOpacity onPress={onPressPlay}>
+          <Text
+            style={[
+              orientation === 'portrait' ? styles.time : styles.timeLandscape,
+              { color },
+              extra,
+            ]}
+          >
+            {formatTimeObject(toTimeObject(currentTime))}
+          </Text>
+        </TouchableOpacity>
       </View>
     </View>
   )
@@ -88,8 +93,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flex: 1,
   },
+  touchableContainer: {
+    // flex: 1,
+  },
   containerBlink: {
-    opacity: 0.8,
+    opacity: 0.7,
   },
   innerContainer: {
     position: 'absolute',
@@ -97,10 +105,6 @@ const styles = StyleSheet.create({
     top: 0,
     justifyContent: 'center',
     alignItems: 'center',
-    width: '100%',
-    height: '100%',
-  },
-  circle: {
     width: '100%',
     height: '100%',
   },

@@ -225,9 +225,14 @@ export const Main = ({ navigation }: MainProps) => {
               <CurrentWorkout label={currentWorkoutLabel} color={color} />
               <Timer
                 currentTime={currentTime}
-                currentStepDuration={workflow[currentWorkflowItem][1]}
+                currentStepDuration={
+                  typeof workflow[currentWorkflowItem]?.[1] !== 'undefined'
+                    ? workflow[currentWorkflowItem][1]
+                    : 0
+                }
                 color={color}
                 label={currentWorkoutLabel}
+                onPressPlay={handleOnPressPlay}
               />
               <WorkoutStatus
                 timeLeft={currentTotalTime}
