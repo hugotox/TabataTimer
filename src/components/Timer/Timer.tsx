@@ -66,6 +66,7 @@ export const Timer = ({
           color={color}
           currentStepDuration={currentStepDuration}
           currentTime={currentTime}
+          label={label}
         />
       </View>
       <View style={styles.innerContainer}>

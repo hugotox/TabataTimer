@@ -13,6 +13,7 @@ interface Props {
   currentStepDuration: number
   currentTime: number
   animated?: boolean
+  label?: string
 }
 
 const animate = (
@@ -33,6 +34,7 @@ export const PercentageCircle = ({
   color,
   currentStepDuration,
   currentTime,
+  label,
 }: Props) => {
   const currentState = useAppSelector(selectCurrentState)
   const previousState = usePrevious(currentState)
@@ -40,6 +42,7 @@ export const PercentageCircle = ({
   const progressValueRef = useRef(new Animated.Value(0))
   const progressValueRefCurrent = progressValueRef.current
   const previousCurrentTime = usePrevious(currentTime)
+  const previousLabel = usePrevious(label)
 
   const setCirclePercentageLength = useCallback((value: number) => {
     const strokeDashoffset = CIRCUMFERENCE - (value / 100) * CIRCUMFERENCE
@@ -64,23 +67,6 @@ export const PercentageCircle = ({
   })
 
   useEffect(() => {
-    if (
-      animated &&
-      typeof previousCurrentTime === 'number' &&
-      currentTime > previousCurrentTime
-    ) {
-      progressValueRefCurrent.setValue(0)
-      animate(100, currentStepDuration, progressValueRefCurrent)
-    }
-  }, [
-    animated,
-    currentStepDuration,
-    currentTime,
-    previousCurrentTime,
-    progressValueRefCurrent,
-  ])
-
-  useEffect(() => {
     if (animated) {
       if (currentState === 'paused') {
         progressValueRefCurrent.stopAnimation()
@@ -94,6 +80,19 @@ export const PercentageCircle = ({
     currentTime,
     initAnimation,
     previousState,
+    progressValueRefCurrent,
+  ])
+
+  useEffect(() => {
+    if (animated && label && previousLabel && label !== previousLabel) {
+      progressValueRefCurrent.setValue(0)
+      animate(100, currentStepDuration, progressValueRefCurrent)
+    }
+  }, [
+    animated,
+    currentStepDuration,
+    label,
+    previousLabel,
     progressValueRefCurrent,
   ])
 
