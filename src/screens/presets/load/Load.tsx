@@ -1,6 +1,6 @@
 import { StackNavigationProp } from '@react-navigation/stack'
 import { ListItem } from 'components/ListItem'
-import React from 'react'
+import React, { useCallback } from 'react'
 import { StyleSheet } from 'react-native'
 import { ScrollView, TouchableHighlight } from 'react-native-gesture-handler'
 import { RootStackParamList } from 'routes'
@@ -22,10 +22,13 @@ export const Load = ({ navigation }: LoadProps) => {
   const customPresets = useAppSelector(selectCustomPresets)
   const presets = [...defaultPresets, ...customPresets]
 
-  const handleLoadPreset = (preset: PresetState) => {
-    dispatch(loadPreset(preset.measures))
-    navigation.goBack()
-  }
+  const handleLoadPreset = useCallback(
+    (preset: PresetState) => {
+      dispatch(loadPreset(preset.measures))
+      navigation.goBack()
+    },
+    [dispatch, navigation]
+  )
 
   return (
     <ScrollView style={styles.container}>

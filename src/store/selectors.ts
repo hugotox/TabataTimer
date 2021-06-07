@@ -120,7 +120,6 @@ export const selectTotalDuration = createSelector(selectWorkflow, (workflow) =>
 )
 
 export const selectTotalDurationLabel = createSelector(
-  [selectInitialCountdown, selectTotalDuration, selectCooldown],
-  (initialCountdown, totalDuration, cooldown) =>
-    getTimeDurationLabel(totalDuration - initialCountdown - cooldown)
+  selectTotalDuration,
+  (totalDuration) => getTimeDurationLabel(totalDuration)
 )

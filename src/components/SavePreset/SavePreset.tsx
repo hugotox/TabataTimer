@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { Text, StyleSheet, View } from 'react-native'
 import { TextInput, TouchableHighlight } from 'react-native-gesture-handler'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -38,7 +38,7 @@ export const SavePreset = ({
   const [name, setName] = useState(currentName ?? '')
   const [description, setDescription] = useState(currentDescription ?? '')
 
-  const handleOnSave = () => {
+  const handleOnSave = useCallback(() => {
     dispatch(
       savePreset({
         name,
@@ -53,9 +53,19 @@ export const SavePreset = ({
       })
     )
     onClose()
-  }
+  }, [
+    description,
+    dispatch,
+    exercise,
+    name,
+    numCycles,
+    numRounds,
+    onClose,
+    recovery,
+    rest,
+  ])
 
-  const handleOnEdit = () => {
+  const handleOnEdit = useCallback(() => {
     if (typeof currentIndex !== 'undefined') {
       dispatch(
         editPreset({
@@ -66,7 +76,15 @@ export const SavePreset = ({
       )
       onClose()
     }
-  }
+  }, [currentIndex, description, dispatch, name, onClose])
+
+  const handleChangeName = useCallback((text) => {
+    setName(text)
+  }, [])
+
+  const handleChangeDescription = useCallback((text) => {
+    setDescription(text)
+  }, [])
 
   return (
     <SafeAreaView style={styles.container}>
@@ -77,13 +95,13 @@ export const SavePreset = ({
       <TextInput
         style={styles.input}
         value={name}
-        onChangeText={(text) => setName(text)}
+        onChangeText={handleChangeName}
       />
       <Text style={styles.label}>Description</Text>
       <TextInput
         style={styles.input}
         value={description}
-        onChangeText={(text) => setDescription(text)}
+        onChangeText={handleChangeDescription}
       />
       <View style={styles.buttons}>
         <TouchableHighlight onPress={onClose}>

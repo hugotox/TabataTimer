@@ -1,7 +1,7 @@
 import { StackNavigationProp } from '@react-navigation/stack'
 import { EditItem } from 'components/ListItem'
 import { SavePresetModal } from 'components/SavePreset'
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { Alert, StyleSheet } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import { RootStackParamList } from 'routes'
@@ -33,21 +33,28 @@ export const Edit = ({ navigation }: EditProps) => {
       ? customPresets[selectedIndex].description
       : undefined
 
-  const handleEditItem = (index: number) => {
+  const handleEditItem = useCallback((index: number) => {
     setSelectedIndex(index)
     setEditModalVisible(true)
-  }
+  }, [])
 
-  const handleDeleteItem = (index: number) => {
-    Alert.alert(
-      'Confirm delete preset',
-      `Delete preset ${customPresets[index].name}?`,
-      [
-        { text: 'Cancel', style: 'cancel' },
-        { text: 'Ok', onPress: () => dispatch(deletePreset(index)) },
-      ]
-    )
-  }
+  const handleDeleteItem = useCallback(
+    (index: number) => {
+      Alert.alert(
+        'Confirm delete preset',
+        `Delete preset ${customPresets[index].name}?`,
+        [
+          { text: 'Cancel', style: 'cancel' },
+          { text: 'Ok', onPress: () => dispatch(deletePreset(index)) },
+        ]
+      )
+    },
+    [customPresets, dispatch]
+  )
+
+  const handleOnClose = useCallback(() => {
+    setEditModalVisible(false)
+  }, [])
 
   return (
     <>
@@ -65,7 +72,7 @@ export const Edit = ({ navigation }: EditProps) => {
       <SavePresetModal
         editMode
         visible={editModalVisible}
-        onClose={() => setEditModalVisible(false)}
+        onClose={handleOnClose}
         currentDescription={currentDescription}
         currentName={currentName}
         currentIndex={selectedIndex}

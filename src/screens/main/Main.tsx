@@ -108,29 +108,32 @@ export const Main = ({ navigation }: MainProps) => {
     [currentRound, currentCycle, currentWorkflowItem, numRounds, workflow]
   )
 
-  const moveNext = (nextIndex: number, updateTotalTime: boolean = false) => {
-    // bail for case when tap "next" but is the last item
-    if (!workflow[nextIndex]?.[0]) {
-      return
-    }
+  const moveNext = useCallback(
+    (nextIndex: number, updateTotalTime: boolean = false) => {
+      // bail for case when tap "next" but is the last item
+      if (!workflow[nextIndex]?.[0]) {
+        return
+      }
 
-    if (workflow[nextIndex][0] === 'exercise') {
-      playStart()
-    } else {
-      playBell()
-    }
+      if (workflow[nextIndex][0] === 'exercise') {
+        playStart()
+      } else {
+        playBell()
+      }
 
-    updateReps(nextIndex)
-    setCurrentWorkflowItem(nextIndex)
-    setCurrentTime(workflow[nextIndex][1])
+      updateReps(nextIndex)
+      setCurrentWorkflowItem(nextIndex)
+      setCurrentTime(workflow[nextIndex][1])
 
-    if (updateTotalTime) {
-      const workSlice = workflow.slice(nextIndex)
-      setCurrentTotalTime(workSlice.reduce((acc, item) => acc + item[1], 0))
-    }
-  }
+      if (updateTotalTime) {
+        const workSlice = workflow.slice(nextIndex)
+        setCurrentTotalTime(workSlice.reduce((acc, item) => acc + item[1], 0))
+      }
+    },
+    [playBell, playStart, updateReps, workflow]
+  )
 
-  const movePrevious = () => {
+  const movePrevious = useCallback(() => {
     if (typeof workflow[currentWorkflowItem]?.[1] !== 'undefined') {
       // if time elapsed is 3 or less, move to previous, otherwise reset current
       const timeElapsed = workflow[currentWorkflowItem][1] - currentTime + 1
@@ -142,7 +145,7 @@ export const Main = ({ navigation }: MainProps) => {
         moveNext(currentWorkflowItem, true)
       }
     }
-  }
+  }, [currentTime, currentWorkflowItem, moveNext, workflow])
 
   useKeepAwake()
 
@@ -181,7 +184,7 @@ export const Main = ({ navigation }: MainProps) => {
     !isPlaying ? null : 1000
   )
 
-  const handleOnPressPlay = () => {
+  const handleOnPressPlay = useCallback(() => {
     if (isPlaying) {
       dispatch(pause())
     } else {
@@ -191,7 +194,19 @@ export const Main = ({ navigation }: MainProps) => {
       // if its paused, just come back to play:
       dispatch(start())
     }
-  }
+  }, [dispatch, init, isPlaying, isStopped, workflow.length])
+
+  const handleStop = useCallback(() => {
+    dispatch(stop())
+  }, [dispatch])
+
+  const handleNext = useCallback(() => {
+    moveNext(currentWorkflowItem + 1, true)
+  }, [currentWorkflowItem, moveNext])
+
+  const handlePressSettings = useCallback(() => {
+    navigation.navigate('Settings')
+  }, [navigation])
 
   const color = getTimerColor(currentTime)
 
@@ -244,9 +259,9 @@ export const Main = ({ navigation }: MainProps) => {
           <ButtonBar
             currentState={currentState}
             onPressPlay={handleOnPressPlay}
-            onPressStop={() => dispatch(stop())}
-            onPressSettings={() => navigation.navigate('Settings')}
-            onPressNext={() => moveNext(currentWorkflowItem + 1, true)}
+            onPressStop={handleStop}
+            onPressSettings={handlePressSettings}
+            onPressNext={handleNext}
             onPressPrevious={movePrevious}
             orientation={orientation}
           />
