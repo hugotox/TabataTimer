@@ -133,7 +133,7 @@ export const Main = ({ navigation }: MainProps) => {
     [playBell, playStart, updateReps, workflow]
   )
 
-  const movePrevious = useCallback(() => {
+  const handleOnPressPrevious = useCallback(() => {
     if (typeof workflow[currentWorkflowItem]?.[1] !== 'undefined') {
       // if time elapsed is 3 or less, move to previous, otherwise reset current
       const timeElapsed = workflow[currentWorkflowItem][1] - currentTime + 1
@@ -196,15 +196,15 @@ export const Main = ({ navigation }: MainProps) => {
     }
   }, [dispatch, init, isPlaying, isStopped, workflow.length])
 
-  const handleStop = useCallback(() => {
+  const handleOnPressStop = useCallback(() => {
     dispatch(stop())
   }, [dispatch])
 
-  const handleNext = useCallback(() => {
+  const handleOnPressNext = useCallback(() => {
     moveNext(currentWorkflowItem + 1, true)
   }, [currentWorkflowItem, moveNext])
 
-  const handlePressSettings = useCallback(() => {
+  const handleOnPressSettings = useCallback(() => {
     navigation.navigate('Settings')
   }, [navigation])
 
@@ -259,10 +259,10 @@ export const Main = ({ navigation }: MainProps) => {
           <ButtonBar
             currentState={currentState}
             onPressPlay={handleOnPressPlay}
-            onPressStop={handleStop}
-            onPressSettings={handlePressSettings}
-            onPressNext={handleNext}
-            onPressPrevious={movePrevious}
+            onPressStop={handleOnPressStop}
+            onPressSettings={handleOnPressSettings}
+            onPressNext={handleOnPressNext}
+            onPressPrevious={handleOnPressPrevious}
             orientation={orientation}
           />
         </>
