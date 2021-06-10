@@ -1,34 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-
-export type ControlStates = 'stopped' | 'paused' | 'playing'
-
-export type WorkoutStates =
-  | 'initialCountdown'
-  | 'warmup'
-  | 'exercise'
-  | 'rest'
-  | 'recovery'
-  | 'cooldownInterval'
-
-// all times are in seconds
-export interface TimerState {
-  // "playing" states:
-  initialCountdown: number
-  warmup: number
-  exercise: number
-  rest: number
-  recovery: number
-  cooldownInterval: number
-
-  // intervals settings
-  numIntervals: number // 1 interval = exercise + rest
-  numReps: number
-
-  // control
-  currentState: ControlStates
-}
-
-export type SettingsKeys = WorkoutStates | 'numReps' | 'numIntervals'
+import { Preset, TimerState, UpdatePayload } from 'store/types'
 
 const initialState: TimerState = {
   initialCountdown: 3,
@@ -38,21 +9,9 @@ const initialState: TimerState = {
   recovery: 50,
   cooldownInterval: 60,
   numIntervals: 10,
-  numReps: 1,
+  numCycles: 1,
   currentState: 'stopped',
-}
-
-interface UpdatePayload {
-  stateKey: SettingsKeys
-  value: number
-}
-
-export interface LoadPresetPayload {
-  exercise: number
-  rest: number
-  recovery: number
-  numIntervals: number
-  numReps: number
+  currentPreset: undefined,
 }
 
 export const timerSlice = createSlice({
@@ -72,16 +31,18 @@ export const timerSlice = createSlice({
     stop: (state) => {
       state.currentState = 'stopped'
     },
-    loadPreset: (state, action: PayloadAction<LoadPresetPayload>) => {
-      const { exercise, rest, recovery, numIntervals, numReps } = action.payload
+    loadPreset: (state, action: PayloadAction<Preset>) => {
+      const { measures, name } = action.payload
+      const { exercise, rest, recovery, numIntervals, numCycles } = measures
       state.initialCountdown = 7
       state.warmup = 0
       state.exercise = exercise
       state.rest = rest
       state.recovery = recovery
       state.numIntervals = numIntervals
-      state.numReps = numReps
+      state.numCycles = numCycles
       state.cooldownInterval = 0
+      state.currentPreset = name
     },
   },
 })

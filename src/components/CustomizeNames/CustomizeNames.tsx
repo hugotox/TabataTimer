@@ -1,31 +1,27 @@
+import { SaveNameModal } from 'components/CustomizeNames/SaveNameModal'
 import { ListItem } from 'components/ListItem'
-import React from 'react'
-import { StyleSheet, FlatList } from 'react-native'
+import React, { useState } from 'react'
+import { StyleSheet, FlatList, View } from 'react-native'
 import { TouchableHighlight } from 'react-native-gesture-handler'
 // import { saveCustomName } from 'store/actions'
 import { useAppSelector } from 'store/hooks'
-import { selectCustomNames, selectNumIntervals } from 'store/selectors'
-import { Colors } from 'themeConstants'
-
-const renderItem = ({ item }: { item: { interval: number; name: string } }) => {
-  const { interval, name } = item
-  return (
-    <TouchableHighlight onPress={() => {}}>
-      <ListItem
-        title={`Interval ${interval}: ${
-          name === 'exercise' ? ' exercise' : ''
-        }`}
-        emphasis={name !== 'exercise' ? name : undefined}
-        inlineText
-      />
-    </TouchableHighlight>
-  )
-}
+import {
+  selectCurrentPreset,
+  selectCustomNames,
+  selectNumIntervals,
+  selectPresetsData,
+} from 'store/selectors'
+import { Colors } from 'theme'
 
 export const CustomizeNames = () => {
   const numIntervals = useAppSelector(selectNumIntervals)
   const customNames = useAppSelector(selectCustomNames)
+  const presets = useAppSelector(selectPresetsData)
+  const currentPreset = useAppSelector(selectCurrentPreset)
+  const [selectedInterval, setSelectedInterval] = useState(-1)
+  const [saveNameVisible, setSaveNameVisible] = useState(false)
   // const dispatch = useAppDispatch()
+
   const intervalElements = [...Array(numIntervals)].map((_, i) => {
     return {
       interval: i + 1,
@@ -33,18 +29,62 @@ export const CustomizeNames = () => {
     }
   })
 
+  const handleItemClick = (interval: number) => {
+    setSelectedInterval(interval)
+    setSaveNameVisible(true)
+  }
+
+  const renderItem = ({
+    item,
+  }: {
+    item: { interval: number; name: string }
+  }) => {
+    const { interval, name } = item
+    return (
+      <TouchableHighlight onPress={() => handleItemClick(interval)}>
+        <ListItem
+          title={`Interval ${interval}: ${
+            name === 'exercise' ? ' exercise' : ''
+          }`}
+          emphasis={name !== 'exercise' ? name : undefined}
+          inlineText
+        />
+      </TouchableHighlight>
+    )
+  }
+
+  const selectedPreset = presets.find((preset) => preset.name === currentPreset)
+
   return (
-    <FlatList<{ interval: number; name: string }>
-      style={styles.container}
-      data={intervalElements}
-      renderItem={renderItem}
-      keyExtractor={(item) => String(item.interval)}
-    />
+    <View style={styles.container}>
+      {selectedPreset?.name ? (
+        <ListItem
+          title="Preset: "
+          emphasis={selectedPreset?.name}
+          inlineText
+          iconRight={false}
+        />
+      ) : (
+        <ListItem title="Select Preset" />
+      )}
+      <FlatList<{ interval: number; name: string }>
+        data={intervalElements}
+        renderItem={renderItem}
+        keyExtractor={(item) => String(item.interval)}
+      />
+      <SaveNameModal
+        selectedInterval={selectedInterval}
+        selectedPreset={selectedPreset}
+        visible={saveNameVisible}
+        onClose={() => setSaveNameVisible(false)}
+      />
+    </View>
   )
 }
 
 const styles = StyleSheet.create({
   container: {
     backgroundColor: Colors.background,
+    flex: 1,
   },
 })

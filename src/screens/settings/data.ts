@@ -2,7 +2,7 @@ import { NumberInput } from 'components/NumberInput'
 import { TimeInput } from 'components/TimeInput'
 import React from 'react'
 import { RootStackParamList } from 'routes'
-import { SettingsKeys } from 'store/timerSlice'
+import { SettingsKeys } from 'store/types'
 
 export interface ItemType {
   icon: string
@@ -34,7 +34,7 @@ export const MEASURES: Sections = {
     },
     {
       icon: '🏋️',
-      route: 'Exercise',
+      route: 'Exercise Interval',
       component: TimeInput,
       stateKey: 'exercise',
     },
@@ -58,9 +58,9 @@ export const MEASURES: Sections = {
     },
     {
       icon: '♻️',
-      route: 'Number of Reps',
+      route: 'Number of Cycles',
       component: NumberInput,
-      stateKey: 'numReps',
+      stateKey: 'numCycles',
     },
     {
       icon: '⏱',

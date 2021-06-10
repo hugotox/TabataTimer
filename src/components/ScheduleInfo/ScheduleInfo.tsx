@@ -6,13 +6,13 @@ import {
   selectExercise,
   selectInitialCountdown,
   selectNumIntervals,
-  selectNumReps,
+  selectNumCycles,
   selectRecovery,
   selectRest,
   selectWarmup,
   selectTotalDurationLabel,
 } from 'store/selectors'
-import { Colors, Font } from 'themeConstants'
+import { Colors, Font } from 'theme'
 import { getTimeDurationLabel } from 'utils'
 
 export const ScheduleInfo = () => {
@@ -22,7 +22,7 @@ export const ScheduleInfo = () => {
   const rest = useAppSelector(selectRest)
   const numIntervals = useAppSelector(selectNumIntervals)
   const recovery = useAppSelector(selectRecovery)
-  const numReps = useAppSelector(selectNumReps)
+  const numCycles = useAppSelector(selectNumCycles)
   const cooldownInterval = useAppSelector(selectCooldown)
   const durationLabel = useAppSelector(selectTotalDurationLabel)
 
@@ -56,12 +56,12 @@ export const ScheduleInfo = () => {
         <Text style={styles.text}>{numIntervals}</Text>
       </View>
       <View style={styles.row}>
-        <Text style={styles.label}>Reps:</Text>
-        <Text style={styles.text}>{numReps}</Text>
+        <Text style={styles.label}>Cycles:</Text>
+        <Text style={styles.text}>{numCycles}</Text>
       </View>
       {recovery ? (
         <View style={styles.row}>
-          <Text style={styles.label}>Recovery between reps:</Text>
+          <Text style={styles.label}>Recovery between cycles:</Text>
           <Text style={styles.text}>
             {getTimeDurationLabel(recovery, true)}
           </Text>

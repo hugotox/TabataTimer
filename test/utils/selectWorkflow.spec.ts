@@ -11,10 +11,10 @@ describe('selectWorkflow', () => {
         recovery: 50,
         cooldownInterval: 60,
         numIntervals: 2,
-        numReps: 2,
+        numCycles: 2,
         currentState: 'stopped',
         currentInterval: 1,
-        currentRep: 1,
+        currentCycle: 1,
       },
     }
     expect(selectWorkflow(storeState)).toEqual([
@@ -54,10 +54,10 @@ describe('selectWorkflow', () => {
         recovery: 50,
         cooldownInterval: 60,
         numIntervals: 2,
-        numReps: 2,
+        numCycles: 2,
         currentState: 'stopped',
         currentInterval: 1,
-        currentRep: 1,
+        currentCycle: 1,
       },
     }
     expect(selectWorkflow(storeState)).toEqual([
@@ -96,10 +96,10 @@ describe('selectWorkflow', () => {
         recovery: 50,
         cooldownInterval: 60,
         numIntervals: 2,
-        numReps: 2,
+        numCycles: 2,
         currentState: 'stopped',
         currentInterval: 1,
-        currentRep: 1,
+        currentCycle: 1,
       },
     }
     expect(selectWorkflow(storeState)).toEqual([
@@ -138,10 +138,10 @@ describe('selectWorkflow', () => {
         recovery: 50,
         cooldownInterval: 60,
         numIntervals: 2,
-        numReps: 2,
+        numCycles: 2,
         currentState: 'stopped',
         currentInterval: 1,
-        currentRep: 1,
+        currentCycle: 1,
       },
     }
     expect(selectWorkflow(storeState)).toEqual([
@@ -177,10 +177,10 @@ describe('selectWorkflow', () => {
         recovery: 50,
         cooldownInterval: 60,
         numIntervals: 2,
-        numReps: 2,
+        numCycles: 2,
         currentState: 'stopped',
         currentInterval: 1,
-        currentRep: 1,
+        currentCycle: 1,
       },
     }
     expect(selectWorkflow(storeState)).toEqual([
@@ -218,10 +218,10 @@ describe('selectWorkflow', () => {
         recovery: 0,
         cooldownInterval: 60,
         numIntervals: 2,
-        numReps: 2,
+        numCycles: 2,
         currentState: 'stopped',
         currentInterval: 1,
-        currentRep: 1,
+        currentCycle: 1,
       },
     }
     expect(selectWorkflow(storeState)).toEqual([
@@ -261,10 +261,10 @@ describe('selectWorkflow', () => {
         recovery: 50,
         cooldownInterval: 0,
         numIntervals: 2,
-        numReps: 2,
+        numCycles: 2,
         currentState: 'stopped',
         currentInterval: 1,
-        currentRep: 1,
+        currentCycle: 1,
       },
     }
     expect(selectWorkflow(storeState)).toEqual([

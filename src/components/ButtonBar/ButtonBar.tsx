@@ -2,8 +2,8 @@ import { Ionicons } from '@expo/vector-icons'
 import React from 'react'
 import { View, StyleSheet, TouchableOpacity } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
-import { ControlStates } from 'store/timerSlice'
-import { Colors } from 'themeConstants'
+import { ControlStates } from 'store/types'
+import { Colors } from 'theme'
 
 interface Props {
   currentState: ControlStates

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Text, StyleSheet } from 'react-native'
-import { Colors, workoutStyles } from 'themeConstants'
+import { Colors, workoutStyles } from 'theme'
 import { useOrientation } from 'utils'
 
 interface Props {

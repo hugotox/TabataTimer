@@ -7,7 +7,7 @@ import { RootStackParamList } from 'routes'
 import { updateValue } from 'store/actions'
 import { useAppDispatch, useAppSelector } from 'store/hooks'
 import { selectTimer } from 'store/selectors'
-import { Colors, Font } from 'themeConstants'
+import { Colors, Font } from 'theme'
 import { getTimeDurationLabel } from 'utils'
 import { toTimeObject } from 'utils/toTimeObject'
 

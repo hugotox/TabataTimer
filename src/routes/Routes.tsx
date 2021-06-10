@@ -10,7 +10,7 @@ import { Main } from 'screens/main'
 import { Edit } from 'screens/presets/edit'
 import { Load } from 'screens/presets/load'
 import { MEASURES, Settings } from 'screens/settings'
-import { Colors } from 'themeConstants'
+import { Colors } from 'theme'
 
 const Stack = createStackNavigator<RootStackParamList>()
 

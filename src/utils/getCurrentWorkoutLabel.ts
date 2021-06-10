@@ -1,5 +1,4 @@
-import { WorkoutStates } from 'store/timerSlice'
-import { CustomExerciseNames } from 'store/types'
+import { WorkoutStates, CustomExerciseNames } from 'store/types'
 
 interface Params {
   state: WorkoutStates
@@ -22,9 +21,10 @@ export const getCurrentWorkoutLabel = ({
       return 'cooldown'
     }
   }
-  const intervalKey = numIntervals - currentInterval + 1
-  if (state === 'exercise' && customNames?.[intervalKey]) {
-    return customNames?.[intervalKey].toLowerCase()
-  }
+  // TODO render custom names from the preset
+  // const intervalKey = numIntervals - currentInterval + 1
+  // if (state === 'exercise' && customNames?.[intervalKey]) {
+  //   return customNames?.[intervalKey].toLowerCase()
+  // }
   return state.toLowerCase()
 }

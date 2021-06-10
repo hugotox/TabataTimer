@@ -1,7 +1,6 @@
 import { createSelector } from 'reselect'
 import { RootState } from 'store/store'
-import { TimerState } from 'store/timerSlice'
-import { WorkflowItem } from 'store/types'
+import { WorkflowItem, TimerState } from 'store/types'
 import { getTimeDurationLabel } from 'utils'
 
 export const selectTimer = (state: RootState) => state.timer
@@ -23,9 +22,9 @@ export const selectWarmup = createSelector(
   (data: TimerState) => data.warmup
 )
 
-export const selectNumReps = createSelector(
+export const selectNumCycles = createSelector(
   selectTimer,
-  (data: TimerState) => data.numReps
+  (data: TimerState) => data.numCycles
 )
 
 export const selectNumIntervals = createSelector(
@@ -58,13 +57,18 @@ export const selectCurrentState = createSelector(
   (data: TimerState) => data.currentState
 )
 
+export const selectCurrentPreset = createSelector(
+  selectTimer,
+  (state) => state.currentPreset
+)
+
 export const selectWorkflow = createSelector(
   [
     selectCooldown,
     selectExercise,
     selectInitialCountdown,
     selectNumIntervals,
-    selectNumReps,
+    selectNumCycles,
     selectRecovery,
     selectRest,
     selectWarmup,
@@ -74,7 +78,7 @@ export const selectWorkflow = createSelector(
     exercise,
     initialCountdown,
     numIntervals,
-    numReps,
+    numCycles,
     recovery,
     rest,
     warmup
@@ -86,7 +90,7 @@ export const selectWorkflow = createSelector(
     if (warmup) {
       workflow.push(['warmup', warmup])
     }
-    for (let rep = 1; rep <= numReps; rep++) {
+    for (let cycle = 1; cycle <= numCycles; cycle++) {
       for (let interval = 1; interval <= numIntervals; interval++) {
         if (exercise) {
           workflow.push(['exercise', exercise])
@@ -119,7 +123,8 @@ export const selectTotalDurationLabel = createSelector(
   (totalDuration) => getTimeDurationLabel(totalDuration)
 )
 
+// TODO custom names selector
 export const selectCustomNames = createSelector(
   selectPresets,
-  (presets) => presets.customNames ?? {}
+  (presets) => [] // presets.customNames ?? {}
 )

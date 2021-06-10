@@ -1,4 +1,4 @@
-import { Colors } from 'themeConstants'
+import { Colors } from 'theme'
 
 export const getTimerColor = (currentTime: number) => {
   let color = Colors.textGreen

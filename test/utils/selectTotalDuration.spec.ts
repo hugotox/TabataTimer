@@ -1,7 +1,7 @@
 import { selectTotalDuration } from 'store/selectors'
 
 describe('selectTotalDuration', () => {
-  it('test 1 rep 1 rep', () => {
+  it('test 1 cycle 1 cycle', () => {
     const storeState: any = {
       timer: {
         initialCountdown: 10,
@@ -10,16 +10,16 @@ describe('selectTotalDuration', () => {
         rest: 10,
         numIntervals: 1,
         recovery: 10,
-        numReps: 1,
+        numCycles: 1,
         cooldownInterval: 10,
         currentState: 'playing',
         currentInterval: 1,
-        currentRep: 1,
+        currentCycle: 1,
       },
     }
     expect(selectTotalDuration(storeState)).toEqual(50)
   })
-  it('test 2 reps 1 rep', () => {
+  it('test 2 cycles 1 cycle', () => {
     const storeState: any = {
       timer: {
         initialCountdown: 10,
@@ -28,16 +28,16 @@ describe('selectTotalDuration', () => {
         rest: 10,
         numIntervals: 2,
         recovery: 10,
-        numReps: 1,
+        numCycles: 1,
         cooldownInterval: 10,
         currentState: 'playing',
         currentInterval: 1,
-        currentRep: 1,
+        currentCycle: 1,
       },
     }
     expect(selectTotalDuration(storeState)).toEqual(70)
   })
-  it('test 2 reps 2 reps', () => {
+  it('test 2 cycles 2 cycles', () => {
     const storeState: any = {
       timer: {
         initialCountdown: 10,
@@ -46,11 +46,11 @@ describe('selectTotalDuration', () => {
         rest: 10,
         numIntervals: 2,
         recovery: 10,
-        numReps: 2,
+        numCycles: 2,
         cooldownInterval: 10,
         currentState: 'playing',
         currentInterval: 1,
-        currentRep: 1,
+        currentCycle: 1,
       },
     }
     expect(selectTotalDuration(storeState)).toEqual(110)

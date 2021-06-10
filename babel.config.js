@@ -12,7 +12,7 @@ module.exports = function (api) {
             routes: './src/routes',
             screens: './src/screens',
             store: './src/store',
-            themeConstants: './src/themeConstants',
+            theme: './src/theme',
             utils: './src/utils',
           },
         },

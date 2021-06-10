@@ -6,9 +6,9 @@ import { ScrollView, TouchableHighlight } from 'react-native-gesture-handler'
 import { RootStackParamList } from 'routes'
 import { loadPreset } from 'store/actions'
 import { useAppDispatch, useAppSelector } from 'store/hooks'
-import { PresetState } from 'store/presetsSlice'
 import { selectPresetsData } from 'store/selectors'
-import { Colors } from 'themeConstants'
+import { Preset } from 'store/types'
+import { Colors } from 'theme'
 
 export type LoadNavigationProp = StackNavigationProp<RootStackParamList, 'Load'>
 
@@ -21,8 +21,8 @@ export const Load = ({ navigation }: LoadProps) => {
   const presets = useAppSelector(selectPresetsData)
 
   const handleLoadPreset = useCallback(
-    (preset: PresetState) => {
-      dispatch(loadPreset(preset.measures))
+    (preset: Preset) => {
+      dispatch(loadPreset(preset))
       navigation.goBack()
     },
     [dispatch, navigation]

@@ -1,17 +1,17 @@
 import React, { useCallback, useState } from 'react'
-import { Text, StyleSheet, View } from 'react-native'
+import { Text, View } from 'react-native'
 import { TextInput, TouchableHighlight } from 'react-native-gesture-handler'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { editPreset, savePreset } from 'store/actions'
 import { useAppDispatch, useAppSelector } from 'store/hooks'
 import {
   selectExercise,
-  selectNumReps,
+  selectNumCycles,
   selectNumIntervals,
   selectRecovery,
   selectRest,
 } from 'store/selectors'
-import { Colors, Font } from 'themeConstants'
+import { formStyles as styles } from 'theme/formStyles'
 
 interface Props {
   editMode?: boolean
@@ -33,7 +33,7 @@ export const SavePreset = ({
   const rest = useAppSelector(selectRest)
   const recovery = useAppSelector(selectRecovery)
   const numIntervals = useAppSelector(selectNumIntervals)
-  const numReps = useAppSelector(selectNumReps)
+  const numCycles = useAppSelector(selectNumCycles)
 
   const [name, setName] = useState(currentName ?? '')
   const [description, setDescription] = useState(currentDescription ?? '')
@@ -48,7 +48,7 @@ export const SavePreset = ({
           rest,
           recovery,
           numIntervals,
-          numReps,
+          numCycles,
         },
       })
     )
@@ -58,7 +58,7 @@ export const SavePreset = ({
     dispatch,
     exercise,
     name,
-    numReps,
+    numCycles,
     numIntervals,
     onClose,
     recovery,
@@ -115,52 +115,3 @@ export const SavePreset = ({
     </SafeAreaView>
   )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: Colors.background,
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'center',
-    paddingHorizontal: 15,
-  },
-  title: {
-    fontSize: 20,
-    color: Colors.textDefault,
-    fontWeight: Font.weightNormal,
-    marginBottom: 50,
-  },
-  label: {
-    fontSize: 16,
-    lineHeight: 19,
-    color: Colors.textDefault,
-    fontWeight: Font.weightNormal,
-    marginBottom: 10,
-  },
-  input: {
-    color: '#ccc',
-    backgroundColor: '#333',
-    paddingHorizontal: 20,
-    paddingVertical: 15,
-    fontSize: 16,
-    lineHeight: 19,
-    marginBottom: 20,
-  },
-  buttons: {
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    marginTop: 60,
-  },
-  button: {
-    color: Colors.background,
-    fontSize: 16,
-    lineHeight: 19,
-    fontWeight: Font.weightBold,
-    backgroundColor: Colors.textOrange,
-    paddingHorizontal: 20,
-    paddingVertical: 15,
-  },
-  buttonSep: {
-    width: 20,
-  },
-})

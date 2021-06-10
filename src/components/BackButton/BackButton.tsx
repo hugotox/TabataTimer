@@ -1,7 +1,7 @@
 import { Ionicons } from '@expo/vector-icons'
 import React from 'react'
 import { View, StyleSheet } from 'react-native'
-import { Colors } from 'themeConstants'
+import { Colors } from 'theme'
 
 export const BackButton = () => {
   return (

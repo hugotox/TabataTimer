@@ -8,7 +8,7 @@ import { RootStackParamList } from 'routes'
 import { deletePreset } from 'store/actions'
 import { useAppDispatch, useAppSelector } from 'store/hooks'
 import { selectPresetsData } from 'store/selectors'
-import { Colors } from 'themeConstants'
+import { Colors } from 'theme'
 
 export type EditNavigationProp = StackNavigationProp<
   RootStackParamList,

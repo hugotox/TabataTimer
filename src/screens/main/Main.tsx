@@ -16,7 +16,7 @@ import { start, pause, stop } from 'store/actions'
 import { useAppDispatch, useAppSelector } from 'store/hooks'
 import {
   selectNumIntervals,
-  selectNumReps,
+  selectNumCycles,
   selectTotalDuration,
   selectWorkflow,
   selectCurrentState,
@@ -49,7 +49,7 @@ export const Main = ({ navigation }: MainProps) => {
   const currentState = useAppSelector(selectCurrentState)
   const workflow = useAppSelector(selectWorkflow)
   const numIntervals = useAppSelector(selectNumIntervals)
-  const numReps = useAppSelector(selectNumReps)
+  const numCycles = useAppSelector(selectNumCycles)
   const totalDuration = useAppSelector(selectTotalDuration)
   const customNames = useAppSelector(selectCustomNames)
 
@@ -57,7 +57,7 @@ export const Main = ({ navigation }: MainProps) => {
   const [currentTime, setCurrentTime] = useState<number>(0)
   const [currentTotalTime, setCurrentTotalTime] = useState<number>(0)
   const [currentInterval, setCurrentInterval] = useState<number>(numIntervals)
-  const [currentRep, setCurrentRep] = useState<number>(numReps)
+  const [currentCycle, setCurrentCycle] = useState<number>(numCycles)
 
   const playBeep = useSound('beep')
   const playStart = useSound('start')
@@ -97,28 +97,28 @@ export const Main = ({ navigation }: MainProps) => {
       setCurrentTotalTime(totalDuration)
       setCurrentTime(initialTime)
       setCurrentInterval(numIntervals)
-      setCurrentRep(numReps)
+      setCurrentCycle(numCycles)
     }
-  }, [numIntervals, numReps, workflow, totalDuration])
+  }, [numIntervals, numCycles, workflow, totalDuration])
 
-  const updateReps = useCallback(
+  const updateCycles = useCallback(
     (nextIndex: number) => {
       if (nextIndex > 0 && workflow[currentWorkflowItem][0] === 'exercise') {
         if (currentInterval > 0) {
           setCurrentInterval(currentInterval - 1)
           if (currentInterval - 1 === 0) {
-            setCurrentRep(currentRep - 1)
-            if (currentRep - 1 > 0) {
+            setCurrentCycle(currentCycle - 1)
+            if (currentCycle - 1 > 0) {
               setCurrentInterval(numIntervals)
             }
           }
         } else {
           setCurrentInterval(numIntervals)
-          setCurrentRep(currentRep - 1)
+          setCurrentCycle(currentCycle - 1)
         }
       }
     },
-    [currentInterval, currentRep, currentWorkflowItem, numIntervals, workflow]
+    [currentInterval, currentCycle, currentWorkflowItem, numIntervals, workflow]
   )
 
   const moveNext = useCallback(
@@ -134,7 +134,7 @@ export const Main = ({ navigation }: MainProps) => {
         playBell()
       }
 
-      updateReps(nextIndex)
+      updateCycles(nextIndex)
       setCurrentWorkflowItem(nextIndex)
       setCurrentTime(workflow[nextIndex][1])
 
@@ -143,7 +143,7 @@ export const Main = ({ navigation }: MainProps) => {
         setCurrentTotalTime(workSlice.reduce((acc, item) => acc + item[1], 0))
       }
     },
-    [playBell, playStart, updateReps, workflow]
+    [playBell, playStart, updateCycles, workflow]
   )
 
   const handleOnPressPrevious = useCallback(() => {
@@ -265,7 +265,7 @@ export const Main = ({ navigation }: MainProps) => {
               <WorkoutStatus
                 timeLeft={currentTotalTime}
                 intervals={currentInterval}
-                reps={currentRep}
+                cycles={currentCycle}
               />
             </View>
           )}

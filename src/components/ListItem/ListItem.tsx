@@ -1,7 +1,7 @@
 import { Entypo } from '@expo/vector-icons'
 import React from 'react'
 import { Text, View } from 'react-native'
-import { Colors } from 'themeConstants'
+import { Colors } from 'theme'
 
 import { styles } from './styles'
 
@@ -11,6 +11,7 @@ interface ListItemProps {
   value?: string
   emphasis?: string
   inlineText?: boolean
+  iconRight?: boolean
 }
 
 export const ListItem = ({
@@ -19,6 +20,7 @@ export const ListItem = ({
   title,
   value,
   emphasis,
+  iconRight = true,
 }: ListItemProps) => {
   return (
     <View style={styles.item}>
@@ -32,7 +34,13 @@ export const ListItem = ({
           {value ? <Text style={styles.textSmall}>{value}</Text> : null}
         </View>
       </View>
-      <Entypo name="chevron-small-right" size={24} color={Colors.textDefault} />
+      {iconRight && (
+        <Entypo
+          name="chevron-small-right"
+          size={24}
+          color={Colors.textDefault}
+        />
+      )}
     </View>
   )
 }

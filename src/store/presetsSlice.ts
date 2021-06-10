@@ -1,14 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { LoadPresetPayload } from 'store/timerSlice'
-import { CustomExerciseName, CustomExerciseNames } from 'store/types'
+import { CustomExercisePayload, Preset } from 'store/types'
 
-export interface PresetState {
-  name: string
-  description: string
-  measures: LoadPresetPayload
-}
-
-const defaultPresets: PresetState[] = [
+const defaultPresets: Preset[] = [
   {
     name: 'Tabata',
     description: '20s work/10s rest. 20 mins total',
@@ -17,7 +10,7 @@ const defaultPresets: PresetState[] = [
       rest: 10,
       recovery: 0,
       numIntervals: 8,
-      numReps: 5,
+      numCycles: 5,
     },
   },
   {
@@ -28,22 +21,20 @@ const defaultPresets: PresetState[] = [
       rest: 20,
       recovery: 0,
       numIntervals: 5,
-      numReps: 4,
+      numCycles: 4,
     },
   },
 ]
 
 const data = defaultPresets
-const customNames: CustomExerciseNames = {}
 
 export const presetsSlice = createSlice({
   name: 'presets',
   initialState: {
     data,
-    customNames,
   },
   reducers: {
-    savePreset: (state, action: PayloadAction<PresetState>) => {
+    savePreset: (state, action: PayloadAction<Preset>) => {
       state.data = state.data.concat(action.payload)
     },
     editPreset: (
@@ -73,12 +64,15 @@ export const presetsSlice = createSlice({
     restoreDefault: (state) => {
       state.data = defaultPresets
     },
-    saveCustomName: (state, action: PayloadAction<CustomExerciseName>) => {
-      const { interval, name } = action.payload
-      if (!state.customNames) {
-        state.customNames = {}
+    saveCustomName: (state, action: PayloadAction<CustomExercisePayload>) => {
+      const { interval, name, presetIndex } = action.payload
+      const preset = state.data[presetIndex]
+      if (preset) {
+        if (!preset.customNames) {
+          preset.customNames = {}
+        }
+        preset.customNames[interval] = name
       }
-      state.customNames[interval] = name
     },
   },
 })

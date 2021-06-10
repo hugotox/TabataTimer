@@ -1,20 +1,20 @@
 import React from 'react'
 import { Text, View, StyleSheet } from 'react-native'
-import { Colors, Font } from 'themeConstants'
+import { Colors, Font } from 'theme'
 import { toTimeObject, useOrientation } from 'utils'
 
 interface Props {
   intervals: number
-  reps: number
+  cycles: number
   timeLeft: number
 }
 
-export const WorkoutStatus = ({ intervals, reps, timeLeft }: Props) => {
+export const WorkoutStatus = ({ intervals, cycles, timeLeft }: Props) => {
   const { minutes, seconds } = toTimeObject(timeLeft)
   const timeString = `${String(minutes).padStart(2, '0')}:${String(
     seconds
   ).padStart(2, '0')}`
-  const repsString = String(reps).padStart(2, '0')
+  const cyclesString = String(cycles).padStart(2, '0')
   const intervalsString = String(intervals).padStart(2, '0')
   const orientation = useOrientation()
 
@@ -28,7 +28,7 @@ export const WorkoutStatus = ({ intervals, reps, timeLeft }: Props) => {
         <>
           <View style={styles.container}>
             <View style={styles.col1}>
-              <Text style={styles.title}>reps</Text>
+              <Text style={styles.title}>cycles</Text>
               <Text style={styles.title}>intervals</Text>
             </View>
             <View style={styles.col1}>
@@ -37,7 +37,7 @@ export const WorkoutStatus = ({ intervals, reps, timeLeft }: Props) => {
           </View>
           <View style={styles.container}>
             <View style={styles.col1}>
-              <Text style={[styles.title, styles.number]}>{repsString}</Text>
+              <Text style={[styles.title, styles.number]}>{cyclesString}</Text>
               <Text style={[styles.title, styles.number]}>
                 {intervalsString}
               </Text>
@@ -51,9 +51,9 @@ export const WorkoutStatus = ({ intervals, reps, timeLeft }: Props) => {
         <>
           <View style={styles.landscapeContainer}>
             <View style={styles.landscapeItem}>
-              <Text style={[styles.title, styles.landscapeTitle]}>reps</Text>
+              <Text style={[styles.title, styles.landscapeTitle]}>cycles</Text>
               <Text style={[styles.title, styles.titleRight, styles.number]}>
-                {repsString}
+                {cyclesString}
               </Text>
             </View>
             <View style={styles.landscapeItem}>
