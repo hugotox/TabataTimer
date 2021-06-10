@@ -4,18 +4,18 @@ import { Colors, Font } from 'themeConstants'
 import { toTimeObject, useOrientation } from 'utils'
 
 interface Props {
-  rounds: number
-  cycles: number
+  intervals: number
+  reps: number
   timeLeft: number
 }
 
-export const WorkoutStatus = ({ rounds, cycles, timeLeft }: Props) => {
+export const WorkoutStatus = ({ intervals, reps, timeLeft }: Props) => {
   const { minutes, seconds } = toTimeObject(timeLeft)
   const timeString = `${String(minutes).padStart(2, '0')}:${String(
     seconds
   ).padStart(2, '0')}`
-  const cyclesString = String(cycles).padStart(2, '0')
-  const roundsString = String(rounds).padStart(2, '0')
+  const repsString = String(reps).padStart(2, '0')
+  const intervalsString = String(intervals).padStart(2, '0')
   const orientation = useOrientation()
 
   return (
@@ -28,8 +28,8 @@ export const WorkoutStatus = ({ rounds, cycles, timeLeft }: Props) => {
         <>
           <View style={styles.container}>
             <View style={styles.col1}>
-              <Text style={styles.title}>cycles</Text>
-              <Text style={styles.title}>rounds</Text>
+              <Text style={styles.title}>reps</Text>
+              <Text style={styles.title}>intervals</Text>
             </View>
             <View style={styles.col1}>
               <Text style={[styles.title, styles.titleRight]}>time left</Text>
@@ -37,8 +37,10 @@ export const WorkoutStatus = ({ rounds, cycles, timeLeft }: Props) => {
           </View>
           <View style={styles.container}>
             <View style={styles.col1}>
-              <Text style={[styles.title, styles.number]}>{cyclesString}</Text>
-              <Text style={[styles.title, styles.number]}>{roundsString}</Text>
+              <Text style={[styles.title, styles.number]}>{repsString}</Text>
+              <Text style={[styles.title, styles.number]}>
+                {intervalsString}
+              </Text>
             </View>
             <View style={styles.col1}>
               <Text style={[styles.title, styles.time]}>{timeString}</Text>
@@ -49,15 +51,17 @@ export const WorkoutStatus = ({ rounds, cycles, timeLeft }: Props) => {
         <>
           <View style={styles.landscapeContainer}>
             <View style={styles.landscapeItem}>
-              <Text style={[styles.title, styles.landscapeTitle]}>cycles</Text>
+              <Text style={[styles.title, styles.landscapeTitle]}>reps</Text>
               <Text style={[styles.title, styles.titleRight, styles.number]}>
-                {cyclesString}
+                {repsString}
               </Text>
             </View>
             <View style={styles.landscapeItem}>
-              <Text style={[styles.title, styles.landscapeTitle]}>rounds</Text>
+              <Text style={[styles.title, styles.landscapeTitle]}>
+                intervals
+              </Text>
               <Text style={[styles.title, styles.titleRight, styles.number]}>
-                {roundsString}
+                {intervalsString}
               </Text>
             </View>
             <View style={styles.landscapeItem}>

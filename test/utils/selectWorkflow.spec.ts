@@ -10,11 +10,11 @@ describe('selectWorkflow', () => {
         rest: 10,
         recovery: 50,
         cooldownInterval: 60,
-        numRounds: 2,
-        numCycles: 2,
+        numIntervals: 2,
+        numReps: 2,
         currentState: 'stopped',
-        currentRound: 1,
-        currentCycle: 1,
+        currentInterval: 1,
+        currentRep: 1,
       },
     }
     expect(selectWorkflow(storeState)).toEqual([
@@ -23,21 +23,21 @@ describe('selectWorkflow', () => {
 
       // SET 1:
 
-      // round 1
+      // interval 1
       ['exercise', 30],
       ['rest', 10],
 
-      // round 2
+      // interval 2
       ['exercise', 30],
       ['recovery', 50],
 
       // SET 2:
 
-      // round 1
+      // interval 1
       ['exercise', 30],
       ['rest', 10],
 
-      // round 2
+      // interval 2
       ['exercise', 30],
       ['recovery', 50],
 
@@ -53,11 +53,11 @@ describe('selectWorkflow', () => {
         rest: 10,
         recovery: 50,
         cooldownInterval: 60,
-        numRounds: 2,
-        numCycles: 2,
+        numIntervals: 2,
+        numReps: 2,
         currentState: 'stopped',
-        currentRound: 1,
-        currentCycle: 1,
+        currentInterval: 1,
+        currentRep: 1,
       },
     }
     expect(selectWorkflow(storeState)).toEqual([
@@ -65,21 +65,21 @@ describe('selectWorkflow', () => {
 
       // SET 1:
 
-      // round 1
+      // interval 1
       ['exercise', 30],
       ['rest', 10],
 
-      // round 2
+      // interval 2
       ['exercise', 30],
       ['recovery', 50],
 
       // SET 2:
 
-      // round 1
+      // interval 1
       ['exercise', 30],
       ['rest', 10],
 
-      // round 2
+      // interval 2
       ['exercise', 30],
       ['recovery', 50],
 
@@ -95,11 +95,11 @@ describe('selectWorkflow', () => {
         rest: 10,
         recovery: 50,
         cooldownInterval: 60,
-        numRounds: 2,
-        numCycles: 2,
+        numIntervals: 2,
+        numReps: 2,
         currentState: 'stopped',
-        currentRound: 1,
-        currentCycle: 1,
+        currentInterval: 1,
+        currentRep: 1,
       },
     }
     expect(selectWorkflow(storeState)).toEqual([
@@ -107,21 +107,21 @@ describe('selectWorkflow', () => {
 
       // SET 1:
 
-      // round 1
+      // interval 1
       ['exercise', 30],
       ['rest', 10],
 
-      // round 2
+      // interval 2
       ['exercise', 30],
       ['recovery', 50],
 
       // SET 2:
 
-      // round 1
+      // interval 1
       ['exercise', 30],
       ['rest', 10],
 
-      // round 2
+      // interval 2
       ['exercise', 30],
       ['recovery', 50],
 
@@ -137,11 +137,11 @@ describe('selectWorkflow', () => {
         rest: 10,
         recovery: 50,
         cooldownInterval: 60,
-        numRounds: 2,
-        numCycles: 2,
+        numIntervals: 2,
+        numReps: 2,
         currentState: 'stopped',
-        currentRound: 1,
-        currentCycle: 1,
+        currentInterval: 1,
+        currentRep: 1,
       },
     }
     expect(selectWorkflow(storeState)).toEqual([
@@ -150,18 +150,18 @@ describe('selectWorkflow', () => {
 
       // SET 1:
 
-      // round 1
+      // interval 1
       ['rest', 10],
 
-      // round 2
+      // interval 2
       ['recovery', 50],
 
       // SET 2:
 
-      // round 1
+      // interval 1
       ['rest', 10],
 
-      // round 2
+      // interval 2
       ['recovery', 50],
 
       ['cooldownInterval', 60],
@@ -176,11 +176,11 @@ describe('selectWorkflow', () => {
         rest: 0,
         recovery: 50,
         cooldownInterval: 60,
-        numRounds: 2,
-        numCycles: 2,
+        numIntervals: 2,
+        numReps: 2,
         currentState: 'stopped',
-        currentRound: 1,
-        currentCycle: 1,
+        currentInterval: 1,
+        currentRep: 1,
       },
     }
     expect(selectWorkflow(storeState)).toEqual([
@@ -189,19 +189,19 @@ describe('selectWorkflow', () => {
 
       // SET 1:
 
-      // round 1
+      // interval 1
       ['exercise', 30],
 
-      // round 2
+      // interval 2
       ['exercise', 30],
       ['recovery', 50],
 
       // SET 2:
 
-      // round 1
+      // interval 1
       ['exercise', 30],
 
-      // round 2
+      // interval 2
       ['exercise', 30],
       ['recovery', 50],
 
@@ -217,11 +217,11 @@ describe('selectWorkflow', () => {
         rest: 10,
         recovery: 0,
         cooldownInterval: 60,
-        numRounds: 2,
-        numCycles: 2,
+        numIntervals: 2,
+        numReps: 2,
         currentState: 'stopped',
-        currentRound: 1,
-        currentCycle: 1,
+        currentInterval: 1,
+        currentRep: 1,
       },
     }
     expect(selectWorkflow(storeState)).toEqual([
@@ -230,21 +230,21 @@ describe('selectWorkflow', () => {
 
       // SET 1:
 
-      // round 1
+      // interval 1
       ['exercise', 30],
       ['rest', 10],
 
-      // round 2
+      // interval 2
       ['exercise', 30],
       ['rest', 10],
 
       // SET 2:
 
-      // round 1
+      // interval 1
       ['exercise', 30],
       ['rest', 10],
 
-      // round 2
+      // interval 2
       ['exercise', 30],
       ['rest', 10],
 
@@ -260,11 +260,11 @@ describe('selectWorkflow', () => {
         rest: 10,
         recovery: 50,
         cooldownInterval: 0,
-        numRounds: 2,
-        numCycles: 2,
+        numIntervals: 2,
+        numReps: 2,
         currentState: 'stopped',
-        currentRound: 1,
-        currentCycle: 1,
+        currentInterval: 1,
+        currentRep: 1,
       },
     }
     expect(selectWorkflow(storeState)).toEqual([
@@ -273,21 +273,21 @@ describe('selectWorkflow', () => {
 
       // SET 1:
 
-      // round 1
+      // interval 1
       ['exercise', 30],
       ['rest', 10],
 
-      // round 2
+      // interval 2
       ['exercise', 30],
       ['recovery', 50],
 
       // SET 2:
 
-      // round 1
+      // interval 1
       ['exercise', 30],
       ['rest', 10],
 
-      // round 2
+      // interval 2
       ['exercise', 30],
       ['recovery', 50],
     ])

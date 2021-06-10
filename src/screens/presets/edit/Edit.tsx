@@ -7,7 +7,7 @@ import { ScrollView } from 'react-native-gesture-handler'
 import { RootStackParamList } from 'routes'
 import { deletePreset } from 'store/actions'
 import { useAppDispatch, useAppSelector } from 'store/hooks'
-import { selectCustomPresets } from 'store/selectors'
+import { selectPresetsData } from 'store/selectors'
 import { Colors } from 'themeConstants'
 
 export type EditNavigationProp = StackNavigationProp<
@@ -23,7 +23,7 @@ export const Edit = ({ navigation }: EditProps) => {
   const [editModalVisible, setEditModalVisible] = useState(false)
   const [selectedIndex, setSelectedIndex] = useState(-1)
   const dispatch = useAppDispatch()
-  const customPresets = useAppSelector(selectCustomPresets)
+  const customPresets = useAppSelector(selectPresetsData)
   const currentName =
     customPresets.length > 0 && selectedIndex > -1
       ? customPresets[selectedIndex].name

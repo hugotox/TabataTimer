@@ -7,7 +7,7 @@ import { RootStackParamList } from 'routes'
 import { loadPreset } from 'store/actions'
 import { useAppDispatch, useAppSelector } from 'store/hooks'
 import { PresetState } from 'store/presetsSlice'
-import { selectCustomPresets, selectDefaultPresets } from 'store/selectors'
+import { selectPresetsData } from 'store/selectors'
 import { Colors } from 'themeConstants'
 
 export type LoadNavigationProp = StackNavigationProp<RootStackParamList, 'Load'>
@@ -18,9 +18,7 @@ interface LoadProps {
 
 export const Load = ({ navigation }: LoadProps) => {
   const dispatch = useAppDispatch()
-  const defaultPresets = useAppSelector(selectDefaultPresets)
-  const customPresets = useAppSelector(selectCustomPresets)
-  const presets = [...defaultPresets, ...customPresets]
+  const presets = useAppSelector(selectPresetsData)
 
   const handleLoadPreset = useCallback(
     (preset: PresetState) => {

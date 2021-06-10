@@ -5,8 +5,8 @@ import {
   selectCooldown,
   selectExercise,
   selectInitialCountdown,
-  selectNumRounds,
-  selectNumCycles,
+  selectNumIntervals,
+  selectNumReps,
   selectRecovery,
   selectRest,
   selectWarmup,
@@ -20,9 +20,9 @@ export const ScheduleInfo = () => {
   const warmup = useAppSelector(selectWarmup)
   const exercise = useAppSelector(selectExercise)
   const rest = useAppSelector(selectRest)
-  const numRounds = useAppSelector(selectNumRounds)
+  const numIntervals = useAppSelector(selectNumIntervals)
   const recovery = useAppSelector(selectRecovery)
-  const numCycles = useAppSelector(selectNumCycles)
+  const numReps = useAppSelector(selectNumReps)
   const cooldownInterval = useAppSelector(selectCooldown)
   const durationLabel = useAppSelector(selectTotalDurationLabel)
 
@@ -52,16 +52,16 @@ export const ScheduleInfo = () => {
         <Text style={styles.text}>{getTimeDurationLabel(rest, true)}</Text>
       </View>
       <View style={styles.row}>
-        <Text style={styles.label}>Rounds:</Text>
-        <Text style={styles.text}>{numRounds}</Text>
+        <Text style={styles.label}>Intervals:</Text>
+        <Text style={styles.text}>{numIntervals}</Text>
       </View>
       <View style={styles.row}>
-        <Text style={styles.label}>Cycles:</Text>
-        <Text style={styles.text}>{numCycles}</Text>
+        <Text style={styles.label}>Reps:</Text>
+        <Text style={styles.text}>{numReps}</Text>
       </View>
       {recovery ? (
         <View style={styles.row}>
-          <Text style={styles.label}>Recovery between cycles:</Text>
+          <Text style={styles.label}>Recovery between reps:</Text>
           <Text style={styles.text}>
             {getTimeDurationLabel(recovery, true)}
           </Text>

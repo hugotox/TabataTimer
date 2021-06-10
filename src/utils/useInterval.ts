@@ -8,7 +8,7 @@ export const useInterval = (callback: () => void, delay: number | null) => {
     savedCallback.current = callback
   }, [callback])
 
-  // Cycle up the interval.
+  // Rep up the interval.
   useEffect(() => {
     // Don't schedule if no delay is specified.
     if (delay === null) {

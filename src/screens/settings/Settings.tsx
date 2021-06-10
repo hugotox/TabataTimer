@@ -31,14 +31,14 @@ export const Settings = ({ navigation }: SettingsProps) => {
     if (stateKey && stateData[stateKey]) {
       const data = stateData[stateKey]
       switch (stateKey) {
-        case 'numCycles': {
+        case 'numReps': {
           return data > 0
-            ? `${String(data)} ${data === 1 ? 'cycle' : 'cycles'}`
+            ? `${String(data)} ${data === 1 ? 'rep' : 'reps'}`
             : ''
         }
-        case 'numRounds': {
+        case 'numIntervals': {
           return data > 0
-            ? `${String(data)} ${data === 1 ? 'round' : 'rounds'}`
+            ? `${String(data)} ${data === 1 ? 'interval' : 'intervals'}`
             : ''
         }
         default: {
@@ -51,6 +51,7 @@ export const Settings = ({ navigation }: SettingsProps) => {
   return (
     <ScrollView style={styles.container}>
       <Text style={styles.header}>Measures</Text>
+
       {MEASURES.items.map((item, i) => (
         <TouchableHighlight
           key={i}
@@ -63,10 +64,15 @@ export const Settings = ({ navigation }: SettingsProps) => {
           />
         </TouchableHighlight>
       ))}
+      <TouchableHighlight onPress={() => navigation.navigate('Customize')}>
+        <ListItem title="Custom exercise names" icon="🛠" />
+      </TouchableHighlight>
       <View style={styles.duration}>
         <Text style={styles.durationText}>Total duration: {durationLabel}</Text>
       </View>
+
       <Text style={styles.header}>Presets</Text>
+
       <TouchableHighlight onPress={() => navigation.navigate('Load')}>
         <ListItem title="Load" value="Load settings from a Preset" icon="👈" />
       </TouchableHighlight>

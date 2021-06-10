@@ -8,14 +8,9 @@ export const selectTimer = (state: RootState) => state.timer
 
 export const selectPresets = (state: RootState) => state.presets
 
-export const selectDefaultPresets = createSelector(
+export const selectPresetsData = createSelector(
   selectPresets,
-  (state) => state.defaultPresets
-)
-
-export const selectCustomPresets = createSelector(
-  selectPresets,
-  (state) => state.customPresets
+  (state) => state.data
 )
 
 export const selectInitialCountdown = createSelector(
@@ -28,14 +23,14 @@ export const selectWarmup = createSelector(
   (data: TimerState) => data.warmup
 )
 
-export const selectNumCycles = createSelector(
+export const selectNumReps = createSelector(
   selectTimer,
-  (data: TimerState) => data.numCycles
+  (data: TimerState) => data.numReps
 )
 
-export const selectNumRounds = createSelector(
+export const selectNumIntervals = createSelector(
   selectTimer,
-  (data: TimerState) => data.numRounds
+  (data: TimerState) => data.numIntervals
 )
 
 export const selectExercise = createSelector(
@@ -68,8 +63,8 @@ export const selectWorkflow = createSelector(
     selectCooldown,
     selectExercise,
     selectInitialCountdown,
-    selectNumRounds,
-    selectNumCycles,
+    selectNumIntervals,
+    selectNumReps,
     selectRecovery,
     selectRest,
     selectWarmup,
@@ -78,8 +73,8 @@ export const selectWorkflow = createSelector(
     cooldownInterval,
     exercise,
     initialCountdown,
-    numRounds,
-    numCycles,
+    numIntervals,
+    numReps,
     recovery,
     rest,
     warmup
@@ -91,13 +86,13 @@ export const selectWorkflow = createSelector(
     if (warmup) {
       workflow.push(['warmup', warmup])
     }
-    for (let cycle = 1; cycle <= numCycles; cycle++) {
-      for (let round = 1; round <= numRounds; round++) {
+    for (let rep = 1; rep <= numReps; rep++) {
+      for (let interval = 1; interval <= numIntervals; interval++) {
         if (exercise) {
           workflow.push(['exercise', exercise])
         }
         if (rest) {
-          if (round < numRounds) {
+          if (interval < numIntervals) {
             workflow.push(['rest', rest])
           } else if (!recovery) {
             workflow.push(['rest', rest])
@@ -122,4 +117,9 @@ export const selectTotalDuration = createSelector(selectWorkflow, (workflow) =>
 export const selectTotalDurationLabel = createSelector(
   selectTotalDuration,
   (totalDuration) => getTimeDurationLabel(totalDuration)
+)
+
+export const selectCustomNames = createSelector(
+  selectPresets,
+  (presets) => presets.customNames ?? {}
 )

@@ -9,15 +9,26 @@ interface ListItemProps {
   icon?: string
   title: string
   value?: string
+  emphasis?: string
+  inlineText?: boolean
 }
 
-export const ListItem = ({ icon, title, value }: ListItemProps) => {
+export const ListItem = ({
+  icon,
+  inlineText,
+  title,
+  value,
+  emphasis,
+}: ListItemProps) => {
   return (
     <View style={styles.item}>
       <View style={styles.iconText}>
         {!!icon && <Text style={styles.icon}>{icon}</Text>}
-        <View>
+        <View style={[inlineText && styles.inlineText]}>
           <Text style={styles.text}>{title}</Text>
+          {emphasis ? (
+            <Text style={styles.textEmphasis}> {emphasis} </Text>
+          ) : null}
           {value ? <Text style={styles.textSmall}>{value}</Text> : null}
         </View>
       </View>

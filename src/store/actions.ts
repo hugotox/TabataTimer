@@ -4,4 +4,10 @@ import { timerSlice } from 'store/timerSlice'
 export const { updateValue, start, pause, stop, loadPreset } =
   timerSlice.actions
 
-export const { editPreset, savePreset, deletePreset } = presetsSlice.actions
+export const {
+  editPreset,
+  savePreset,
+  deletePreset,
+  restoreDefault,
+  saveCustomName,
+} = presetsSlice.actions

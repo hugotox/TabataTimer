@@ -41,7 +41,6 @@ export const PercentageCircle = ({
   const circleSVGRef = useRef(null)
   const progressValueRef = useRef(new Animated.Value(0))
   const progressValueRefCurrent = progressValueRef.current
-  const previousCurrentTime = usePrevious(currentTime)
   const previousLabel = usePrevious(label)
 
   const setCirclePercentageLength = useCallback((value: number) => {

@@ -9,7 +9,7 @@ import { useAppDispatch, useAppSelector } from 'store/hooks'
 import { selectTimer } from 'store/selectors'
 import { Colors, Font } from 'themeConstants'
 
-type TimeInputRouteProp = RouteProp<RootStackParamList, 'Number of Cycles'>
+type TimeInputRouteProp = RouteProp<RootStackParamList, 'Number of Intervals'>
 
 interface Props {
   route: TimeInputRouteProp
@@ -28,10 +28,10 @@ export const NumberInput = ({ route }: Props) => {
   }
 
   let valueLabel = `${value} `
-  if (stateKey === 'numRounds') {
-    valueLabel += `${value === 1 ? 'Round' : 'Rounds'}`
-  } else if (stateKey === 'numCycles') {
-    valueLabel += `${value === 1 ? 'Cycle' : 'Cycles'}`
+  if (stateKey === 'numIntervals') {
+    valueLabel += `${value === 1 ? 'Interval' : 'Intervals'}`
+  } else if (stateKey === 'numReps') {
+    valueLabel += `${value === 1 ? 'Rep' : 'Reps'}`
   }
 
   return (
@@ -48,7 +48,9 @@ export const NumberInput = ({ route }: Props) => {
         {OPTIONS.map((value) => (
           <Picker.Item
             key={value}
-            label={`${value} ${stateKey === 'numRounds' ? 'rounds' : 'cycles'}`}
+            label={`${value} ${
+              stateKey === 'numIntervals' ? 'intervals' : 'reps'
+            }`}
             value={value}
           />
         ))}

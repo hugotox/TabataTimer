@@ -6,8 +6,8 @@ import { editPreset, savePreset } from 'store/actions'
 import { useAppDispatch, useAppSelector } from 'store/hooks'
 import {
   selectExercise,
-  selectNumCycles,
-  selectNumRounds,
+  selectNumReps,
+  selectNumIntervals,
   selectRecovery,
   selectRest,
 } from 'store/selectors'
@@ -32,8 +32,8 @@ export const SavePreset = ({
   const exercise = useAppSelector(selectExercise)
   const rest = useAppSelector(selectRest)
   const recovery = useAppSelector(selectRecovery)
-  const numRounds = useAppSelector(selectNumRounds)
-  const numCycles = useAppSelector(selectNumCycles)
+  const numIntervals = useAppSelector(selectNumIntervals)
+  const numReps = useAppSelector(selectNumReps)
 
   const [name, setName] = useState(currentName ?? '')
   const [description, setDescription] = useState(currentDescription ?? '')
@@ -47,8 +47,8 @@ export const SavePreset = ({
           exercise,
           rest,
           recovery,
-          numRounds,
-          numCycles,
+          numIntervals,
+          numReps,
         },
       })
     )
@@ -58,8 +58,8 @@ export const SavePreset = ({
     dispatch,
     exercise,
     name,
-    numCycles,
-    numRounds,
+    numReps,
+    numIntervals,
     onClose,
     recovery,
     rest,

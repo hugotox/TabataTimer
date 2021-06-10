@@ -15,11 +15,12 @@ import { RootStackParamList } from 'routes/rootStackParamList'
 import { start, pause, stop } from 'store/actions'
 import { useAppDispatch, useAppSelector } from 'store/hooks'
 import {
-  selectNumRounds,
-  selectNumCycles,
+  selectNumIntervals,
+  selectNumReps,
   selectTotalDuration,
   selectWorkflow,
   selectCurrentState,
+  selectCustomNames,
 } from 'store/selectors'
 import {
   useInterval,
@@ -47,15 +48,16 @@ export const Main = ({ navigation }: MainProps) => {
   const dispatch = useAppDispatch()
   const currentState = useAppSelector(selectCurrentState)
   const workflow = useAppSelector(selectWorkflow)
-  const numRounds = useAppSelector(selectNumRounds)
-  const numCycles = useAppSelector(selectNumCycles)
+  const numIntervals = useAppSelector(selectNumIntervals)
+  const numReps = useAppSelector(selectNumReps)
   const totalDuration = useAppSelector(selectTotalDuration)
+  const customNames = useAppSelector(selectCustomNames)
 
   const [currentWorkflowItem, setCurrentWorkflowItem] = useState<number>(-1)
   const [currentTime, setCurrentTime] = useState<number>(0)
   const [currentTotalTime, setCurrentTotalTime] = useState<number>(0)
-  const [currentRound, setCurrentRound] = useState<number>(numRounds)
-  const [currentCycle, setCurrentCycle] = useState<number>(numCycles)
+  const [currentInterval, setCurrentInterval] = useState<number>(numIntervals)
+  const [currentRep, setCurrentRep] = useState<number>(numReps)
 
   const playBeep = useSound('beep')
   const playStart = useSound('start')
@@ -71,11 +73,22 @@ export const Main = ({ navigation }: MainProps) => {
       currentWorkflowItem >= 0 &&
       workflow[currentWorkflowItem]?.[0]
     ) {
-      return getCurrentWorkoutLabel(workflow[currentWorkflowItem][0])
+      return getCurrentWorkoutLabel({
+        state: workflow[currentWorkflowItem][0],
+        customNames,
+        currentInterval,
+        numIntervals,
+      })
     } else {
       return ''
     }
-  }, [currentWorkflowItem, workflow])
+  }, [
+    workflow,
+    currentWorkflowItem,
+    customNames,
+    currentInterval,
+    numIntervals,
+  ])
 
   const init = useCallback(() => {
     if (workflow.length) {
@@ -83,29 +96,29 @@ export const Main = ({ navigation }: MainProps) => {
       setCurrentWorkflowItem(0)
       setCurrentTotalTime(totalDuration)
       setCurrentTime(initialTime)
-      setCurrentRound(numRounds)
-      setCurrentCycle(numCycles)
+      setCurrentInterval(numIntervals)
+      setCurrentRep(numReps)
     }
-  }, [numRounds, numCycles, workflow, totalDuration])
+  }, [numIntervals, numReps, workflow, totalDuration])
 
   const updateReps = useCallback(
     (nextIndex: number) => {
       if (nextIndex > 0 && workflow[currentWorkflowItem][0] === 'exercise') {
-        if (currentRound > 0) {
-          setCurrentRound(currentRound - 1)
-          if (currentRound - 1 === 0) {
-            setCurrentCycle(currentCycle - 1)
-            if (currentCycle - 1 > 0) {
-              setCurrentRound(numRounds)
+        if (currentInterval > 0) {
+          setCurrentInterval(currentInterval - 1)
+          if (currentInterval - 1 === 0) {
+            setCurrentRep(currentRep - 1)
+            if (currentRep - 1 > 0) {
+              setCurrentInterval(numIntervals)
             }
           }
         } else {
-          setCurrentRound(numRounds)
-          setCurrentCycle(currentCycle - 1)
+          setCurrentInterval(numIntervals)
+          setCurrentRep(currentRep - 1)
         }
       }
     },
-    [currentRound, currentCycle, currentWorkflowItem, numRounds, workflow]
+    [currentInterval, currentRep, currentWorkflowItem, numIntervals, workflow]
   )
 
   const moveNext = useCallback(
@@ -251,8 +264,8 @@ export const Main = ({ navigation }: MainProps) => {
               />
               <WorkoutStatus
                 timeLeft={currentTotalTime}
-                rounds={currentRound}
-                cycles={currentCycle}
+                intervals={currentInterval}
+                reps={currentRep}
               />
             </View>
           )}

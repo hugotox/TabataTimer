@@ -1,6 +1,19 @@
 import { WorkoutStates } from 'store/timerSlice'
+import { CustomExerciseNames } from 'store/types'
 
-export const getCurrentWorkoutLabel = (state: WorkoutStates) => {
+interface Params {
+  state: WorkoutStates
+  customNames?: CustomExerciseNames
+  numIntervals: number
+  currentInterval: number
+}
+
+export const getCurrentWorkoutLabel = ({
+  state,
+  customNames,
+  numIntervals,
+  currentInterval,
+}: Params) => {
   switch (state) {
     case 'initialCountdown': {
       return 'countdown'
@@ -8,6 +21,10 @@ export const getCurrentWorkoutLabel = (state: WorkoutStates) => {
     case 'cooldownInterval': {
       return 'cooldown'
     }
+  }
+  const intervalKey = numIntervals - currentInterval + 1
+  if (state === 'exercise' && customNames?.[intervalKey]) {
+    return customNames?.[intervalKey].toLowerCase()
   }
   return state.toLowerCase()
 }

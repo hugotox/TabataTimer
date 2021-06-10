@@ -12,6 +12,9 @@ export const styles = StyleSheet.create({
     fontSize: 22,
     lineHeight: 24,
   },
+  inlineText: {
+    flexDirection: 'row',
+  },
   item: {
     paddingLeft: 0,
     paddingRight: 10,
@@ -28,6 +31,13 @@ export const styles = StyleSheet.create({
     lineHeight: 19,
     color: Colors.textDefault,
     fontWeight: Font.weightNormal,
+  },
+  textEmphasis: {
+    fontSize: 16,
+    lineHeight: 19,
+    color: Colors.textDefault,
+    fontWeight: Font.weightBold,
+    fontStyle: 'italic',
   },
   textSmall: {
     fontSize: 12,

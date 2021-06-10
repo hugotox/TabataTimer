@@ -1,5 +1,7 @@
 import { createStackNavigator } from '@react-navigation/stack'
 import { BackButton } from 'components/BackButton'
+import { CustomizeNames } from 'components/CustomizeNames'
+import { RestorePresetsButton } from 'components/RestorePresetsButton'
 import { SaveButton } from 'components/SaveButton'
 import React from 'react'
 import { StyleSheet } from 'react-native'
@@ -58,6 +60,17 @@ export const Routes = () => {
       <Stack.Screen
         name="Edit Presets"
         component={Edit}
+        options={{
+          headerBackImage: () => <BackButton />,
+          headerBackTitleVisible: false,
+          headerStyle: styles.headerStyle,
+          headerTitleStyle: styles.headerTitleStyle,
+          headerRight: () => <RestorePresetsButton />,
+        }}
+      />
+      <Stack.Screen
+        name="Customize"
+        component={CustomizeNames}
         options={{
           headerBackImage: () => <BackButton />,
           headerBackTitleVisible: false,
