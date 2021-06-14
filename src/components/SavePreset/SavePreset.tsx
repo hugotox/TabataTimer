@@ -5,6 +5,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { editPreset, savePreset } from 'store/actions'
 import { useAppDispatch, useAppSelector } from 'store/hooks'
 import {
+  selectCustomNames,
   selectExercise,
   selectNumCycles,
   selectNumIntervals,
@@ -34,6 +35,7 @@ export const SavePreset = ({
   const recovery = useAppSelector(selectRecovery)
   const numIntervals = useAppSelector(selectNumIntervals)
   const numCycles = useAppSelector(selectNumCycles)
+  const customNames = useAppSelector(selectCustomNames)
 
   const [name, setName] = useState(currentName ?? '')
   const [description, setDescription] = useState(currentDescription ?? '')
@@ -50,10 +52,12 @@ export const SavePreset = ({
           numIntervals,
           numCycles,
         },
+        customNames,
       })
     )
     onClose()
   }, [
+    customNames,
     description,
     dispatch,
     exercise,

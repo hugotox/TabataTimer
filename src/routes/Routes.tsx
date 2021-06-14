@@ -15,7 +15,7 @@ import { Colors } from 'theme'
 const Stack = createStackNavigator<RootStackParamList>()
 
 export const Routes = () => {
-  const items = MEASURES.items
+  const measures = MEASURES.items
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -33,12 +33,12 @@ export const Routes = () => {
           headerTitleStyle: styles.headerTitleStyle,
         }}
       />
-      {items.map((item) => (
+      {measures.map((measure) => (
         <Stack.Screen
-          key={item.route}
-          initialParams={{ stateKey: item.stateKey }}
-          name={item.route}
-          component={item.component}
+          key={measure.route}
+          initialParams={{ stateKey: measure.stateKey }}
+          name={measure.route}
+          component={measure.component}
           options={{
             headerBackImage: () => <BackButton />,
             headerBackTitleVisible: false,

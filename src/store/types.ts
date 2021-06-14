@@ -5,7 +5,6 @@ export interface CustomExerciseNames {
 }
 
 export interface CustomExercisePayload {
-  presetIndex: number
   interval: number
   name: string
 }
@@ -39,6 +38,7 @@ export interface TimerState {
 
   // presets
   currentPreset?: string
+  customNames?: CustomExerciseNames
 }
 
 export type SettingsKeys = WorkoutStates | 'numCycles' | 'numIntervals'

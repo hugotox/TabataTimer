@@ -123,8 +123,7 @@ export const selectTotalDurationLabel = createSelector(
   (totalDuration) => getTimeDurationLabel(totalDuration)
 )
 
-// TODO custom names selector
 export const selectCustomNames = createSelector(
-  selectPresets,
-  (presets) => [] // presets.customNames ?? {}
+  selectTimer,
+  (data) => data.customNames ?? {}
 )

@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { CustomExercisePayload, Preset } from 'store/types'
+import { Preset } from 'store/types'
 
 const defaultPresets: Preset[] = [
   {
@@ -63,16 +63,6 @@ export const presetsSlice = createSlice({
     },
     restoreDefault: (state) => {
       state.data = defaultPresets
-    },
-    saveCustomName: (state, action: PayloadAction<CustomExercisePayload>) => {
-      const { interval, name, presetIndex } = action.payload
-      const preset = state.data[presetIndex]
-      if (preset) {
-        if (!preset.customNames) {
-          preset.customNames = {}
-        }
-        preset.customNames[interval] = name
-      }
     },
   },
 })

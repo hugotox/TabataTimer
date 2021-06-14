@@ -7,7 +7,7 @@ import { timerSlice } from 'store/timerSlice'
 const timerPersistConfig = {
   key: 'timer',
   storage,
-  blacklist: ['currentState'],
+  blacklist: ['currentState'], // do not persist control state, those are just for play, pause & stop at runtime
 }
 
 const rootPersistConfig = {

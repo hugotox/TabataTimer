@@ -1,5 +1,10 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { Preset, TimerState, UpdatePayload } from 'store/types'
+import {
+  CustomExercisePayload,
+  Preset,
+  TimerState,
+  UpdatePayload,
+} from 'store/types'
 
 const initialState: TimerState = {
   initialCountdown: 3,
@@ -32,7 +37,7 @@ export const timerSlice = createSlice({
       state.currentState = 'stopped'
     },
     loadPreset: (state, action: PayloadAction<Preset>) => {
-      const { measures, name } = action.payload
+      const { measures, name, customNames } = action.payload
       const { exercise, rest, recovery, numIntervals, numCycles } = measures
       state.initialCountdown = 7
       state.warmup = 0
@@ -43,6 +48,14 @@ export const timerSlice = createSlice({
       state.numCycles = numCycles
       state.cooldownInterval = 0
       state.currentPreset = name
+      state.customNames = customNames
+    },
+    saveCustomName: (state, action: PayloadAction<CustomExercisePayload>) => {
+      const { interval, name } = action.payload
+      if (!state.customNames) {
+        state.customNames = {}
+      }
+      state.customNames[interval] = name
     },
   },
 })

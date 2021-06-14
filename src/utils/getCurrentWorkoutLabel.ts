@@ -21,10 +21,9 @@ export const getCurrentWorkoutLabel = ({
       return 'cooldown'
     }
   }
-  // TODO render custom names from the preset
-  // const intervalKey = numIntervals - currentInterval + 1
-  // if (state === 'exercise' && customNames?.[intervalKey]) {
-  //   return customNames?.[intervalKey].toLowerCase()
-  // }
+  const intervalKey = numIntervals - currentInterval + 1
+  if (state === 'exercise' && customNames?.[intervalKey]) {
+    return customNames?.[intervalKey].toLowerCase()
+  }
   return state.toLowerCase()
 }
