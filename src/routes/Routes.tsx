@@ -55,6 +55,7 @@ export const Routes = () => {
           headerBackTitleVisible: false,
           headerStyle: styles.headerStyle,
           headerTitleStyle: styles.headerTitleStyle,
+          headerRight: () => <RestorePresetsButton />,
         }}
       />
       <Stack.Screen
