@@ -9,6 +9,7 @@
     "assetBundlePatterns": [
       "**/*"
     ],
+    "backgroundColor": "#1b1b1b",
     "description": "",
     "icon": "./assets/icon.png",
     "ios": {
