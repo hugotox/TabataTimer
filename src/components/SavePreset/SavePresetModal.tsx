@@ -26,6 +26,7 @@ export const SavePresetModal = ({
         currentDescription={currentDescription}
         currentName={currentName}
         currentIndex={currentIndex}
+        visible={rest.visible}
       />
     </Modal>
   )
