@@ -116,7 +116,8 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'space-between',
     paddingVertical: 10,
-    paddingHorizontal: 20,
+    paddingRight: 20,
+    paddingLeft: 40,
   },
   buttonsCenter: {
     flexDirection: 'row',

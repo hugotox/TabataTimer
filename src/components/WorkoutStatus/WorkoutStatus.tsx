@@ -85,7 +85,8 @@ const styles = StyleSheet.create({
   },
   layoutLandscape: {
     flex: 0.7,
-    paddingHorizontal: 20,
+    paddingHorizontal: 50,
+    paddingTop: 50,
   },
   container: {
     flexDirection: 'row',
@@ -109,24 +110,27 @@ const styles = StyleSheet.create({
     textAlign: 'right',
   },
   number: {
-    fontSize: 50,
+    fontSize: 45,
     fontFamily: 'monofonto',
   },
   time: {
     textAlign: 'right',
-    fontSize: 50,
+    fontSize: 45,
     fontFamily: 'monofonto',
   },
   landscapeContainer: {
     flex: 1,
+    flexDirection: 'column',
     justifyContent: 'center',
   },
   landscapeItem: {
-    flexDirection: 'row',
-    alignItems: 'baseline',
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'flex-end',
+    alignItems: 'flex-end',
     marginVertical: 10,
   },
   landscapeTitle: {
-    flex: 0.5,
+    flex: 0.6,
   },
 })
