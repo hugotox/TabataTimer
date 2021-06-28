@@ -25,11 +25,11 @@ import {
 import {
   useInterval,
   getCurrentWorkoutLabel,
-  useSound,
   useOrientation,
   useMount,
 } from 'utils'
 import { getTimerColor } from 'utils/getTimerColor'
+import { useSounds } from 'utils/sounds'
 
 import { styles } from './styles'
 
@@ -59,13 +59,11 @@ export const Main = ({ navigation }: MainProps) => {
   const [currentInterval, setCurrentInterval] = useState<number>(numIntervals)
   const [currentCycle, setCurrentCycle] = useState<number>(numCycles)
 
-  const playBeep = useSound('beep')
-  const playStart = useSound('start')
-  const playBell = useSound('bell')
-
   const isPlaying = currentState === 'playing'
   const isPaused = currentState === 'paused'
   const isStopped = currentState === 'stopped'
+  const isActive = isPlaying || isPaused
+  const { beepSound, bellSound, startSound } = useSounds(isActive)
 
   const currentWorkoutLabel = useMemo(() => {
     if (
@@ -129,9 +127,9 @@ export const Main = ({ navigation }: MainProps) => {
       }
 
       if (workflow[nextIndex][0] === 'exercise') {
-        playStart()
+        startSound?.replayAsync()
       } else {
-        playBell()
+        bellSound?.replayAsync()
       }
 
       updateCycles(nextIndex)
@@ -143,7 +141,7 @@ export const Main = ({ navigation }: MainProps) => {
         setCurrentTotalTime(workSlice.reduce((acc, item) => acc + item[1], 0))
       }
     },
-    [playBell, playStart, updateCycles, workflow]
+    [bellSound, startSound, updateCycles, workflow]
   )
 
   const handleOnPressPrevious = useCallback(() => {
@@ -178,7 +176,7 @@ export const Main = ({ navigation }: MainProps) => {
           currentTime <= 4 &&
           workflow[currentWorkflowItem][0] !== 'exercise'
         ) {
-          playBeep()
+          beepSound?.replayAsync()
         }
       } else {
         if (currentWorkflowItem < workflow.length - 1) {
