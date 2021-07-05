@@ -52,8 +52,19 @@ export const Timer = ({
   }, [currentState, previousState])
 
   return (
-    <View style={[styles.container, showBLink && styles.containerBlink]}>
-      <View style={styles.innerContainer}>
+    <View
+      style={[
+        styles.container,
+        orientation === 'landscape' && styles.containerLandscape,
+        showBLink && styles.containerBlink,
+      ]}
+    >
+      <View
+        style={[
+          styles.innerContainer,
+          orientation === 'landscape' && styles.innerContainerLandscape,
+        ]}
+      >
         <PercentageCircle
           color="#363636"
           currentStepDuration={1}
@@ -61,7 +72,12 @@ export const Timer = ({
           animated={false}
         />
       </View>
-      <View style={styles.innerContainer}>
+      <View
+        style={[
+          styles.innerContainer,
+          orientation === 'landscape' && styles.innerContainerLandscape,
+        ]}
+      >
         <PercentageCircle
           color={color}
           currentStepDuration={currentStepDuration}
@@ -69,7 +85,12 @@ export const Timer = ({
           label={label}
         />
       </View>
-      <View style={styles.innerContainer}>
+      <View
+        style={[
+          styles.innerContainer,
+          orientation === 'landscape' && styles.innerContainerLandscape,
+        ]}
+      >
         <TouchableOpacity onPress={onPressPlay}>
           <Text
             style={[
@@ -93,6 +114,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     flex: 1,
+    padding: 20,
+  },
+  containerLandscape: {
+    padding: 0,
   },
   touchableContainer: {
     // flex: 1,
@@ -102,12 +127,16 @@ const styles = StyleSheet.create({
   },
   innerContainer: {
     position: 'absolute',
-    left: 0,
-    top: 0,
+    left: 20,
+    top: 20,
     justifyContent: 'center',
     alignItems: 'center',
     width: '100%',
     height: '100%',
+  },
+  innerContainerLandscape: {
+    left: 0,
+    top: 0,
   },
   time: {
     fontSize: 120,
