@@ -1,5 +1,9 @@
-export type WorkflowItem = [WorkoutStates, number]
-
+export interface WorkflowItem {
+  currentState: WorkoutStates
+  duration: number
+  currentInterval: number
+  currentCycle: number
+}
 export interface CustomExerciseNames {
   [interval: number]: string
 }

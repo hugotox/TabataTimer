@@ -16,7 +16,6 @@ import { start, pause, stop } from 'store/actions'
 import { useAppDispatch, useAppSelector } from 'store/hooks'
 import {
   selectNumIntervals,
-  selectNumCycles,
   selectTotalDuration,
   selectWorkflow,
   selectCurrentState,
@@ -49,15 +48,12 @@ export const Main = ({ navigation }: MainProps) => {
   const currentState = useAppSelector(selectCurrentState)
   const workflow = useAppSelector(selectWorkflow)
   const numIntervals = useAppSelector(selectNumIntervals)
-  const numCycles = useAppSelector(selectNumCycles)
   const totalDuration = useAppSelector(selectTotalDuration)
   const customNames = useAppSelector(selectCustomNames)
 
   const [currentWorkflowItem, setCurrentWorkflowItem] = useState<number>(-1)
   const [currentTime, setCurrentTime] = useState<number>(0)
   const [currentTotalTime, setCurrentTotalTime] = useState<number>(0)
-  const [currentInterval, setCurrentInterval] = useState<number>(numIntervals)
-  const [currentCycle, setCurrentCycle] = useState<number>(numCycles)
 
   const isPlaying = currentState === 'playing'
   const isPaused = currentState === 'paused'
@@ -65,14 +61,16 @@ export const Main = ({ navigation }: MainProps) => {
   const isActive = isPlaying || isPaused
   const { beepSound, bellSound, startSound } = useSounds(isActive)
 
+  const { currentInterval, currentCycle } = workflow[currentWorkflowItem] || {}
+
   const currentWorkoutLabel = useMemo(() => {
     if (
       workflow.length &&
       currentWorkflowItem >= 0 &&
-      workflow[currentWorkflowItem]?.[0]
+      workflow[currentWorkflowItem]?.currentState
     ) {
       return getCurrentWorkoutLabel({
-        state: workflow[currentWorkflowItem][0],
+        state: workflow[currentWorkflowItem].currentState,
         customNames,
         currentInterval,
         numIntervals,
@@ -90,73 +88,44 @@ export const Main = ({ navigation }: MainProps) => {
 
   const init = useCallback(() => {
     if (workflow.length) {
-      const initialTime = workflow[0][1]
+      const initialTime = workflow[0].duration
       setCurrentWorkflowItem(0)
       setCurrentTotalTime(totalDuration)
       setCurrentTime(initialTime)
-      setCurrentInterval(numIntervals)
-      setCurrentCycle(numCycles)
     }
-  }, [numIntervals, numCycles, workflow, totalDuration])
-
-  const updateCycles = useCallback(
-    (nextIndex: number) => {
-      if (nextIndex > 0 && workflow[currentWorkflowItem][0] === 'exercise') {
-        if (currentInterval > 0) {
-          setCurrentInterval(currentInterval - 1)
-          if (currentInterval - 1 === 0) {
-            setCurrentCycle(currentCycle - 1)
-            if (currentCycle - 1 > 0) {
-              setCurrentInterval(numIntervals)
-            }
-          }
-        } else {
-          setCurrentInterval(numIntervals)
-          setCurrentCycle(currentCycle - 1)
-        }
-      }
-    },
-    [currentInterval, currentCycle, currentWorkflowItem, numIntervals, workflow]
-  )
+  }, [workflow, totalDuration])
 
   const moveNext = useCallback(
-    (nextIndex: number, updateTotalTime: boolean = false) => {
+    ({
+      nextIndex,
+      updateTotalTime = false,
+    }: {
+      nextIndex: number
+      updateTotalTime?: boolean
+    }) => {
       // bail for case when tap "next" but is the last item
-      if (!workflow[nextIndex]?.[0]) {
+      if (!workflow[nextIndex]?.currentState) {
         return
       }
 
-      if (workflow[nextIndex][0] === 'exercise') {
+      if (workflow[nextIndex].currentState === 'exercise') {
         startSound?.replayAsync()
       } else {
         bellSound?.replayAsync()
       }
 
-      updateCycles(nextIndex)
       setCurrentWorkflowItem(nextIndex)
-      setCurrentTime(workflow[nextIndex][1])
+      setCurrentTime(workflow[nextIndex].duration)
 
       if (updateTotalTime) {
         const workSlice = workflow.slice(nextIndex)
-        setCurrentTotalTime(workSlice.reduce((acc, item) => acc + item[1], 0))
+        setCurrentTotalTime(
+          workSlice.reduce((acc, item) => acc + item.duration, 0)
+        )
       }
     },
-    [bellSound, startSound, updateCycles, workflow]
+    [bellSound, startSound, workflow]
   )
-
-  const handleOnPressPrevious = useCallback(() => {
-    if (typeof workflow[currentWorkflowItem]?.[1] !== 'undefined') {
-      // if time elapsed is 3 or less, move to previous, otherwise reset current
-      const timeElapsed = workflow[currentWorkflowItem][1] - currentTime + 1
-      if (timeElapsed <= 3 && currentWorkflowItem > 0) {
-        // move to previous
-        moveNext(currentWorkflowItem - 1, true)
-      } else {
-        // reset current
-        moveNext(currentWorkflowItem, true)
-      }
-    }
-  }, [currentTime, currentWorkflowItem, moveNext, workflow])
 
   useKeepAwake()
 
@@ -174,14 +143,14 @@ export const Main = ({ navigation }: MainProps) => {
         setCurrentTime(currentTime - 1)
         if (
           currentTime <= 4 &&
-          workflow[currentWorkflowItem][0] !== 'exercise'
+          workflow[currentWorkflowItem].currentState !== 'exercise'
         ) {
           beepSound?.replayAsync()
         }
       } else {
         if (currentWorkflowItem < workflow.length - 1) {
           // advance to next workflow item:
-          moveNext(currentWorkflowItem + 1)
+          moveNext({ nextIndex: currentWorkflowItem + 1 })
         } else {
           // reached the end of the workflow
           setCurrentWorkflowItem(-1)
@@ -211,8 +180,23 @@ export const Main = ({ navigation }: MainProps) => {
     dispatch(stop())
   }, [dispatch])
 
+  const handleOnPressPrevious = useCallback(() => {
+    if (typeof workflow[currentWorkflowItem]?.duration !== 'undefined') {
+      // if time elapsed is 3 or less, move to previous, otherwise reset current
+      const timeElapsed =
+        workflow[currentWorkflowItem].duration - currentTime + 1
+      if (timeElapsed <= 3 && currentWorkflowItem > 0) {
+        // move to previous
+        moveNext({ nextIndex: currentWorkflowItem - 1, updateTotalTime: true })
+      } else {
+        // reset current
+        moveNext({ nextIndex: currentWorkflowItem, updateTotalTime: true })
+      }
+    }
+  }, [currentTime, currentWorkflowItem, moveNext, workflow])
+
   const handleOnPressNext = useCallback(() => {
-    moveNext(currentWorkflowItem + 1, true)
+    moveNext({ nextIndex: currentWorkflowItem + 1, updateTotalTime: true })
   }, [currentWorkflowItem, moveNext])
 
   const handleOnPressSettings = useCallback(() => {
@@ -252,9 +236,7 @@ export const Main = ({ navigation }: MainProps) => {
               <Timer
                 currentTime={currentTime}
                 currentStepDuration={
-                  typeof workflow[currentWorkflowItem]?.[1] !== 'undefined'
-                    ? workflow[currentWorkflowItem][1]
-                    : 0
+                  workflow[currentWorkflowItem]?.duration ?? 0
                 }
                 color={color}
                 label={currentWorkoutLabel}

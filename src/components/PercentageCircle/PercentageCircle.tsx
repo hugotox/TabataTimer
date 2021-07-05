@@ -65,6 +65,7 @@ export const PercentageCircle = ({
     }
   })
 
+  // handle on pause
   useEffect(() => {
     if (animated) {
       if (currentState === 'paused') {
@@ -82,14 +83,21 @@ export const PercentageCircle = ({
     progressValueRefCurrent,
   ])
 
+  // handle moving next/previous
   useEffect(() => {
-    if (animated && label && previousLabel && label !== previousLabel) {
-      progressValueRefCurrent.setValue(0)
-      animate(100, currentStepDuration, progressValueRefCurrent)
+    if (animated && label) {
+      if (
+        (previousLabel && label !== previousLabel) ||
+        currentTime === currentStepDuration
+      ) {
+        progressValueRefCurrent.setValue(0)
+        animate(100, currentStepDuration, progressValueRefCurrent)
+      }
     }
   }, [
     animated,
     currentStepDuration,
+    currentTime,
     label,
     previousLabel,
     progressValueRefCurrent,

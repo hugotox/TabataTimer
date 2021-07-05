@@ -85,37 +85,72 @@ export const selectWorkflow = createSelector(
   ) => {
     const workflow: WorkflowItem[] = []
     if (initialCountdown) {
-      workflow.push(['initialCountdown', initialCountdown])
+      workflow.push({
+        currentState: 'initialCountdown',
+        duration: initialCountdown,
+        currentCycle: numCycles,
+        currentInterval: numIntervals,
+      })
     }
     if (warmup) {
-      workflow.push(['warmup', warmup])
+      workflow.push({
+        currentState: 'warmup',
+        duration: warmup,
+        currentCycle: numCycles,
+        currentInterval: numIntervals,
+      })
     }
     for (let cycle = 1; cycle <= numCycles; cycle++) {
       for (let interval = 1; interval <= numIntervals; interval++) {
         if (exercise) {
-          workflow.push(['exercise', exercise])
+          workflow.push({
+            currentState: 'exercise',
+            duration: exercise,
+            currentCycle: numCycles - cycle + 1,
+            currentInterval: numIntervals - interval + 1,
+          })
         }
         if (rest) {
           if (interval < numIntervals) {
-            workflow.push(['rest', rest])
+            workflow.push({
+              currentState: 'rest',
+              duration: rest,
+              currentCycle: numCycles - cycle + 1,
+              currentInterval: numIntervals - interval,
+            })
           } else if (!recovery) {
-            workflow.push(['rest', rest])
+            workflow.push({
+              currentState: 'rest',
+              duration: rest,
+              currentCycle: numCycles - cycle + 1,
+              currentInterval: numIntervals - interval,
+            })
           }
         }
       }
       if (recovery) {
-        workflow.push(['recovery', recovery])
+        workflow.push({
+          currentState: 'recovery',
+          duration: recovery,
+          currentCycle: numCycles - cycle,
+          currentInterval: numIntervals,
+        })
       }
     }
     if (cooldownInterval) {
-      workflow.push(['cooldownInterval', cooldownInterval])
+      workflow.push({
+        currentState: 'cooldownInterval',
+        duration: cooldownInterval,
+        currentCycle: 0,
+        currentInterval: 0,
+      })
     }
     return workflow
   }
 )
 
 export const selectTotalDuration = createSelector(selectWorkflow, (workflow) =>
-  workflow.reduce((acc, item) => acc + item[1], 0)
+  workflow.reduce((acc, item) => acc + item.duration, 0)
 )
 
 export const selectTotalDurationLabel = createSelector(
