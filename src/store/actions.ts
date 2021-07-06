@@ -9,6 +9,7 @@ export const {
   loadPreset,
   saveCustomName,
   clearRemainingCustomNames,
+  clearAllNames,
 } = timerSlice.actions
 
 export const { editPreset, savePreset, deletePreset, restoreDefault } =
