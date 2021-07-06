@@ -4,7 +4,7 @@ import { RouteProp } from '@react-navigation/core'
 import React from 'react'
 import { Text, View, StyleSheet } from 'react-native'
 import { RootStackParamList } from 'routes'
-import { updateValue } from 'store/actions'
+import { clearRemainingCustomNames, updateValue } from 'store/actions'
 import { useAppDispatch, useAppSelector } from 'store/hooks'
 import { selectTimer } from 'store/selectors'
 import { Colors, Font } from 'theme'
@@ -24,7 +24,9 @@ export const NumberInput = ({ route }: Props) => {
   const value = timerData[stateKey]
 
   const handleOnChange = (value: ItemValue) => {
-    dispatch(updateValue({ stateKey, value: Number(value) }))
+    value = Number(value)
+    dispatch(updateValue({ stateKey, value }))
+    dispatch(clearRemainingCustomNames(value))
   }
 
   let valueLabel = `${value} `

@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
   layoutLandscape: {
     flex: 0.7,
     paddingHorizontal: 50,
-    paddingTop: 50,
+    paddingTop: 140,
   },
   container: {
     flexDirection: 'row',
@@ -125,9 +125,9 @@ const styles = StyleSheet.create({
   },
   landscapeItem: {
     flex: 1,
-    flexDirection: 'column',
+    flexDirection: 'row',
     justifyContent: 'flex-end',
-    alignItems: 'flex-end',
+    alignItems: 'baseline',
     marginVertical: 10,
   },
   landscapeTitle: {

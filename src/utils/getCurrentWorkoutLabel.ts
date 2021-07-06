@@ -13,17 +13,24 @@ export const getCurrentWorkoutLabel = ({
   numIntervals,
   currentInterval,
 }: Params) => {
+  const intervalKey = numIntervals - currentInterval + 1
+  let next = ''
+  if (currentInterval === 0) {
+    next = customNames?.[1]?.toLowerCase() ?? ''
+  } else {
+    next = customNames?.[intervalKey]?.toLowerCase() ?? ''
+  }
   switch (state) {
     case 'initialCountdown': {
-      return 'countdown'
+      return { current: 'countdown', next }
     }
     case 'cooldownInterval': {
-      return 'cooldown'
+      return { current: 'cooldown', next }
     }
   }
-  const intervalKey = numIntervals - currentInterval + 1
+
   if (state === 'exercise' && customNames?.[intervalKey]) {
-    return customNames?.[intervalKey].toLowerCase()
+    return { current: customNames?.[intervalKey].toLowerCase(), next: '' }
   }
-  return state.toLowerCase()
+  return { current: state.toLowerCase(), next }
 }

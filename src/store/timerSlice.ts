@@ -57,5 +57,14 @@ export const timerSlice = createSlice({
       }
       state.customNames[interval] = name
     },
+    clearRemainingCustomNames: (state, action: PayloadAction<number>) => {
+      const numIntervals = action.payload
+      Object.keys(state.customNames || {}).forEach((key) => {
+        const interval = Number(key)
+        if (interval > numIntervals) {
+          delete state.customNames?.[interval]
+        }
+      })
+    },
   },
 })

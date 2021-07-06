@@ -63,28 +63,29 @@ export const Main = ({ navigation }: MainProps) => {
 
   const { currentInterval, currentCycle } = workflow[currentWorkflowItem] || {}
 
-  const currentWorkoutLabel = useMemo(() => {
-    if (
-      workflow.length &&
-      currentWorkflowItem >= 0 &&
-      workflow[currentWorkflowItem]?.currentState
-    ) {
-      return getCurrentWorkoutLabel({
-        state: workflow[currentWorkflowItem].currentState,
-        customNames,
-        currentInterval,
-        numIntervals,
-      })
-    } else {
-      return ''
-    }
-  }, [
-    workflow,
-    currentWorkflowItem,
-    customNames,
-    currentInterval,
-    numIntervals,
-  ])
+  const { current: currentWorkoutLabel, next: nextWorkoutLabel } =
+    useMemo(() => {
+      if (
+        workflow.length &&
+        currentWorkflowItem >= 0 &&
+        workflow[currentWorkflowItem]?.currentState
+      ) {
+        return getCurrentWorkoutLabel({
+          state: workflow[currentWorkflowItem].currentState,
+          customNames,
+          currentInterval,
+          numIntervals,
+        })
+      } else {
+        return { current: '', next: '' }
+      }
+    }, [
+      workflow,
+      currentWorkflowItem,
+      customNames,
+      currentInterval,
+      numIntervals,
+    ])
 
   const init = useCallback(() => {
     if (workflow.length) {
@@ -232,7 +233,11 @@ export const Main = ({ navigation }: MainProps) => {
                   : styles.playingAreaLandScape
               }
             >
-              <CurrentWorkout label={currentWorkoutLabel} color={color} />
+              <CurrentWorkout
+                label={currentWorkoutLabel}
+                next={nextWorkoutLabel}
+                color={color}
+              />
               <Timer
                 currentTime={currentTime}
                 currentStepDuration={
