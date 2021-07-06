@@ -22,6 +22,14 @@ export const formStyles = StyleSheet.create({
     fontWeight: Font.weightNormal,
     marginBottom: 10,
   },
+  inputWrapper: {
+    position: 'relative',
+  },
+  clearInputBtn: {
+    position: 'absolute',
+    top: 12,
+    right: 8,
+  },
   input: {
     color: '#ccc',
     backgroundColor: '#333',

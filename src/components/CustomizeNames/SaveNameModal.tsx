@@ -1,3 +1,4 @@
+import { FontAwesome } from '@expo/vector-icons'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import {
   KeyboardAvoidingView,
@@ -8,6 +9,7 @@ import {
   TextInput,
   TouchableHighlight,
   View,
+  TouchableOpacity,
 } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { saveCustomName } from 'store/actions'
@@ -42,6 +44,10 @@ export const SaveNameModal = ({
     onClose()
   }, [dispatch, name, onClose, selectedInterval])
 
+  const handleClearInput = useCallback(() => {
+    setName('')
+  }, [])
+
   useEffect(() => {
     setName(initialName)
   }, [initialName])
@@ -62,12 +68,22 @@ export const SaveNameModal = ({
           <Text style={styles.title}>
             Name for interval #{selectedInterval}
           </Text>
-          <TextInput
-            style={styles.input}
-            value={name}
-            onChangeText={handleOnChange}
-            ref={inputRef}
-          />
+          <View style={styles.inputWrapper}>
+            <TextInput
+              style={styles.input}
+              value={name}
+              onChangeText={handleOnChange}
+              ref={inputRef}
+            />
+            {name ? (
+              <TouchableOpacity
+                onPress={handleClearInput}
+                style={styles.clearInputBtn}
+              >
+                <FontAwesome name="times-circle" size={24} color="#161616" />
+              </TouchableOpacity>
+            ) : null}
+          </View>
           <View style={styles.buttons}>
             <TouchableHighlight onPress={onClose}>
               <Text style={styles.button}>Cancel</Text>
