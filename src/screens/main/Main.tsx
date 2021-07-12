@@ -9,7 +9,7 @@ import { WorkoutStatus } from 'components/WorkoutStatus'
 import { Audio } from 'expo-av'
 import { useFonts } from 'expo-font'
 import { useKeepAwake } from 'expo-keep-awake'
-import React, { useCallback, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { View, Text } from 'react-native'
 import { RootStackParamList } from 'routes/rootStackParamList'
 import { start, pause, stop } from 'store/actions'
@@ -28,7 +28,7 @@ import {
   useMount,
 } from 'utils'
 import { getTimerColor } from 'utils/getTimerColor'
-import { useSounds } from 'utils/sounds'
+import { loadSounds, unLoadSounds } from 'utils/sounds'
 
 import { styles } from './styles'
 
@@ -58,8 +58,10 @@ export const Main = ({ navigation }: MainProps) => {
   const isPlaying = currentState === 'playing'
   const isPaused = currentState === 'paused'
   const isStopped = currentState === 'stopped'
-  const isActive = isPlaying || isPaused
-  const { beepSound, bellSound, startSound } = useSounds(isActive)
+
+  const beepSound = useRef<Audio.Sound>()
+  const bellSound = useRef<Audio.Sound>()
+  const startSound = useRef<Audio.Sound>()
 
   const { currentInterval, currentCycle } = workflow[currentWorkflowItem] || {}
 
@@ -110,9 +112,9 @@ export const Main = ({ navigation }: MainProps) => {
       }
 
       if (workflow[nextIndex].currentState === 'exercise') {
-        startSound?.replayAsync()
+        startSound.current?.replayAsync()
       } else {
-        bellSound?.replayAsync()
+        bellSound.current?.replayAsync()
       }
 
       setCurrentWorkflowItem(nextIndex)
@@ -138,6 +140,19 @@ export const Main = ({ navigation }: MainProps) => {
     })
   })
 
+  useEffect(() => {
+    const callLoadSounds = async () => {
+      const sounds = await loadSounds()
+      beepSound.current = sounds.beepSound
+      bellSound.current = sounds.bellSound
+      startSound.current = sounds.startSound
+    }
+    callLoadSounds()
+    return () => {
+      unLoadSounds()
+    }
+  }, [])
+
   useInterval(
     () => {
       if (currentTime > 1) {
@@ -146,7 +161,7 @@ export const Main = ({ navigation }: MainProps) => {
           currentTime <= 4 &&
           workflow[currentWorkflowItem].currentState !== 'exercise'
         ) {
-          beepSound?.replayAsync()
+          beepSound.current?.replayAsync()
         }
       } else {
         if (currentWorkflowItem < workflow.length - 1) {
