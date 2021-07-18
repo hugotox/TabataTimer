@@ -127,16 +127,18 @@ export const selectWorkflow = createSelector(
             })
           }
         }
-      }
+      } // end of interval loop
       if (recovery) {
-        workflow.push({
-          currentState: 'recovery',
-          duration: recovery,
-          currentCycle: numCycles - cycle,
-          currentInterval: numIntervals,
-        })
+        if (cycle < numCycles) {
+          workflow.push({
+            currentState: 'recovery',
+            duration: recovery,
+            currentCycle: numCycles - cycle,
+            currentInterval: numIntervals,
+          })
+        }
       }
-    }
+    } // end cycle loop
     if (cooldownInterval) {
       workflow.push({
         currentState: 'cooldownInterval',
