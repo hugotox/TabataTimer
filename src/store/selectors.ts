@@ -118,13 +118,6 @@ export const selectWorkflow = createSelector(
               currentCycle: numCycles - cycle + 1,
               currentInterval: numIntervals - interval,
             })
-          } else if (!recovery) {
-            workflow.push({
-              currentState: 'rest',
-              duration: rest,
-              currentCycle: numCycles - cycle + 1,
-              currentInterval: numIntervals - interval,
-            })
           }
         }
       } // end of interval loop
