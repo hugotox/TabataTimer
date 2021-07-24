@@ -2,7 +2,7 @@ import { Picker } from '@react-native-picker/picker'
 import { ItemValue } from '@react-native-picker/picker/typings/Picker'
 import { RouteProp } from '@react-navigation/core'
 import React from 'react'
-import { Text, View, StyleSheet } from 'react-native'
+import { Text, View, StyleSheet, Platform } from 'react-native'
 import { RootStackParamList } from 'routes'
 import { clearRemainingCustomNames, updateValue } from 'store/actions'
 import { useAppDispatch, useAppSelector } from 'store/hooks'
@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
   value: {
     justifyContent: 'center',
     alignItems: 'center',
-    flex: 1,
+    flex: 2,
     borderBottomColor: Colors.separator,
     borderBottomWidth: 1,
   },
@@ -82,6 +82,9 @@ const styles = StyleSheet.create({
   },
   picker: {
     backgroundColor: Colors.background,
+    color: '#fff',
+    flex: 1,
+    marginLeft: Platform.OS === 'ios' ? 0 : 25,
   },
   pickerItem: {
     color: '#fff',
