@@ -2,8 +2,14 @@ import { StackNavigationProp } from '@react-navigation/stack'
 import { ListItem } from 'components/ListItem'
 import { SavePresetModal } from 'components/SavePreset'
 import React, { useCallback, useMemo, useState } from 'react'
-import { SafeAreaView, StyleSheet, Text, View } from 'react-native'
-import { ScrollView, TouchableHighlight } from 'react-native-gesture-handler'
+import {
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  View,
+  TouchableHighlight,
+} from 'react-native'
+import { ScrollView } from 'react-native-gesture-handler'
 import { RootStackParamList } from 'routes/rootStackParamList'
 import { MEASURES } from 'screens/settings/data'
 import { useAppSelector } from 'store/hooks'
@@ -121,9 +127,8 @@ export const Settings = ({ navigation }: SettingsProps) => {
             </Text>
           </View>
         )}
-
-        <SavePresetModal visible={saveModalVisible} onClose={hideSaveModal} />
       </ScrollView>
+      <SavePresetModal visible={saveModalVisible} onClose={hideSaveModal} />
     </SafeAreaView>
   )
 }

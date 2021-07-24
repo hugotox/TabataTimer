@@ -1,7 +1,6 @@
 import { PercentageCircle } from 'components/PercentageCircle'
 import React, { useEffect, useState } from 'react'
-import { Text, StyleSheet, View } from 'react-native'
-import { TouchableOpacity } from 'react-native-gesture-handler'
+import { Text, StyleSheet, View, TouchableOpacity } from 'react-native'
 import { useAppSelector } from 'store/hooks'
 import { selectCurrentState } from 'store/selectors'
 import { workoutStyles } from 'theme'

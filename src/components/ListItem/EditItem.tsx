@@ -1,7 +1,6 @@
 import { MaterialIcons } from '@expo/vector-icons'
 import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
-import { TouchableHighlight } from 'react-native-gesture-handler'
+import { StyleSheet, Text, View, TouchableHighlight } from 'react-native'
 import { useDimensions } from 'utils'
 
 import { styles } from './styles'

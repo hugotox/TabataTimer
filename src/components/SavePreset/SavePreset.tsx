@@ -1,3 +1,4 @@
+import { FontAwesome } from '@expo/vector-icons'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import {
   Platform,
@@ -5,8 +6,9 @@ import {
   Text,
   TextInput,
   View,
+  TouchableOpacity,
+  TouchableHighlight,
 } from 'react-native'
-import { TouchableHighlight } from 'react-native-gesture-handler'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { editPreset, savePreset } from 'store/actions'
 import { useAppDispatch, useAppSelector } from 'store/hooks'
@@ -102,6 +104,14 @@ export const SavePreset = ({
     setDescription(text)
   }, [])
 
+  const handleClearInput = useCallback(() => {
+    setName('')
+  }, [])
+
+  const handleClearDesc = useCallback(() => {
+    setDescription('')
+  }, [])
+
   useEffect(() => {
     if (!wasVisible && visible === true) {
       inputRef.current?.focus()
@@ -118,18 +128,38 @@ export const SavePreset = ({
           {editMode ? 'Edit Preset' : 'Save Preset'}
         </Text>
         <Text style={styles.label}>Name</Text>
-        <TextInput
-          style={styles.input}
-          value={name}
-          onChangeText={handleChangeName}
-          ref={inputRef}
-        />
+        <View style={styles.inputWrapper}>
+          <TextInput
+            style={styles.input}
+            value={name}
+            onChangeText={handleChangeName}
+            ref={inputRef}
+          />
+          {name ? (
+            <TouchableOpacity
+              onPress={handleClearInput}
+              style={styles.clearInputBtn}
+            >
+              <FontAwesome name="times-circle" size={24} color="#161616" />
+            </TouchableOpacity>
+          ) : null}
+        </View>
         <Text style={styles.label}>Description</Text>
-        <TextInput
-          style={styles.input}
-          value={description}
-          onChangeText={handleChangeDescription}
-        />
+        <View style={styles.inputWrapper}>
+          <TextInput
+            style={styles.input}
+            value={description}
+            onChangeText={handleChangeDescription}
+          />
+          {description ? (
+            <TouchableOpacity
+              onPress={handleClearDesc}
+              style={styles.clearInputBtn}
+            >
+              <FontAwesome name="times-circle" size={24} color="#161616" />
+            </TouchableOpacity>
+          ) : null}
+        </View>
         <View style={styles.buttons}>
           <TouchableHighlight onPress={onClose}>
             <Text style={styles.button}>Cancel</Text>

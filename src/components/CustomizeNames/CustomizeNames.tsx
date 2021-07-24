@@ -1,8 +1,14 @@
 import { SaveNameModal } from 'components/CustomizeNames/SaveNameModal'
 import { ListItem } from 'components/ListItem'
 import React, { useState } from 'react'
-import { Alert, StyleSheet, FlatList, View, Text } from 'react-native'
-import { TouchableHighlight } from 'react-native-gesture-handler'
+import {
+  Alert,
+  StyleSheet,
+  FlatList,
+  View,
+  Text,
+  TouchableHighlight,
+} from 'react-native'
 import { clearAllNames } from 'store/actions'
 import { useAppDispatch, useAppSelector } from 'store/hooks'
 import { selectCustomNames, selectNumIntervals } from 'store/selectors'
