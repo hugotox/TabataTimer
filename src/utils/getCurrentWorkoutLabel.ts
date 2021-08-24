@@ -25,7 +25,7 @@ export const getCurrentWorkoutLabel = ({
       return { current: 'countdown', next }
     }
     case 'cooldownInterval': {
-      return { current: 'cooldown', next }
+      return { current: 'cooldown', next: '' }
     }
   }
 

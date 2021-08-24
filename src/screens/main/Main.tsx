@@ -155,11 +155,13 @@ export const Main = ({ navigation }: MainProps) => {
 
   useInterval(
     () => {
+      const { currentState } = workflow[currentWorkflowItem]
       if (currentTime > 1) {
         setCurrentTime(currentTime - 1)
         if (
           currentTime <= 4 &&
-          workflow[currentWorkflowItem].currentState !== 'exercise'
+          currentState !== 'exercise' &&
+          currentState !== 'cooldownInterval'
         ) {
           beepSound.current?.replayAsync()
         }
@@ -171,6 +173,9 @@ export const Main = ({ navigation }: MainProps) => {
           // reached the end of the workflow
           setCurrentWorkflowItem(-1)
           dispatch(stop())
+        }
+        if (currentState === 'cooldownInterval') {
+          bellSound.current?.replayAsync()
         }
       }
       if (currentTotalTime > 0) {

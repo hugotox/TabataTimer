@@ -111,7 +111,7 @@ export const selectWorkflow = createSelector(
           })
         }
         if (rest) {
-          if (interval < numIntervals) {
+          if (interval < numIntervals || !recovery) {
             workflow.push({
               currentState: 'rest',
               duration: rest,

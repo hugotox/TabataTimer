@@ -9,7 +9,10 @@ import { useAppDispatch, useAppSelector } from 'store/hooks'
 import { selectTimer } from 'store/selectors'
 import { Colors, Font } from 'theme'
 
-type TimeInputRouteProp = RouteProp<RootStackParamList, 'Number of Intervals'>
+type TimeInputRouteProp = RouteProp<
+  RootStackParamList,
+  'Number of Intervals' | 'Number of Cycles'
+>
 
 interface Props {
   route: TimeInputRouteProp
@@ -26,7 +29,9 @@ export const NumberInput = ({ route }: Props) => {
   const handleOnChange = (value: ItemValue) => {
     value = Number(value)
     dispatch(updateValue({ stateKey, value }))
-    dispatch(clearRemainingCustomNames(value))
+    if (route.name === 'Number of Intervals') {
+      dispatch(clearRemainingCustomNames(value))
+    }
   }
 
   let valueLabel = `${value} `
