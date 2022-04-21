@@ -111,7 +111,7 @@ export const selectWorkflow = createSelector(
           })
         }
         if (rest) {
-          if (interval < numIntervals || !recovery) {
+          if (interval < numIntervals) {
             workflow.push({
               currentState: 'rest',
               duration: rest,
@@ -130,6 +130,14 @@ export const selectWorkflow = createSelector(
             currentInterval: numIntervals,
           })
         }
+      } else if (rest && cycle < numCycles) {
+        // no recovery, add one rest before starting new cycle
+        workflow.push({
+          currentState: 'rest',
+          duration: rest,
+          currentCycle: numCycles - cycle + 1,
+          currentInterval: numIntervals,
+        })
       }
     } // end cycle loop
     if (cooldownInterval) {
@@ -140,6 +148,7 @@ export const selectWorkflow = createSelector(
         currentInterval: 0,
       })
     }
+    console.log('WORKFLOW:', workflow)
     return workflow
   }
 )

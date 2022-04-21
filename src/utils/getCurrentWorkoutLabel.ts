@@ -1,36 +1,54 @@
-import { WorkoutStates, CustomExerciseNames } from 'store/types'
+import { CustomExerciseNames, WorkflowItem } from 'store/types'
 
 interface Params {
-  state: WorkoutStates
   customNames?: CustomExerciseNames
   numIntervals: number
   currentInterval: number
+  currentWorkflowItem: number
+  workflow: WorkflowItem[]
 }
 
 export const getCurrentWorkoutLabel = ({
-  state,
   customNames,
   numIntervals,
   currentInterval,
+  currentWorkflowItem,
+  workflow,
 }: Params) => {
-  const intervalKey = numIntervals - currentInterval + 1
-  let next = ''
-  if (currentInterval === 0) {
-    next = customNames?.[1]?.toLowerCase() ?? ''
-  } else {
-    next = customNames?.[intervalKey]?.toLowerCase() ?? ''
-  }
-  switch (state) {
-    case 'initialCountdown': {
-      return { current: 'countdown', next }
+  if (
+    workflow.length &&
+    currentWorkflowItem >= 0 &&
+    workflow[currentWorkflowItem]?.currentState
+  ) {
+    const state = workflow[currentWorkflowItem].currentState
+    const intervalKey = numIntervals - currentInterval + 1
+    let next = ''
+    if (currentInterval === 0) {
+      next = customNames?.[1]?.toLowerCase() ?? ''
+    } else {
+      next = customNames?.[intervalKey]?.toLowerCase() ?? ''
     }
-    case 'cooldownInterval': {
-      return { current: 'cooldown', next: '' }
+    switch (state) {
+      case 'initialCountdown': {
+        if (workflow[1].currentState === 'warmup') {
+          return { current: 'countdown', next: 'warmup' }
+        } else {
+          return { current: 'countdown', next }
+        }
+      }
+      case 'warmup': {
+        return { current: 'warmup', next }
+      }
+      case 'cooldownInterval': {
+        return { current: 'cooldown', next: '' }
+      }
     }
-  }
 
-  if (state === 'exercise' && customNames?.[intervalKey]) {
-    return { current: customNames?.[intervalKey].toLowerCase(), next: '' }
+    if (state === 'exercise' && customNames?.[intervalKey]) {
+      return { current: customNames?.[intervalKey].toLowerCase(), next: '' }
+    }
+    return { current: state.toLowerCase(), next }
+  } else {
+    return { current: '', next: '' }
   }
-  return { current: state.toLowerCase(), next }
 }

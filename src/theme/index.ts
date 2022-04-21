@@ -28,7 +28,7 @@ export const workoutStyles = StyleSheet.create({
     color: Colors.textLightBlue,
   },
   warmup: {
-    color: Colors.textGreen,
+    color: Colors.textYellow,
   },
   rest: {
     color: Colors.textLightBlue,

@@ -67,26 +67,19 @@ export const Main = ({ navigation }: MainProps) => {
 
   const { current: currentWorkoutLabel, next: nextWorkoutLabel } =
     useMemo(() => {
-      if (
-        workflow.length &&
-        currentWorkflowItem >= 0 &&
-        workflow[currentWorkflowItem]?.currentState
-      ) {
-        return getCurrentWorkoutLabel({
-          state: workflow[currentWorkflowItem].currentState,
-          customNames,
-          currentInterval,
-          numIntervals,
-        })
-      } else {
-        return { current: '', next: '' }
-      }
+      return getCurrentWorkoutLabel({
+        workflow,
+        customNames,
+        currentInterval,
+        numIntervals,
+        currentWorkflowItem,
+      })
     }, [
-      workflow,
+      currentInterval,
       currentWorkflowItem,
       customNames,
-      currentInterval,
       numIntervals,
+      workflow,
     ])
 
   const init = useCallback(() => {

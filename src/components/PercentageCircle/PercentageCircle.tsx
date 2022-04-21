@@ -91,11 +91,16 @@ export const PercentageCircle = ({
         currentTime === currentStepDuration
       ) {
         progressValueRefCurrent.setValue(0)
-        animate(100, currentStepDuration, progressValueRefCurrent)
+        if (currentState === 'paused') {
+          progressValueRefCurrent.stopAnimation()
+        } else {
+          animate(100, currentStepDuration, progressValueRefCurrent)
+        }
       }
     }
   }, [
     animated,
+    currentState,
     currentStepDuration,
     currentTime,
     label,
