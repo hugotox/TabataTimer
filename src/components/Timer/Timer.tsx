@@ -90,7 +90,10 @@ export const Timer = ({
           orientation === 'landscape' && styles.innerContainerLandscape,
         ]}
       >
-        <TouchableOpacity onPress={onPressPlay}>
+        <TouchableOpacity
+          onPress={onPressPlay}
+          style={styles.touchableContainer}
+        >
           <Text
             style={[
               orientation === 'portrait' ? styles.time : styles.timeLandscape,
@@ -119,7 +122,10 @@ const styles = StyleSheet.create({
     padding: 0,
   },
   touchableContainer: {
-    // flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%',
+    height: '100%',
   },
   containerBlink: {
     opacity: 0.7,

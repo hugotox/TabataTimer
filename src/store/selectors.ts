@@ -148,7 +148,6 @@ export const selectWorkflow = createSelector(
         currentInterval: 0,
       })
     }
-    console.log('WORKFLOW:', workflow)
     return workflow
   }
 )
