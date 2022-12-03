@@ -4,7 +4,7 @@ export const Colors = {
   background: '#1b1b1b',
   separator: '#303030',
   textDefault: '#ffffff',
-  textRed: 'red',
+  textRed: '#f82d2d',
   textYellow: 'yellow',
   textOrange: 'orange',
   textBlue: '#0099ff',

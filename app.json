@@ -18,7 +18,8 @@
           "audio"
         ]
       },
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.hugotox.TabataTimer"
     },
     "name": "TabataTimer",
     "orientation": "default",
@@ -45,12 +46,21 @@
       "resizeMode": "contain"
     },
     "updates": {
-      "fallbackToCacheTimeout": 0
+      "fallbackToCacheTimeout": 0,
+      "url": "https://u.expo.dev/801f9c3c-08af-4826-affc-4fd6d86ee022"
     },
     "userInterfaceStyle": "automatic",
     "version": "1.0.0",
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "801f9c3c-08af-4826-affc-4fd6d86ee022"
+      }
+    },
+    "runtimeVersion": {
+      "policy": "sdkVersion"
     }
   }
 }
