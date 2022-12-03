@@ -11,9 +11,9 @@ export const useOrientation = () => {
     const rotateHandler = () => {
       setOrientation(isPortrait() ? 'portrait' : 'landscape')
     }
-    Dimensions.addEventListener('change', rotateHandler)
+    const evt = Dimensions.addEventListener('change', rotateHandler)
     return () => {
-      Dimensions.removeEventListener('change', rotateHandler)
+      evt.remove()
     }
   }, [])
 

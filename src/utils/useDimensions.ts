@@ -13,9 +13,9 @@ export const useDimensions = () => {
       setWidth(screen.width)
       setHeight(screen.height)
     }
-    Dimensions.addEventListener('change', rotateHandler)
+    const evt = Dimensions.addEventListener('change', rotateHandler)
     return () => {
-      Dimensions.removeEventListener('change', rotateHandler)
+      evt.remove()
     }
   }, [])
 
