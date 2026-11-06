@@ -33,7 +33,7 @@ export const SaveNameModal = ({
   const wasVisible = usePrevious(visible)
   const [name, setName] = useState('')
   const dispatch = useAppDispatch()
-  const inputRef = useRef<TextInput>(null)
+  const inputRef = useRef<React.ComponentRef<typeof TextInput>>(null)
 
   const handleOnChange = useCallback((text: string) => {
     setName(text)

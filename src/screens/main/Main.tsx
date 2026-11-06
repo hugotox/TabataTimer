@@ -1,4 +1,4 @@
-import { RouteProp } from '@react-navigation/core'
+import { RouteProp } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { Background } from 'components/Background/Background'
 import { ButtonBar } from 'components/ButtonBar'
@@ -6,10 +6,10 @@ import { CurrentWorkout } from 'components/CurrentWorkout'
 import { ScheduleInfo } from 'components/ScheduleInfo'
 import { Timer } from 'components/Timer'
 import { WorkoutStatus } from 'components/WorkoutStatus'
-import { Audio } from 'expo-av'
+import { setAudioModeAsync, useAudioPlayer } from 'expo-audio'
 import { useFonts } from 'expo-font'
 import { useKeepAwake } from 'expo-keep-awake'
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import { View, Text } from 'react-native'
 import { RootStackParamList } from 'routes/rootStackParamList'
 import { start, pause, stop } from 'store/actions'
@@ -28,7 +28,7 @@ import {
   useMount,
 } from 'utils'
 import { getTimerColor } from 'utils/getTimerColor'
-import { loadSounds, unLoadSounds } from 'utils/sounds'
+import { beepSource, bellSource, replay, startSource } from 'utils/sounds'
 
 import { styles } from './styles'
 
@@ -59,9 +59,9 @@ export const Main = ({ navigation }: MainProps) => {
   const isPaused = currentState === 'paused'
   const isStopped = currentState === 'stopped'
 
-  const beepSound = useRef<Audio.Sound>()
-  const bellSound = useRef<Audio.Sound>()
-  const startSound = useRef<Audio.Sound>()
+  const beepSound = useAudioPlayer(beepSource)
+  const bellSound = useAudioPlayer(bellSource)
+  const startSound = useAudioPlayer(startSource)
 
   const { currentInterval, currentCycle } = workflow[currentWorkflowItem] || {}
 
@@ -105,9 +105,9 @@ export const Main = ({ navigation }: MainProps) => {
       }
 
       if (workflow[nextIndex].currentState === 'exercise') {
-        startSound.current?.replayAsync()
+        replay(startSound)
       } else {
-        bellSound.current?.replayAsync()
+        replay(bellSound)
       }
 
       setCurrentWorkflowItem(nextIndex)
@@ -127,24 +127,12 @@ export const Main = ({ navigation }: MainProps) => {
 
   useMount(() => {
     // allows timer to sound when screen is off
-    Audio.setAudioModeAsync({
-      playsInSilentModeIOS: true,
-      staysActiveInBackground: true,
+    setAudioModeAsync({
+      playsInSilentMode: true,
+      shouldPlayInBackground: true,
+      interruptionMode: 'duckOthers',
     })
   })
-
-  useEffect(() => {
-    const callLoadSounds = async () => {
-      const sounds = await loadSounds()
-      beepSound.current = sounds.beepSound
-      bellSound.current = sounds.bellSound
-      startSound.current = sounds.startSound
-    }
-    callLoadSounds()
-    return () => {
-      unLoadSounds()
-    }
-  }, [])
 
   useInterval(
     () => {
@@ -156,7 +144,7 @@ export const Main = ({ navigation }: MainProps) => {
           currentState !== 'exercise' &&
           currentState !== 'cooldownInterval'
         ) {
-          beepSound.current?.replayAsync()
+          replay(beepSound)
         }
       } else {
         if (currentWorkflowItem < workflow.length - 1) {
@@ -168,7 +156,7 @@ export const Main = ({ navigation }: MainProps) => {
           dispatch(stop())
         }
         if (currentState === 'cooldownInterval') {
-          bellSound.current?.replayAsync()
+          replay(bellSound)
         }
       }
       if (currentTotalTime > 0) {

@@ -1,5 +1,5 @@
 node_modules/**/*
-.expo/*
+.expo/
 npm-debug.*
 *.jks
 *.p8
@@ -15,3 +15,5 @@ yarn-error.log
 .DS_Store
 .yarn
 dist
+expo-env.d.ts
+.eslintcache

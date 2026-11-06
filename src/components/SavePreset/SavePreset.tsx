@@ -49,7 +49,7 @@ export const SavePreset = ({
   const customNames = useAppSelector(selectCustomNames)
 
   const wasVisible = usePrevious(visible)
-  const inputRef = useRef<TextInput>(null)
+  const inputRef = useRef<React.ComponentRef<typeof TextInput>>(null)
 
   const [name, setName] = useState(currentName ?? '')
   const [description, setDescription] = useState(currentDescription ?? '')
@@ -96,11 +96,11 @@ export const SavePreset = ({
     }
   }, [currentIndex, description, dispatch, name, onClose])
 
-  const handleChangeName = useCallback((text) => {
+  const handleChangeName = useCallback((text: string) => {
     setName(text)
   }, [])
 
-  const handleChangeDescription = useCallback((text) => {
+  const handleChangeDescription = useCallback((text: string) => {
     setDescription(text)
   }, [])
 

@@ -132,10 +132,11 @@ export const selectWorkflow = createSelector(
         }
       } else if (rest && cycle < numCycles) {
         // no recovery, add one rest before starting new cycle
+        // (counters behave like recovery: the finished cycle is no longer counted)
         workflow.push({
           currentState: 'rest',
           duration: rest,
-          currentCycle: numCycles - cycle + 1,
+          currentCycle: numCycles - cycle,
           currentInterval: numIntervals,
         })
       }

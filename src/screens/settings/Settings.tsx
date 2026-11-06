@@ -63,8 +63,9 @@ export const Settings = ({ navigation }: SettingsProps) => {
   )
 
   const handleNavigate = useCallback(
-    (route) => () => {
-      navigation.navigate(route)
+    (route: keyof RootStackParamList) => () => {
+      // params come from each screen's initialParams
+      navigation.navigate(route as never)
     },
     [navigation]
   )

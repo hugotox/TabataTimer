@@ -30,7 +30,7 @@ export const getCurrentWorkoutLabel = ({
     }
     switch (state) {
       case 'initialCountdown': {
-        if (workflow[1].currentState === 'warmup') {
+        if (workflow[1]?.currentState === 'warmup') {
           return { current: 'countdown', next: 'warmup' }
         } else {
           return { current: 'countdown', next }

@@ -28,7 +28,7 @@ export const Routes = () => {
         component={Settings}
         options={{
           headerBackImage: () => <SaveButton />,
-          headerBackTitleVisible: false,
+          headerBackButtonDisplayMode: 'minimal',
           headerStyle: styles.headerStyle,
           headerTitleStyle: styles.headerTitleStyle,
         }}
@@ -41,7 +41,7 @@ export const Routes = () => {
           component={measure.component}
           options={{
             headerBackImage: () => <BackButton />,
-            headerBackTitleVisible: false,
+            headerBackButtonDisplayMode: 'minimal',
             headerStyle: styles.headerStyle,
             headerTitleStyle: styles.headerTitleStyle,
           }}
@@ -52,7 +52,7 @@ export const Routes = () => {
         component={Load}
         options={{
           headerBackImage: () => <BackButton />,
-          headerBackTitleVisible: false,
+          headerBackButtonDisplayMode: 'minimal',
           headerStyle: styles.headerStyle,
           headerTitleStyle: styles.headerTitleStyle,
           headerRight: () => <RestorePresetsButton />,
@@ -63,7 +63,7 @@ export const Routes = () => {
         component={Edit}
         options={{
           headerBackImage: () => <BackButton />,
-          headerBackTitleVisible: false,
+          headerBackButtonDisplayMode: 'minimal',
           headerStyle: styles.headerStyle,
           headerTitleStyle: styles.headerTitleStyle,
           headerRight: () => <RestorePresetsButton />,
@@ -74,7 +74,7 @@ export const Routes = () => {
         component={CustomizeNames}
         options={{
           headerBackImage: () => <BackButton />,
-          headerBackTitleVisible: false,
+          headerBackButtonDisplayMode: 'minimal',
           headerStyle: styles.headerStyle,
           headerTitleStyle: styles.headerTitleStyle,
         }}

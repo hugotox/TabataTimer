@@ -1,7 +1,7 @@
 import { selectTotalDuration } from 'store/selectors'
 
 describe('selectTotalDuration', () => {
-  it('test 1 cycle 1 cycle', () => {
+  it('1 interval, 1 cycle: no rest or recovery after the last exercise', () => {
     const storeState: any = {
       timer: {
         initialCountdown: 10,
@@ -17,9 +17,9 @@ describe('selectTotalDuration', () => {
         currentCycle: 1,
       },
     }
-    expect(selectTotalDuration(storeState)).toEqual(50)
+    expect(selectTotalDuration(storeState)).toEqual(40) // countdown + warmup + exercise + cooldown
   })
-  it('test 2 cycles 1 cycle', () => {
+  it('2 intervals, 1 cycle', () => {
     const storeState: any = {
       timer: {
         initialCountdown: 10,
@@ -35,9 +35,9 @@ describe('selectTotalDuration', () => {
         currentCycle: 1,
       },
     }
-    expect(selectTotalDuration(storeState)).toEqual(70)
+    expect(selectTotalDuration(storeState)).toEqual(60) // countdown + warmup + (ex, rest, ex) + cooldown
   })
-  it('test 2 cycles 2 cycles', () => {
+  it('2 intervals, 2 cycles', () => {
     const storeState: any = {
       timer: {
         initialCountdown: 10,
@@ -53,6 +53,6 @@ describe('selectTotalDuration', () => {
         currentCycle: 1,
       },
     }
-    expect(selectTotalDuration(storeState)).toEqual(110)
+    expect(selectTotalDuration(storeState)).toEqual(100) // countdown + warmup + (ex, rest, ex) + recovery + (ex, rest, ex) + cooldown
   })
 })

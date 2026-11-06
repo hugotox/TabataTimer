@@ -8,6 +8,7 @@ import { useMount, usePrevious } from 'utils'
 const ONE_SEC = 1000
 const RADIUS = 45
 const CIRCUMFERENCE = RADIUS * 2 * Math.PI
+const AnimatedCircle = Animated.createAnimatedComponent(Circle)
 interface Props {
   color: string
   currentStepDuration: number
@@ -24,7 +25,7 @@ const animate = (
   return Animated.timing(progressValueRefCurrent, {
     toValue,
     duration: currentStepDuration * ONE_SEC,
-    useNativeDriver: true,
+    useNativeDriver: false, // SVG props are not supported by the native driver
     easing: Easing.linear,
   }).start()
 }
@@ -38,25 +39,20 @@ export const PercentageCircle = ({
 }: Props) => {
   const currentState = useAppSelector(selectCurrentState)
   const previousState = usePrevious(currentState)
-  const circleSVGRef = useRef(null)
   const progressValueRef = useRef(new Animated.Value(0))
   const progressValueRefCurrent = progressValueRef.current
   const previousLabel = usePrevious(label)
 
-  const setCirclePercentageLength = useCallback((value: number) => {
-    const strokeDashoffset = CIRCUMFERENCE - (value / 100) * CIRCUMFERENCE
-    // @ts-expect-error
-    circleSVGRef?.current?.setNativeProps({ strokeDashoffset })
-  }, [])
+  const strokeDashoffset = progressValueRefCurrent.interpolate({
+    inputRange: [0, 100],
+    outputRange: [CIRCUMFERENCE, 0],
+  })
 
   const initAnimation = useCallback(
     (duration: number) => {
-      progressValueRef.current.addListener(({ value }) => {
-        setCirclePercentageLength(value)
-      })
       animate(100, duration, progressValueRefCurrent)
     },
-    [progressValueRefCurrent, setCirclePercentageLength]
+    [progressValueRefCurrent]
   )
 
   useMount(() => {
@@ -115,11 +111,11 @@ export const PercentageCircle = ({
       viewBox="0 0 100 100"
       style={style.container}
     >
-      <Circle
+      <AnimatedCircle
         cx="50"
         cy="50"
         r={RADIUS}
-        ref={circleSVGRef}
+        strokeDashoffset={strokeDashoffset}
         stroke={color}
         strokeLinecap="round"
         strokeWidth="2.5"

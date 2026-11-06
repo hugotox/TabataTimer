@@ -1,6 +1,6 @@
 import { Picker } from '@react-native-picker/picker'
 import { ItemValue } from '@react-native-picker/picker/typings/Picker'
-import { RouteProp } from '@react-navigation/core'
+import { RouteProp } from '@react-navigation/native'
 import React from 'react'
 import { Text, View, StyleSheet, Platform } from 'react-native'
 import { RootStackParamList } from 'routes'
